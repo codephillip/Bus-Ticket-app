@@ -1,6 +1,7 @@
 package com.codephillip.app.busticket.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.codephillip.app.busticket.ConfirmOrderActivity;
 import com.codephillip.app.busticket.R;
 
 /**
@@ -25,6 +27,12 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
 
         private ViewHolder(View v) {
             super(v);
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    context.startActivity(new Intent(context, ConfirmOrderActivity.class));
+                }
+            });
 //            numberView = (ImageView) v.findViewById(R.id.numberImageView);
 //            titleView = (TextView) v.findViewById(R.id.title_view);
 //            titleView.setTypeface(typeface);
@@ -38,8 +46,8 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
 //        colourQueue = new ColourQueue();
 //    }
 
-    public BookAdapter() {
-
+    public BookAdapter(Context context) {
+        this.context = context;
     }
 
 

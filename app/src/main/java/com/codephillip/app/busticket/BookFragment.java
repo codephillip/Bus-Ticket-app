@@ -44,7 +44,7 @@ public class BookFragment extends Fragment implements AdapterView.OnItemSelected
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 //        adapter = new BookAdapter(getContext(), queryCategoryTable());
-        adapter = new BookAdapter();
+        adapter = new BookAdapter(getContext());
         recyclerView.setAdapter(adapter);
 
 
