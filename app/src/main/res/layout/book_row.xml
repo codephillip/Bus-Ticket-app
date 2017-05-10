@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="?android:attr/listPreferredItemHeight"
+    android:orientation="horizontal"
+    android:weightSum="6">
+
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:layout_weight="1.5"
+        android:layout_marginRight="@dimen/activity_horizontal_margin">
+
+        <ImageView
+            android:id="@+id/numberImageView"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_directions_car_black_36dp" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="2.2"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/source_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:textSize="14sp"
+            android:text="From: Kampala" />
+
+        <TextView
+            android:id="@+id/dest_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:textSize="14sp"
+            android:text="To: Gulu" />
+
+        <TextView
+            android:id="@+id/departure_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:textSize="14sp"
+            android:text="Departure: 14:00" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/price_view"
+        android:layout_width="0dp"
+        android:layout_weight="2.3"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+        android:textSize="25sp"
+        android:text="30000" />
+</LinearLayout>
