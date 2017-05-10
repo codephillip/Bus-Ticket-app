@@ -46,7 +46,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View cardview = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.book_row, parent, false);
+                .inflate(R.layout.book_row2, parent, false);
         return new ViewHolder(cardview);
     }
 
