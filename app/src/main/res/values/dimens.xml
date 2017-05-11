@@ -8,4 +8,5 @@
     <dimen name="card_margin">8dp</dimen>
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+    <dimen name="confirm_text_size">18sp</dimen>
 </resources>
