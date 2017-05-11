@@ -13,6 +13,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.codephillip.app.busticket.adapters.BookAdapter;
+import com.codephillip.app.busticket.provider.routes.RoutesCursor;
+import com.codephillip.app.busticket.provider.routes.RoutesSelection;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -43,8 +45,8 @@ public class BookFragment extends Fragment implements AdapterView.OnItemSelected
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-//        adapter = new BookAdapter(getContext(), queryCategoryTable());
-        adapter = new BookAdapter(getContext());
+        adapter = new BookAdapter(getContext(), queryRoutesTable());
+//        adapter = new BookAdapter(getContext());
         recyclerView.setAdapter(adapter);
 
 
@@ -58,9 +60,9 @@ public class BookFragment extends Fragment implements AdapterView.OnItemSelected
         return rootView;
     }
 
-//    private CategorytableCursor queryCategoryTable() {
-//        return new CategorytableSelection().query(getContext().getContentResolver());
-//    }
+    private RoutesCursor queryRoutesTable() {
+        return new RoutesSelection().query(getContext().getContentResolver());
+    }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

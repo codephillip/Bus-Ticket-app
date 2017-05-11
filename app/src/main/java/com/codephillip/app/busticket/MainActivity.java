@@ -12,10 +12,16 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.codephillip.app.busticket.provider.routes.RoutesContentValues;
+import com.codephillip.app.busticket.provider.routes.RoutesCursor;
+import com.codephillip.app.busticket.provider.routes.RoutesSelection;
+
 import static com.codephillip.app.busticket.Utils.screenNames;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +45,26 @@ public class MainActivity extends AppCompatActivity
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frame, fragment);
         fragmentTransaction.commit();
+
+        //todo remove on release. Testing DB
+//        int deleted = getContentResolver().delete(RoutesColumns.CONTENT_URI, null, null);
+//        Log.d(TAG, "onCreate: #" + deleted);
+
+        RoutesContentValues values = new RoutesContentValues();
+        values.putCode(3567);
+        values.putSource("Gulu");
+        values.putDestination("Mbarara");
+        values.putPrice(40000);
+        values.putDeparture("17:00");
+        values.putArrival("20:00");
+        values.putBuscompanyname("EasyCoach");
+        values.putBuscompanyimage("http://image.com/image1");
+        values.insert(getContentResolver());
+
+        RoutesCursor cursor = new RoutesSelection().query(getContentResolver());
+        if (cursor.moveToFirst()) {
+            Log.d(TAG, "onCreate: " + cursor.getCode() + cursor.getSource() + cursor.getDestination() + cursor.getDeparture() + cursor.getArrival());
+        }
     }
 
     @Override

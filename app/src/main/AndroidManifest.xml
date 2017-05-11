@@ -28,6 +28,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.codephillip.app.busticket.MainActivity" />
         </activity>
+
+        <provider
+            android:name="com.codephillip.app.busticket.provider.BusTicketProvider"
+            android:authorities="com.codephillip.app.busticket.provider"
+            android:exported="false" />
+
     </application>
 
 </manifest>

@@ -3,6 +3,7 @@ package com.codephillip.app.busticket.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,9 @@ import android.widget.TextView;
 
 import com.codephillip.app.busticket.ConfirmOrderActivity;
 import com.codephillip.app.busticket.R;
+import com.codephillip.app.busticket.Utils;
+import com.codephillip.app.busticket.provider.routes.RoutesCursor;
+
 
 /**
  * Created by codephillip on 10/05/17.
@@ -18,33 +22,33 @@ import com.codephillip.app.busticket.R;
 
 public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
     private static final String TAG = BookAdapter.class.getSimpleName();
-//    private BooktableCursor dataCursor;
+    private RoutesCursor dataCursor;
     private static Context context;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private ImageView numberView;
-        private TextView titleView;
+        private ImageView imageView;
+        private TextView companyNameView;
+        private TextView sourceView;
+        private TextView destinationView;
+        private TextView departureView;
+        private TextView priceView;
 
         private ViewHolder(View v) {
             super(v);
-            v.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    context.startActivity(new Intent(context, ConfirmOrderActivity.class));
-                }
-            });
-//            numberView = (ImageView) v.findViewById(R.id.numberImageView);
-//            titleView = (TextView) v.findViewById(R.id.title_view);
-//            titleView.setTypeface(typeface);
+            imageView = (ImageView) v.findViewById(R.id.image);
+            companyNameView = (TextView) v.findViewById(R.id.company_view);
+            sourceView = (TextView) v.findViewById(R.id.source_view);
+            destinationView = (TextView) v.findViewById(R.id.dest_view);
+            departureView = (TextView) v.findViewById(R.id.departure_view);
+            priceView = (TextView) v.findViewById(R.id.price_view);
         }
     }
 
-//    public BookAdapter(Context mContext, BooktableCursor cursor) {
-//        dataCursor = cursor;
-//        context = mContext;
-//        Utils.getInstance();
-//        colourQueue = new ColourQueue();
-//    }
+    public BookAdapter(Context context, RoutesCursor cursor) {
+        dataCursor = cursor;
+        this.context = context;
+        Utils.getInstance();
+    }
 
     public BookAdapter(Context context) {
         this.context = context;
@@ -60,29 +64,31 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-//        dataCursor.moveToPosition(position);
-//        try {
-//            String name = dataCursor.getName();
-//            holder.titleView.setText(name);
-//            holder.numberView.setImageDrawable(Utils.generateTextDrawable(name.substring(0, 1), colourQueue));
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Log.d(TAG, "onClick: ");
-//                dataCursor.moveToPosition(position);
-//                context.startActivity(new Intent(context, AllSongsActivity.class).putExtra(Utils.CATEGORY, dataCursor.getName()));
-//            }
-//        });
+        dataCursor.moveToPosition(position);
+        try {
+            holder.priceView.setText(String.valueOf(dataCursor.getPrice()));
+            holder.companyNameView.setText(dataCursor.getBuscompanyname());
+            holder.sourceView.setText(dataCursor.getSource());
+            holder.destinationView.setText(dataCursor.getDestination());
+            holder.departureView.setText(dataCursor.getDeparture());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "onClick: ");
+                dataCursor.moveToPosition(position);
+                context.startActivity(new Intent(context, ConfirmOrderActivity.class).putExtra(Utils.ROUTE_CODE, dataCursor.getCode()));
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         // any number other than zero will cause a bug
-//        return (dataCursor == null) ? 0 : dataCursor.getCount();
-        return 10;
+        return (dataCursor == null) ? 0 : dataCursor.getCount();
+//        return 10;
     }
 }
