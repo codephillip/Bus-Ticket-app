@@ -1,5 +1,5 @@
 
-package com.codephillip.app.busticket.mymodels;
+package com.codephillip.app.busticket.mymodels.routeobject;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -20,7 +20,7 @@ public class Route {
     private String destination;
     @SerializedName("bus")
     @Expose
-    private Integer bus;
+    private Bus bus;
     @SerializedName("price")
     @Expose
     private Integer price;
@@ -63,11 +63,11 @@ public class Route {
         this.destination = destination;
     }
 
-    public Integer getBus() {
+    public Bus getBus() {
         return bus;
     }
 
-    public void setBus(Integer bus) {
+    public void setBus(Bus bus) {
         this.bus = bus;
     }
 

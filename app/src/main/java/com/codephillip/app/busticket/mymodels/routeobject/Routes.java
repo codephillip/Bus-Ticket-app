@@ -1,5 +1,5 @@
 
-package com.codephillip.app.busticket.mymodels;
+package com.codephillip.app.busticket.mymodels.routeobject;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;

@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:layout_marginLeft="@dimen/activity_horizontal_margin"
     android:layout_marginRight="@dimen/activity_horizontal_margin"
     android:layout_marginTop="@dimen/activity_horizontal_margin"
+    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.codephillip.app.busticket.ConfirmOrderActivity"
     tools:showIn="@layout/activity_confirm_order">
@@ -16,87 +16,105 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:weightSum="4"
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1.9"
+            android:layout_marginTop="13dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:textSize="@dimen/confirm_text_size"
+                android:text="Company" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:textSize="@dimen/confirm_text_size"
+                android:text="From" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:textSize="@dimen/confirm_text_size"
+                android:text="To" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:textSize="@dimen/confirm_text_size"
+                android:text="Price" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="100dp"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_gravity="center"
+            android:background="@android:color/darker_gray" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.9"
+            android:layout_marginTop="13dp"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/company_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Company: Easy Coach" />
+                android:layout_gravity="left"
+                android:textSize="@dimen/confirm_text_size"
+                android:text="Easy Coach" />
 
             <TextView
                 android:id="@+id/source_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="From: Gulu" />
+                android:layout_gravity="left"
+                android:textSize="@dimen/confirm_text_size"
+                android:text="Gulu" />
 
             <TextView
                 android:id="@+id/dest_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="To: Kampala" />
+                android:layout_gravity="left"
+                android:textSize="@dimen/confirm_text_size"
+                android:text="Kampala" />
 
             <TextView
                 android:id="@+id/price_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Price: 30000" />
+                android:layout_gravity="left"
+                android:textSize="@dimen/confirm_text_size"
+                android:text="30000" />
 
         </LinearLayout>
 
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/company_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Company: Easy Coach" />
-
-        <TextView
-            android:id="@+id/source_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="From: Gulu" />
-
-        <TextView
-            android:id="@+id/dest_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="To: Kampala" />
-
-        <TextView
-            android:id="@+id/price_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Price: 30000" />
-
-    </LinearLayout>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
         android:layout_marginTop="@dimen/activity_horizontal_margin"
-        android:textColor="@android:color/white"
-        android:text="Order" />
+        android:background="@color/colorAccent"
+        android:text="Order"
+        android:textColor="@android:color/white" />
 
 </LinearLayout>
