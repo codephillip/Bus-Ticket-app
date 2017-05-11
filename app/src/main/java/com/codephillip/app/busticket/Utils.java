@@ -12,4 +12,14 @@ public class Utils {
     public static Utils getInstance() {
         return ourInstance;
     }
+
+//    public static void picassoLoader(Context context, ImageView imageView, String url) {
+//        Log.d("PICASSO", "loading image");
+//        Picasso.with(context)
+//                .load(url)
+////                .load("http://192.168.56.1/images/ahagzjsozh.jpg")
+//                .placeholder(R.drawable.nav_image)
+//                .error(R.drawable.nav_image)
+//                .into(imageView);
+//    }
 }

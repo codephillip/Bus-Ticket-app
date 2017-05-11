@@ -6,7 +6,7 @@
 
     <string name="action_settings">Settings</string>
     <string name="spinner_title">Filter</string>
-    <string name="title_activity_confirm_order">ConfirmOrderActivity</string>
+    <string name="title_activity_confirm_order">Confirm order</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 
