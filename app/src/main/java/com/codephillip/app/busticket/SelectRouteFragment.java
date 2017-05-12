@@ -1,5 +1,6 @@
 package com.codephillip.app.busticket;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,7 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.codephillip.app.busticket.provider.locations.LocationsColumns;
 import com.codephillip.app.busticket.provider.locations.LocationsCursor;
@@ -28,7 +31,10 @@ public class SelectRouteFragment extends Fragment implements AdapterView.OnItemS
     private static final String TAG = SelectRouteFragment.class.getSimpleName();
     Spinner destSpinner;
     Spinner sourceSpinner;
+    Button selectButton;
     Map<String, Long> locationsMap = new Hashtable<>();
+    private String destination;
+    private String source;
 
     public SelectRouteFragment() {
     }
@@ -45,6 +51,21 @@ public class SelectRouteFragment extends Fragment implements AdapterView.OnItemS
         sourceSpinner = (Spinner) rootView.findViewById(R.id.source_spinner);
         destSpinner.setOnItemSelectedListener(this);
         sourceSpinner.setOnItemSelectedListener(this);
+
+        selectButton = (Button) rootView.findViewById(R.id.select_button);
+        selectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (source.equals(destination)) {
+                    Toast.makeText(getContext(), "Choose a different Destination", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new Intent(getContext(), BookActivity.class);
+                    intent.putExtra(Utils.SOURCE, source);
+                    intent.putExtra(Utils.DESTINATION, destination);
+                    getActivity().startActivity(intent);
+                }
+            }
+        });
         return rootView;
     }
 
@@ -57,11 +78,15 @@ public class SelectRouteFragment extends Fragment implements AdapterView.OnItemS
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String item = parent.getItemAtPosition(position).toString();
-        Log.d(TAG, "onItemSelected: " + locationsMap.get(item));
-//        Intent intent = new Intent(getContext(), BookActivity.class);
-//        intent.putExtra(Utils.SOURCE, locationsMap.get(item));
-//        intent.putExtra(Utils.DESTINATION, locationsMap.get(item));
-//        getActivity().startService(new Intent().putExtra("crop_id", locationsMap.get(item)));
+        Log.d(TAG, "onItemSelected: " + item);
+
+        if (parent.getId() == destSpinner.getId()) {
+            Log.d(TAG, "onItemSelected: clicked dest");
+            destination = item;
+        } else {
+            Log.d(TAG, "onItemSelected: clicked source");
+            source = item;
+        }
     }
 
     @Override

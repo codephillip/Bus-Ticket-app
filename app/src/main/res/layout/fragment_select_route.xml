@@ -82,7 +82,7 @@
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_marginTop="40dp"
         android:background="@color/colorAccent"
-        android:id="@+id/search_button"
-        android:text="Search"
+        android:id="@+id/select_button"
+        android:text="Select"
         android:textColor="@android:color/white" />
 </LinearLayout>
