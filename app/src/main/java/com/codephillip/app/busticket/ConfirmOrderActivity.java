@@ -14,7 +14,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.codephillip.app.busticket.mymodels.Order;
 import com.codephillip.app.busticket.provider.routes.RoutesCursor;
+import com.codephillip.app.busticket.retrofit.ApiClient;
+import com.codephillip.app.busticket.retrofit.ApiInterface;
+
+import java.util.Date;
+
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class ConfirmOrderActivity extends AppCompatActivity {
 
@@ -27,6 +35,8 @@ public class ConfirmOrderActivity extends AppCompatActivity {
     private TextView arrival;
     private TextView departure;
     private TextView price;
+    final RoutesCursor cursor = new RoutesCursor(Utils.cursor);
+
 
     private OrderAsyncTask orderAsyncTask = null;
 
@@ -50,7 +60,6 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         departure = (TextView) findViewById(R.id.departure_view);
         price = (TextView) findViewById(R.id.price_view);
 
-        final RoutesCursor cursor = new RoutesCursor(Utils.cursor);
         try {
             final int cursorPosition = getIntent().getIntExtra(Utils.CURSOR_POSITION, 0);
             cursor.moveToPosition(cursorPosition);
@@ -112,7 +121,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         protected Boolean doInBackground(Void... params) {
             try {
                 Log.d(TAG, "doInBackground: " + code);
-                makeOrder(code);
+                makeOrder();
             } catch (Exception e) {
                 e.printStackTrace();
                 return false;
@@ -120,23 +129,25 @@ public class ConfirmOrderActivity extends AppCompatActivity {
             return true;
         }
 
-        private void makeOrder(int code) {
-//            ApiInterface apiInterface = ApiClient.getClient(Utils.BASE_URL).create(ApiInterface.class);
-//            //todo get customer and route id
-//            Order order = new Order(code, true, new Date(), customer_id, route_id);
-//            Call<Order> call = apiInterface.createOrder(order);
-//            call.enqueue(new Callback<Order>() {
-//                @Override
-//                public void onResponse(Call<Order> call, retrofit2.Response<Order> response) {
-//                    int statusCode = response.code();
-//                    Log.d(TAG, "onResponse: #" + statusCode);
-//                }
-//
-//                @Override
-//                public void onFailure(Call<Order> call, Throwable t) {
-//                    Log.d(TAG, "onFailure: " + t.toString());
-//                }
-//            });
+        private void makeOrder() {
+            Log.d(TAG, "makeOrder: making order");
+            ApiInterface apiInterface = ApiClient.getClient(Utils.BASE_URL).create(ApiInterface.class);
+            //todo remove code
+            int order_code = 9834;
+            Order order = new Order(Utils.customer.getId(), cursor.getRouteid(), true, new Date().toString(), order_code);
+            Call<Order> call = apiInterface.createOrder(order);
+            call.enqueue(new Callback<Order>() {
+                @Override
+                public void onResponse(Call<Order> call, retrofit2.Response<Order> response) {
+                    int statusCode = response.code();
+                    Log.d(TAG, "onResponse: #" + statusCode);
+                }
+
+                @Override
+                public void onFailure(Call<Order> call, Throwable t) {
+                    Log.d(TAG, "onFailure: " + t.toString());
+                }
+            });
         }
         @Override
         protected void onPostExecute(final Boolean success) {

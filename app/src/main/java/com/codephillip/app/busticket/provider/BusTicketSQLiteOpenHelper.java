@@ -36,6 +36,7 @@ public class BusTicketSQLiteOpenHelper extends SQLiteOpenHelper {
     public static final String SQL_CREATE_TABLE_ROUTES = "CREATE TABLE IF NOT EXISTS "
             + RoutesColumns.TABLE_NAME + " ( "
             + RoutesColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + RoutesColumns.ROUTEID + " INTEGER, "
             + RoutesColumns.CODE + " INTEGER, "
             + RoutesColumns.SOURCE + " TEXT, "
             + RoutesColumns.DESTINATION + " TEXT, "

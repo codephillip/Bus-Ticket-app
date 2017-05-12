@@ -39,6 +39,16 @@ public class RoutesContentValues extends AbstractContentValues {
         return context.getContentResolver().update(uri(), values(), where == null ? null : where.sel(), where == null ? null : where.args());
     }
 
+    public RoutesContentValues putRouteid(@Nullable Integer value) {
+        mContentValues.put(RoutesColumns.ROUTEID, value);
+        return this;
+    }
+
+    public RoutesContentValues putRouteidNull() {
+        mContentValues.putNull(RoutesColumns.ROUTEID);
+        return this;
+    }
+
     public RoutesContentValues putCode(@Nullable Integer value) {
         mContentValues.put(RoutesColumns.CODE, value);
         return this;

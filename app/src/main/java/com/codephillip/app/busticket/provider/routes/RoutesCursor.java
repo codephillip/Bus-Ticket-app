@@ -27,6 +27,16 @@ public class RoutesCursor extends AbstractCursor implements RoutesModel {
     }
 
     /**
+     * Get the {@code routeid} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    public Integer getRouteid() {
+        Integer res = getIntegerOrNull(RoutesColumns.ROUTEID);
+        return res;
+    }
+
+    /**
      * Get the {@code code} value.
      * Can be {@code null}.
      */

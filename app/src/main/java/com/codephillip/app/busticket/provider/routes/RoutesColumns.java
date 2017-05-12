@@ -19,6 +19,8 @@ public class RoutesColumns implements BaseColumns {
      */
     public static final String _ID = BaseColumns._ID;
 
+    public static final String ROUTEID = "routeId";
+
     public static final String CODE = "Code";
 
     public static final String SOURCE = "source";
@@ -41,6 +43,7 @@ public class RoutesColumns implements BaseColumns {
     // @formatter:off
     public static final String[] ALL_COLUMNS = new String[] {
             _ID,
+            ROUTEID,
             CODE,
             SOURCE,
             DESTINATION,
@@ -55,6 +58,7 @@ public class RoutesColumns implements BaseColumns {
     public static boolean hasColumns(String[] projection) {
         if (projection == null) return true;
         for (String c : projection) {
+            if (c.equals(ROUTEID) || c.contains("." + ROUTEID)) return true;
             if (c.equals(CODE) || c.contains("." + CODE)) return true;
             if (c.equals(SOURCE) || c.contains("." + SOURCE)) return true;
             if (c.equals(DESTINATION) || c.contains("." + DESTINATION)) return true;

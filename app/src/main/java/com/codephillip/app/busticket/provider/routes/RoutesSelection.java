@@ -78,6 +78,46 @@ public class RoutesSelection extends AbstractSelection<RoutesSelection> {
         return orderById(false);
     }
 
+    public RoutesSelection routeid(Integer... value) {
+        addEquals(RoutesColumns.ROUTEID, value);
+        return this;
+    }
+
+    public RoutesSelection routeidNot(Integer... value) {
+        addNotEquals(RoutesColumns.ROUTEID, value);
+        return this;
+    }
+
+    public RoutesSelection routeidGt(int value) {
+        addGreaterThan(RoutesColumns.ROUTEID, value);
+        return this;
+    }
+
+    public RoutesSelection routeidGtEq(int value) {
+        addGreaterThanOrEquals(RoutesColumns.ROUTEID, value);
+        return this;
+    }
+
+    public RoutesSelection routeidLt(int value) {
+        addLessThan(RoutesColumns.ROUTEID, value);
+        return this;
+    }
+
+    public RoutesSelection routeidLtEq(int value) {
+        addLessThanOrEquals(RoutesColumns.ROUTEID, value);
+        return this;
+    }
+
+    public RoutesSelection orderByRouteid(boolean desc) {
+        orderBy(RoutesColumns.ROUTEID, desc);
+        return this;
+    }
+
+    public RoutesSelection orderByRouteid() {
+        orderBy(RoutesColumns.ROUTEID, false);
+        return this;
+    }
+
     public RoutesSelection code(Integer... value) {
         addEquals(RoutesColumns.CODE, value);
         return this;

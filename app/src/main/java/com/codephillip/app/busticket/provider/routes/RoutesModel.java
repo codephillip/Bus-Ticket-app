@@ -13,6 +13,13 @@ import android.support.annotation.Nullable;
 public interface RoutesModel extends BaseModel {
 
     /**
+     * Get the {@code routeid} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    Integer getRouteid();
+
+    /**
      * Get the {@code code} value.
      * Can be {@code null}.
      */
