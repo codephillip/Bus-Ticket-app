@@ -45,26 +45,6 @@ public class MainActivity extends AppCompatActivity
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frame, fragment);
         fragmentTransaction.commit();
-
-        //todo remove on release. Testing DB
-//        int deleted = getContentResolver().delete(RoutesColumns.CONTENT_URI, null, null);
-//        Log.d(TAG, "onCreate: #" + deleted);
-
-//        RoutesContentValues values = new RoutesContentValues();
-//        values.putCode(3567);
-//        values.putSource("Gulu");
-//        values.putDestination("Mbarara");
-//        values.putPrice(40000);
-//        values.putDeparture("17:00");
-//        values.putArrival("20:00");
-//        values.putBuscompanyname("EasyCoach");
-//        values.putBuscompanyimage("http://image.com/image1");
-//        values.insert(getContentResolver());
-//
-//        RoutesCursor cursor = new RoutesSelection().query(getContentResolver());
-//        if (cursor.moveToFirst()) {
-//            Log.d(TAG, "onCreate: " + cursor.getCode() + cursor.getSource() + cursor.getDestination() + cursor.getDeparture() + cursor.getArrival());
-//        }
     }
 
     @Override
@@ -107,11 +87,10 @@ public class MainActivity extends AppCompatActivity
         Fragment fragment;
 
         if (id == R.id.nav_camera) {
-            fragment = BookFragment.newInstance();
-            getSupportActionBar().setTitle(screenNames[0]);
-        } else if (id == R.id.nav_gallery) {
             fragment = SelectRouteFragment.newInstance();
             getSupportActionBar().setTitle(screenNames[0]);
+        } else if (id == R.id.nav_gallery) {
+           return true;
         } else if (id == R.id.nav_slideshow) {
             return true;
         } else if (id == R.id.nav_manage) {

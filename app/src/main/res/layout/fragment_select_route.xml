@@ -63,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="37dp"
             android:text="To: "
             android:textSize="@dimen/confirm_text_size" />
 
