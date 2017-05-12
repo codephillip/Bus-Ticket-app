@@ -1,5 +1,6 @@
 package com.codephillip.app.busticket;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -11,10 +12,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import com.codephillip.app.busticket.provider.routes.RoutesContentValues;
-import com.codephillip.app.busticket.provider.routes.RoutesCursor;
-import com.codephillip.app.busticket.provider.routes.RoutesSelection;
 
 import static com.codephillip.app.busticket.Utils.screenNames;
 
@@ -29,6 +26,9 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //get infor from the server
+        startService(new Intent(this, SetUpService.class));
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -50,21 +50,21 @@ public class MainActivity extends AppCompatActivity
 //        int deleted = getContentResolver().delete(RoutesColumns.CONTENT_URI, null, null);
 //        Log.d(TAG, "onCreate: #" + deleted);
 
-        RoutesContentValues values = new RoutesContentValues();
-        values.putCode(3567);
-        values.putSource("Gulu");
-        values.putDestination("Mbarara");
-        values.putPrice(40000);
-        values.putDeparture("17:00");
-        values.putArrival("20:00");
-        values.putBuscompanyname("EasyCoach");
-        values.putBuscompanyimage("http://image.com/image1");
-        values.insert(getContentResolver());
-
-        RoutesCursor cursor = new RoutesSelection().query(getContentResolver());
-        if (cursor.moveToFirst()) {
-            Log.d(TAG, "onCreate: " + cursor.getCode() + cursor.getSource() + cursor.getDestination() + cursor.getDeparture() + cursor.getArrival());
-        }
+//        RoutesContentValues values = new RoutesContentValues();
+//        values.putCode(3567);
+//        values.putSource("Gulu");
+//        values.putDestination("Mbarara");
+//        values.putPrice(40000);
+//        values.putDeparture("17:00");
+//        values.putArrival("20:00");
+//        values.putBuscompanyname("EasyCoach");
+//        values.putBuscompanyimage("http://image.com/image1");
+//        values.insert(getContentResolver());
+//
+//        RoutesCursor cursor = new RoutesSelection().query(getContentResolver());
+//        if (cursor.moveToFirst()) {
+//            Log.d(TAG, "onCreate: " + cursor.getCode() + cursor.getSource() + cursor.getDestination() + cursor.getDeparture() + cursor.getArrival());
+//        }
     }
 
     @Override

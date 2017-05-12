@@ -40,7 +40,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
     private void showComfirmationDialog() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(ConfirmOrderActivity.this);
         alertDialog.setTitle("RECEIPT");
-        alertDialog.setMessage("Thank You for purchasing a bus ticket.'\n Receipt number 4434");
+        alertDialog.setMessage("Thank You for purchasing a bus ticket.'\nReceipt number 4434");
 //                alertDialog.setIcon(R.drawable.delete);
 
         alertDialog.setNeutralButton("OK",
