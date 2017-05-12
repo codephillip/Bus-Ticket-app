@@ -44,6 +44,18 @@ public class Customer {
         this.latitude = latitude;
     }
 
+    public Customer(String phoneNumber, String password) {
+        this.phone = phoneNumber;
+        this.password = password;
+    }
+
+    public Customer(Integer id, String name, String address, String phone) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
+    }
+
     public Integer getId() {
         return id;
     }

@@ -26,4 +26,5 @@
     <string name="password_confirm">Password(confirm)</string>
     <string name="error_unmatched_password">Unmatched Password</string>
     <string name="title_signup">Sign Up</string>
+    <string name="title_activity_login">Sign In</string>
 </resources>
