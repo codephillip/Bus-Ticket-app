@@ -9,7 +9,7 @@ import android.net.NetworkInfo;
 import com.codephillip.app.busticket.mymodels.Customer;
 
 /**
- * Created by codephillip on 10/05/17.
+ * Created by codephillip on 12/05/17.
  */
 
 public class Utils {
@@ -25,6 +25,8 @@ public class Utils {
     public static final String CURSOR_POSITION = "cursor_position";
     public static final String SOURCE = "source";
     public static final String DESTINATION = "destination";
+    public static final String ORDERS = "orders";
+    public static final String HISTORY = "history";
     public static Cursor cursor;
     public static Customer customer;
 

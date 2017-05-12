@@ -24,6 +24,7 @@ import com.codephillip.app.busticket.provider.routes.RoutesSelection;
 public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder> {
     private static final String TAG = OrdersAdapter.class.getSimpleName();
     private OrdersCursor dataCursor;
+    private String param;
     private static Context context;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -51,7 +52,6 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
 
     public OrdersAdapter(Context context, OrdersCursor cursor) {
         Utils.getInstance();
-        Utils.cursor = cursor;
         dataCursor = cursor;
         this.context = context;
         Utils.getInstance();
@@ -73,21 +73,11 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         dataCursor.moveToPosition(position);
         Log.d(TAG, "onBindViewHolder: attach");
-        RoutesCursor routeCursor = new RoutesSelection().routeid(Integer.parseInt(dataCursor.getRoute())).query(context.getContentResolver());
-        routeCursor.moveToPosition(position);
         try {
-            //todo add bus imageView
-            holder.priceView.setText(String.valueOf(routeCursor.getPrice()));
-            holder.companyNameView.setText(routeCursor.getBuscompanyname());
-            holder.sourceView.setText(routeCursor.getSource());
-            holder.destinationView.setText(routeCursor.getDestination());
-            holder.departureView.setText(routeCursor.getDeparture());
-            holder.validView.setText(dataCursor.getValid().toString());
-            holder.codeView.setText(dataCursor.getCode());
+            attackDataToViews(holder, position);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,6 +86,25 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
                 context.startActivity(new Intent(context, ConfirmOrderActivity.class).putExtra(Utils.CURSOR_POSITION, position));
             }
         });
+    }
+
+    private void attackDataToViews(ViewHolder holder, int position) {
+        RoutesCursor routeCursor = new RoutesSelection().routeid(Integer.parseInt(dataCursor.getRoute())).query(context.getContentResolver());
+        if (routeCursor.moveToFirst()) {
+            try {
+                //todo add bus imageView
+                holder.priceView.setText(String.valueOf(routeCursor.getPrice()));
+                holder.companyNameView.setText(routeCursor.getBuscompanyname());
+                holder.sourceView.setText(routeCursor.getSource());
+                holder.destinationView.setText(routeCursor.getDestination());
+                holder.departureView.setText(routeCursor.getDeparture());
+                routeCursor.close();
+                holder.validView.setText(dataCursor.getValid().toString());
+                holder.codeView.setText(dataCursor.getCode());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
