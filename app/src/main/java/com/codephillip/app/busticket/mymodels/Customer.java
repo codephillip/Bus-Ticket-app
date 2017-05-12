@@ -21,15 +21,28 @@ public class Customer {
     @SerializedName("email")
     @Expose
     private String email;
+    @SerializedName("password")
+    @Expose
+    private String password;
     @SerializedName("address")
     @Expose
     private String address;
     @SerializedName("longitude")
     @Expose
-    private Integer longitude;
+    private double longitude;
     @SerializedName("latitude")
     @Expose
-    private Integer latitude;
+    private double latitude;
+
+    public Customer(String name, String address, String phoneNumber, String password, String emailAddress, double longitude, double latitude) {
+        this.name = name;
+        this.address = address;
+        this.phone = phoneNumber;
+        this.password = password;
+        this.email = emailAddress;
+        this.longitude = longitude;
+        this.latitude = latitude;
+    }
 
     public Integer getId() {
         return id;
@@ -79,20 +92,19 @@ public class Customer {
         this.address = address;
     }
 
-    public Integer getLongitude() {
-        return longitude;
+    public String getPassword() {
+        return password;
     }
 
-    public void setLongitude(Integer longitude) {
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
-    public Integer getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(Integer latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
-
 }

@@ -10,9 +10,6 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 
-/**
- * Created by codephillip on 22/12/16.
- */
 
 public interface ApiInterface {
 

@@ -3,9 +3,11 @@ package com.codephillip.app.busticket;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.database.CursorIndexOutOfBoundsException;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -26,15 +28,15 @@ public class ConfirmOrderActivity extends AppCompatActivity {
     private TextView departure;
     private TextView price;
 
+    private OrderAsyncTask orderAsyncTask = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm_order);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         Utils.getInstance();
 
         toolbarImage = (ImageView) findViewById(R.id.image);
@@ -48,7 +50,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         departure = (TextView) findViewById(R.id.departure_view);
         price = (TextView) findViewById(R.id.price_view);
 
-        RoutesCursor cursor = new RoutesCursor(Utils.cursor);
+        final RoutesCursor cursor = new RoutesCursor(Utils.cursor);
         try {
             final int cursorPosition = getIntent().getIntExtra(Utils.CURSOR_POSITION, 0);
             cursor.moveToPosition(cursorPosition);
@@ -73,10 +75,14 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showComfirmationDialog();
+                startAsyncTask(cursor.getCode());
             }
         });
+    }
 
+    private void startAsyncTask(Integer code) {
+        orderAsyncTask = new OrderAsyncTask(code);
+        orderAsyncTask.execute((Void) null);
     }
 
     private void showComfirmationDialog() {
@@ -84,7 +90,6 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         alertDialog.setTitle("RECEIPT");
         alertDialog.setMessage("Thank You for purchasing a bus ticket.'\nReceipt number 4434");
 //                alertDialog.setIcon(R.drawable.delete);
-
         alertDialog.setNeutralButton("OK",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -93,5 +98,59 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                     }
                 });
         alertDialog.show();
+    }
+
+    public class OrderAsyncTask extends AsyncTask<Void, Void, Boolean> {
+
+        private final Integer code;
+
+        public OrderAsyncTask(Integer code) {
+            this.code = code;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            try {
+                Log.d(TAG, "doInBackground: " + code);
+                makeOrder(code);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+            return true;
+        }
+
+        private void makeOrder(int code) {
+//            ApiInterface apiInterface = ApiClient.getClient(Utils.BASE_URL).create(ApiInterface.class);
+//            //todo get customer and route id
+//            Order order = new Order(code, true, new Date(), customer_id, route_id);
+//            Call<Order> call = apiInterface.createOrder(order);
+//            call.enqueue(new Callback<Order>() {
+//                @Override
+//                public void onResponse(Call<Order> call, retrofit2.Response<Order> response) {
+//                    int statusCode = response.code();
+//                    Log.d(TAG, "onResponse: #" + statusCode);
+//                }
+//
+//                @Override
+//                public void onFailure(Call<Order> call, Throwable t) {
+//                    Log.d(TAG, "onFailure: " + t.toString());
+//                }
+//            });
+        }
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            orderAsyncTask = null;
+            if (success) {
+                showComfirmationDialog();
+            } else {
+                Toast.makeText(ConfirmOrderActivity.this, "Check Internet Connection", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            orderAsyncTask = null;
+        }
     }
 }
