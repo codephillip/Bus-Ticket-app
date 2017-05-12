@@ -110,7 +110,8 @@ public class MainActivity extends AppCompatActivity
             fragment = BookFragment.newInstance();
             getSupportActionBar().setTitle(screenNames[0]);
         } else if (id == R.id.nav_gallery) {
-            return true;
+            fragment = SelectRouteFragment.newInstance();
+            getSupportActionBar().setTitle(screenNames[0]);
         } else if (id == R.id.nav_slideshow) {
             return true;
         } else if (id == R.id.nav_manage) {

@@ -10,10 +10,7 @@
 
     <FrameLayout android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:id="@+id/frame"
-        android:layout_marginTop="8dp">
+        android:id="@+id/frame">
     </FrameLayout>
 
 </LinearLayout>
