@@ -16,14 +16,13 @@ import com.codephillip.app.busticket.Utils;
 import com.codephillip.app.busticket.provider.orders.OrdersCursor;
 import com.codephillip.app.busticket.provider.routes.RoutesCursor;
 
-
 /**
- * Created by codephillip on 10/05/17.
+ * Created by codephillip on 12/05/17.
  */
 
-public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
-    private static final String TAG = BookAdapter.class.getSimpleName();
-    private RoutesCursor dataCursor;
+public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder> {
+    private static final String TAG = OrdersAdapter.class.getSimpleName();
+    private OrdersCursor dataCursor;
     private static Context context;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -45,7 +44,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
         }
     }
 
-    public BookAdapter(Context context, RoutesCursor cursor) {
+    public OrdersAdapter(Context context, OrdersCursor cursor) {
         Utils.getInstance();
         Utils.cursor = cursor;
         dataCursor = cursor;
@@ -53,7 +52,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
         Utils.getInstance();
     }
 
-    public BookAdapter(Context context, OrdersCursor ordersCursor) {
+    public OrdersAdapter(Context context) {
         this.context = context;
     }
 
@@ -61,7 +60,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View cardview = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.book_row2, parent, false);
+                .inflate(R.layout.orders_row, parent, false);
         return new ViewHolder(cardview);
     }
 
@@ -71,10 +70,6 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
         try {
             //todo add bus imageView
             holder.priceView.setText(String.valueOf(dataCursor.getPrice()));
-            holder.companyNameView.setText(dataCursor.getBuscompanyname());
-            holder.sourceView.setText(dataCursor.getSource());
-            holder.destinationView.setText(dataCursor.getDestination());
-            holder.departureView.setText(dataCursor.getDeparture());
         } catch (Exception e) {
             e.printStackTrace();
         }
