@@ -37,12 +37,12 @@ public class OrdersCursor extends AbstractCursor implements OrdersModel {
     }
 
     /**
-     * Get the {@code dalid} value.
+     * Get the {@code valid} value.
      * Can be {@code null}.
      */
     @Nullable
-    public Boolean getDalid() {
-        Boolean res = getBooleanOrNull(OrdersColumns.DALID);
+    public Boolean getValid() {
+        Boolean res = getBooleanOrNull(OrdersColumns.VALID);
         return res;
     }
 

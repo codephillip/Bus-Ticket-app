@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         //populate the first default fragment
-        Fragment fragment = BookFragment.newInstance();
+        Fragment fragment = SelectRouteFragment.newInstance();
         getSupportActionBar().setTitle(screenNames[0]);
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frame, fragment);
@@ -90,9 +90,10 @@ public class MainActivity extends AppCompatActivity
             fragment = SelectRouteFragment.newInstance();
             getSupportActionBar().setTitle(screenNames[0]);
         } else if (id == R.id.nav_gallery) {
-           return true;
-        } else if (id == R.id.nav_slideshow) {
             return true;
+        } else if (id == R.id.nav_slideshow) {
+            fragment = HistoryFragment.newInstance();
+            getSupportActionBar().setTitle(screenNames[2]);
         } else if (id == R.id.nav_manage) {
             return true;
         } else if (id == R.id.nav_share) {

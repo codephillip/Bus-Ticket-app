@@ -49,13 +49,13 @@ public class OrdersContentValues extends AbstractContentValues {
         return this;
     }
 
-    public OrdersContentValues putDalid(@Nullable Boolean value) {
-        mContentValues.put(OrdersColumns.DALID, value);
+    public OrdersContentValues putValid(@Nullable Boolean value) {
+        mContentValues.put(OrdersColumns.VALID, value);
         return this;
     }
 
-    public OrdersContentValues putDalidNull() {
-        mContentValues.putNull(OrdersColumns.DALID);
+    public OrdersContentValues putValidNull() {
+        mContentValues.putNull(OrdersColumns.VALID);
         return this;
     }
 

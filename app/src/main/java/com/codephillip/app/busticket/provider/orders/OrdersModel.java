@@ -20,11 +20,11 @@ public interface OrdersModel extends BaseModel {
     String getCode();
 
     /**
-     * Get the {@code dalid} value.
+     * Get the {@code valid} value.
      * Can be {@code null}.
      */
     @Nullable
-    Boolean getDalid();
+    Boolean getValid();
 
     /**
      * Get the {@code date} value.

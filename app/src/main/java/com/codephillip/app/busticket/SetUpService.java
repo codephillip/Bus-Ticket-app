@@ -7,10 +7,12 @@ import android.util.Log;
 
 import com.codephillip.app.busticket.mymodels.Location;
 import com.codephillip.app.busticket.mymodels.Locations;
+import com.codephillip.app.busticket.mymodels.Order;
 import com.codephillip.app.busticket.mymodels.Orders;
 import com.codephillip.app.busticket.mymodels.routeobject.Route;
 import com.codephillip.app.busticket.mymodels.routeobject.Routes;
 import com.codephillip.app.busticket.provider.locations.LocationsContentValues;
+import com.codephillip.app.busticket.provider.orders.OrdersContentValues;
 import com.codephillip.app.busticket.provider.routes.RoutesContentValues;
 import com.codephillip.app.busticket.retrofit.ApiClient;
 import com.codephillip.app.busticket.retrofit.ApiInterface;
@@ -132,7 +134,7 @@ public class SetUpService extends IntentService {
             public void onResponse(Call<Orders> call, retrofit2.Response<Orders> response) {
                 Log.d("RETROFIT#", "onResponse: " + response.headers());
                 Orders orders = response.body();
-//                saveOrders(orders);
+                saveOrders(orders);
             }
 
             @Override
@@ -140,5 +142,23 @@ public class SetUpService extends IntentService {
                 Log.d("RETROFIT#", "onFailure: " + t.toString());
             }
         });
+    }
+
+    private void saveOrders(Orders orders) {
+        Log.d("INSERT: ", "starting");
+        if (orders == null)
+            throw new NullPointerException("Orders not found");
+        List<Order> orderList = orders.getOrders();
+        for (Order order : orderList) {
+            Log.d(TAG, "saveOrder: " + order.getRoute() + order.getValid() + order.getCode());
+            OrdersContentValues values = new OrdersContentValues();
+            values.putCode(String.valueOf(order.getCode()));
+            values.putValid(order.getValid());
+            values.putRoute(String.valueOf(order.getRoute()));
+            values.putCustomer(String.valueOf(order.getCustomer()));
+            values.putDate(order.getDate());
+            final Uri uri = values.insert(getContentResolver());
+            Log.d("INSERT: ", "inserting" + uri.toString());
+        }
     }
 }

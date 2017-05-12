@@ -1,92 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/card_view"
-    android:layout_gravity="center"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
-    android:layout_marginTop="8dp"
+    android:layout_height="180dp"
+    android:layout_gravity="center"
     android:layout_marginBottom="8dp"
-    android:clickable="true"
     android:layout_marginLeft="@dimen/activity_horizontal_margin"
     android:layout_marginRight="@dimen/activity_horizontal_margin"
-    android:orientation="vertical"
-    android:foreground="?attr/selectableItemBackground">
+    android:layout_marginTop="8dp"
+    android:clickable="true"
+    android:foreground="?attr/selectableItemBackground"
+    android:orientation="vertical">
 
-    <LinearLayout android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="horizontal"
+        android:weightSum="6">
 
         <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_weight="2"
-            android:layout_height= "0dp">
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3">
 
             <ImageView
                 android:id="@+id/image"
-                android:scaleType="centerCrop"
-                android:src="@drawable/bus"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/bus" />
 
             <TextView
+                android:id="@+id/company_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:gravity="center"
-                android:id="@+id/company_view"
-                android:textColor="@android:color/white"
+                android:text="Easy Couch"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                android:textSize="25sp"
-                android:text="Easy Couch"/>
+                android:textColor="@android:color/white"
+                android:textSize="25sp" />
 
         </FrameLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/card_margin"
             android:layout_marginStart="@dimen/card_margin"
-            android:weightSum="6"
-            android:orientation="horizontal">
+            android:layout_marginTop="5dp"
+            android:layout_weight="3"
+            android:orientation="vertical"
+            android:weightSum="6">
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
                 android:layout_gravity="left"
-                android:layout_weight="3"
+                android:layout_marginTop="8dp"
+                android:layout_weight="4"
                 android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:id="@+id/source_view"
-                    android:text="From: Kampala"/>
-
-                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="From: Kampala" />
+
+                <TextView
                     android:id="@+id/dest_view"
-                    android:text="To: Gulu"/>
-
-                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="To: Gulu" />
+
+                <TextView
                     android:id="@+id/departure_view"
-                    android:text="Departure: 14:00"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Departure: 14:00" />
+
+                <TextView
+                    android:id="@+id/code_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Code: 8493" />
+
+                <TextView
+                    android:id="@+id/valid_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Valid: true" />
             </LinearLayout>
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:layout_gravity="center"
-                android:id="@+id/price_view"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                android:textSize="25sp"
-                android:text="30000"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/price_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="30000"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                    android:textSize="25sp" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 

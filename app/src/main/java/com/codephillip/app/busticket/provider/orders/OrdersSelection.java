@@ -118,18 +118,18 @@ public class OrdersSelection extends AbstractSelection<OrdersSelection> {
         return this;
     }
 
-    public OrdersSelection dalid(Boolean value) {
-        addEquals(OrdersColumns.DALID, toObjectArray(value));
+    public OrdersSelection valid(Boolean value) {
+        addEquals(OrdersColumns.VALID, toObjectArray(value));
         return this;
     }
 
-    public OrdersSelection orderByDalid(boolean desc) {
-        orderBy(OrdersColumns.DALID, desc);
+    public OrdersSelection orderByValid(boolean desc) {
+        orderBy(OrdersColumns.VALID, desc);
         return this;
     }
 
-    public OrdersSelection orderByDalid() {
-        orderBy(OrdersColumns.DALID, false);
+    public OrdersSelection orderByValid() {
+        orderBy(OrdersColumns.VALID, false);
         return this;
     }
 

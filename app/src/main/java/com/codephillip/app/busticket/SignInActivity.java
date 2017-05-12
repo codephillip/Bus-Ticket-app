@@ -56,6 +56,9 @@ public class SignInActivity extends AppCompatActivity {
             }
         });
 
+        //todo remove on release
+        signInUser("0771234566", "password123");
+
         Button mSignInButton = (Button) findViewById(R.id.sign_in_button);
         mSignInButton.setOnClickListener(new OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)

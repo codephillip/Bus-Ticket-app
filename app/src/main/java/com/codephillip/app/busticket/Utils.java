@@ -17,9 +17,9 @@ public class Utils {
     public static final String ROUTE_CODE = "route_code";
     //local environment
     //use http://10.0.3.2 when using genymotion emulator
-    public static final String BASE_URL = "http://10.0.3.2:8000";
+//    public static final String BASE_URL = "http://10.0.3.2:8000";
     //production environment
-//    public static final String BASE_URL = "https://busticket.herokuapp.com";
+    public static final String BASE_URL = "https://busticket-backend.herokuapp.com";
 
     public static final Utils ourInstance = new Utils();
     public static final String CURSOR_POSITION = "cursor_position";
