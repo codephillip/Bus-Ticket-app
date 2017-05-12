@@ -140,7 +140,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:background="@color/colorAccent"
-        android:id="@+id/button"
+        android:id="@+id/order_button"
         android:text="Order"
         android:textColor="@android:color/white" />
 

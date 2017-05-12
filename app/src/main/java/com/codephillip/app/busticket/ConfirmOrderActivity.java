@@ -27,7 +27,8 @@ import retrofit2.Callback;
 public class ConfirmOrderActivity extends AppCompatActivity {
 
     private static final String TAG = ConfirmOrderActivity.class.getSimpleName();
-    Button button;
+    Button orderButton;
+    Button cancelButton;
     private ImageView toolbarImage;
     private TextView company;
     private TextView source;
@@ -80,11 +81,20 @@ public class ConfirmOrderActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        button = (Button) findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
+        orderButton = (Button) findViewById(R.id.order_button);
+        orderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startAsyncTask(cursor.getCode());
+            }
+        });
+
+        cancelButton = (Button) findViewById(R.id.cancel_button);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
     }
