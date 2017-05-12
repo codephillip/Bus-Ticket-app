@@ -23,6 +23,8 @@ public class Utils {
 
     public static final Utils ourInstance = new Utils();
     public static final String CURSOR_POSITION = "cursor_position";
+    public static final String SOURCE = "source";
+    public static final String DESTINATION = "destination";
     public static Cursor cursor;
     public static Customer customer;
 

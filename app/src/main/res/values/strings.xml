@@ -27,4 +27,5 @@
     <string name="error_unmatched_password">Unmatched Password</string>
     <string name="title_signup">Sign Up</string>
     <string name="title_activity_login">Sign In</string>
+    <string name="title_activity_book">BookActivity</string>
 </resources>

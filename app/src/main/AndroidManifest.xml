@@ -15,8 +15,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".ConfirmOrderActivity"
             android:label="@string/title_activity_confirm_order"
@@ -34,23 +33,32 @@
 
         <service
             android:name=".SetUpService"
-            android:exported="false"></service>
+            android:exported="false" />
 
         <activity
             android:name=".SignUpActivity"
-            android:label="@string/title_signup" >
+            android:label="@string/title_signup">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".SignInActivity"/>
+                android:value=".SignInActivity" />
         </activity>
-
         <activity
             android:name=".SignInActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".BookActivity"
+            android:label="@string/title_activity_book"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.codephillip.app.busticket.MainActivity" />
         </activity>
     </application>
 
