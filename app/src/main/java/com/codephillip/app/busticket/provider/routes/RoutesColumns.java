@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 
 import com.codephillip.app.busticket.provider.BusTicketProvider;
+import com.codephillip.app.busticket.provider.locations.LocationsColumns;
 import com.codephillip.app.busticket.provider.orders.OrdersColumns;
 import com.codephillip.app.busticket.provider.routes.RoutesColumns;
 

@@ -10,6 +10,7 @@ import android.os.Build;
 import android.util.Log;
 
 import com.codephillip.app.busticket.BuildConfig;
+import com.codephillip.app.busticket.provider.locations.LocationsColumns;
 import com.codephillip.app.busticket.provider.orders.OrdersColumns;
 import com.codephillip.app.busticket.provider.routes.RoutesColumns;
 
@@ -23,6 +24,14 @@ public class BusTicketSQLiteOpenHelper extends SQLiteOpenHelper {
     private final BusTicketSQLiteOpenHelperCallbacks mOpenHelperCallbacks;
 
     // @formatter:off
+    public static final String SQL_CREATE_TABLE_LOCATIONS = "CREATE TABLE IF NOT EXISTS "
+            + LocationsColumns.TABLE_NAME + " ( "
+            + LocationsColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + LocationsColumns.NAME + " TEXT, "
+            + LocationsColumns.LATITUDE + " REAL, "
+            + LocationsColumns.LONGITUDE + " REAL "
+            + " );";
+
     public static final String SQL_CREATE_TABLE_ORDERS = "CREATE TABLE IF NOT EXISTS "
             + OrdersColumns.TABLE_NAME + " ( "
             + OrdersColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -101,6 +110,7 @@ public class BusTicketSQLiteOpenHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         if (BuildConfig.DEBUG) Log.d(TAG, "onCreate");
         mOpenHelperCallbacks.onPreCreate(mContext, db);
+        db.execSQL(SQL_CREATE_TABLE_LOCATIONS);
         db.execSQL(SQL_CREATE_TABLE_ORDERS);
         db.execSQL(SQL_CREATE_TABLE_ROUTES);
         mOpenHelperCallbacks.onPostCreate(mContext, db);

@@ -2,6 +2,7 @@ package com.codephillip.app.busticket.retrofit;
 
 import com.codephillip.app.busticket.mymodels.Customer;
 import com.codephillip.app.busticket.mymodels.Customers;
+import com.codephillip.app.busticket.mymodels.Locations;
 import com.codephillip.app.busticket.mymodels.Order;
 import com.codephillip.app.busticket.mymodels.Orders;
 import com.codephillip.app.busticket.mymodels.routeobject.Routes;
@@ -26,6 +27,9 @@ public interface ApiInterface {
 
     @GET("/api/v1/orders?format=json")
     Call<Orders> allOrders();
+
+    @GET("/api/v1/locations?format=json")
+    Call<Locations> allLocations();
 
     @POST("/api/v1/orders")
     Call<Order> createOrder(@Body Order order);

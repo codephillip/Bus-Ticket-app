@@ -12,6 +12,7 @@ import android.util.Log;
 
 import com.codephillip.app.busticket.BuildConfig;
 import com.codephillip.app.busticket.provider.base.BaseContentProvider;
+import com.codephillip.app.busticket.provider.locations.LocationsColumns;
 import com.codephillip.app.busticket.provider.orders.OrdersColumns;
 import com.codephillip.app.busticket.provider.routes.RoutesColumns;
 
@@ -26,17 +27,22 @@ public class BusTicketProvider extends BaseContentProvider {
     public static final String AUTHORITY = "com.codephillip.app.busticket.provider";
     public static final String CONTENT_URI_BASE = "content://" + AUTHORITY;
 
-    private static final int URI_TYPE_ORDERS = 0;
-    private static final int URI_TYPE_ORDERS_ID = 1;
+    private static final int URI_TYPE_LOCATIONS = 0;
+    private static final int URI_TYPE_LOCATIONS_ID = 1;
 
-    private static final int URI_TYPE_ROUTES = 2;
-    private static final int URI_TYPE_ROUTES_ID = 3;
+    private static final int URI_TYPE_ORDERS = 2;
+    private static final int URI_TYPE_ORDERS_ID = 3;
+
+    private static final int URI_TYPE_ROUTES = 4;
+    private static final int URI_TYPE_ROUTES_ID = 5;
 
 
 
     private static final UriMatcher URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
 
     static {
+        URI_MATCHER.addURI(AUTHORITY, LocationsColumns.TABLE_NAME, URI_TYPE_LOCATIONS);
+        URI_MATCHER.addURI(AUTHORITY, LocationsColumns.TABLE_NAME + "/#", URI_TYPE_LOCATIONS_ID);
         URI_MATCHER.addURI(AUTHORITY, OrdersColumns.TABLE_NAME, URI_TYPE_ORDERS);
         URI_MATCHER.addURI(AUTHORITY, OrdersColumns.TABLE_NAME + "/#", URI_TYPE_ORDERS_ID);
         URI_MATCHER.addURI(AUTHORITY, RoutesColumns.TABLE_NAME, URI_TYPE_ROUTES);
@@ -57,6 +63,11 @@ public class BusTicketProvider extends BaseContentProvider {
     public String getType(Uri uri) {
         int match = URI_MATCHER.match(uri);
         switch (match) {
+            case URI_TYPE_LOCATIONS:
+                return TYPE_CURSOR_DIR + LocationsColumns.TABLE_NAME;
+            case URI_TYPE_LOCATIONS_ID:
+                return TYPE_CURSOR_ITEM + LocationsColumns.TABLE_NAME;
+
             case URI_TYPE_ORDERS:
                 return TYPE_CURSOR_DIR + OrdersColumns.TABLE_NAME;
             case URI_TYPE_ORDERS_ID:
@@ -109,6 +120,14 @@ public class BusTicketProvider extends BaseContentProvider {
         String id = null;
         int matchedId = URI_MATCHER.match(uri);
         switch (matchedId) {
+            case URI_TYPE_LOCATIONS:
+            case URI_TYPE_LOCATIONS_ID:
+                res.table = LocationsColumns.TABLE_NAME;
+                res.idColumn = LocationsColumns._ID;
+                res.tablesWithJoins = LocationsColumns.TABLE_NAME;
+                res.orderBy = LocationsColumns.DEFAULT_ORDER;
+                break;
+
             case URI_TYPE_ORDERS:
             case URI_TYPE_ORDERS_ID:
                 res.table = OrdersColumns.TABLE_NAME;
@@ -130,6 +149,7 @@ public class BusTicketProvider extends BaseContentProvider {
         }
 
         switch (matchedId) {
+            case URI_TYPE_LOCATIONS_ID:
             case URI_TYPE_ORDERS_ID:
             case URI_TYPE_ROUTES_ID:
                 id = uri.getLastPathSegment();

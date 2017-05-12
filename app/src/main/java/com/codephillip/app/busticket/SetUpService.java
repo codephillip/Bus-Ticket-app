@@ -5,9 +5,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 
+import com.codephillip.app.busticket.mymodels.Location;
+import com.codephillip.app.busticket.mymodels.Locations;
 import com.codephillip.app.busticket.mymodels.Orders;
 import com.codephillip.app.busticket.mymodels.routeobject.Route;
 import com.codephillip.app.busticket.mymodels.routeobject.Routes;
+import com.codephillip.app.busticket.provider.locations.LocationsContentValues;
 import com.codephillip.app.busticket.provider.routes.RoutesContentValues;
 import com.codephillip.app.busticket.retrofit.ApiClient;
 import com.codephillip.app.busticket.retrofit.ApiInterface;
@@ -32,6 +35,12 @@ public class SetUpService extends IntentService {
         apiInterface = ApiClient.getClient(Utils.BASE_URL).create(ApiInterface.class);
 
         try {
+            loadLocations();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        try {
             loadRoutes();
         } catch (Exception e) {
             e.printStackTrace();
@@ -41,6 +50,39 @@ public class SetUpService extends IntentService {
             loadOrders();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void loadLocations() {
+        Call<Locations> call = apiInterface.allLocations();
+        call.enqueue(new Callback<Locations>() {
+            @Override
+            public void onResponse(Call<Locations> call, retrofit2.Response<Locations> response) {
+                Log.d("RETROFIT#", "onResponse: " + response.headers());
+                Locations locations = response.body();
+                saveLocations(locations);
+            }
+
+            @Override
+            public void onFailure(Call<Locations> call, Throwable t) {
+                Log.d("RETROFIT#", "onFailure: " + t.toString());
+            }
+        });
+    }
+
+    private void saveLocations(Locations locations) {
+        Log.d("INSERT: ", "starting");
+        if (locations == null)
+            throw new NullPointerException("Locations not found");
+        List<Location> locationList = locations.getLocations();
+        for (Location location : locationList) {
+            Log.d(TAG, "saveLocation: " + location.getName() + location.getId());
+            LocationsContentValues values = new LocationsContentValues();
+            values.putName(location.getName());
+            values.putLatitude(location.getLatitude());
+            values.putLongitude(location.getLongitude());
+            final Uri uri = values.insert(getContentResolver());
+            Log.d("INSERT: ", "inserting" + uri.toString());
         }
     }
 
