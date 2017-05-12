@@ -5,8 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
+import android.widget.ImageView;
 
 import com.codephillip.app.busticket.mymodels.Customer;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by codephillip on 12/05/17.
@@ -47,13 +50,12 @@ public class Utils {
         return false;
     }
 
-//    public static void picassoLoader(Context context, ImageView imageView, String url) {
-//        Log.d("PICASSO", "loading image");
-//        Picasso.with(context)
-//                .load(url)
-////                .load("http://192.168.56.1/images/ahagzjsozh.jpg")
-//                .placeholder(R.drawable.nav_image)
-//                .error(R.drawable.nav_image)
-//                .into(imageView);
-//    }
+    public static void picassoLoader(Context context, ImageView imageView, String url) {
+        Log.d("PICASSO", "loading image");
+        Picasso.with(context)
+                .load(url)
+                .placeholder(R.drawable.bus)
+                .error(R.drawable.bus)
+                .into(imageView);
+    }
 }

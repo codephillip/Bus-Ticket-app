@@ -24,6 +24,8 @@ import java.util.Date;
 import retrofit2.Call;
 import retrofit2.Callback;
 
+import static com.codephillip.app.busticket.Utils.picassoLoader;
+
 public class ConfirmOrderActivity extends AppCompatActivity {
 
     private static final String TAG = ConfirmOrderActivity.class.getSimpleName();
@@ -37,8 +39,6 @@ public class ConfirmOrderActivity extends AppCompatActivity {
     private TextView departure;
     private TextView price;
     final RoutesCursor cursor = new RoutesCursor(Utils.cursor);
-
-
     private OrderAsyncTask orderAsyncTask = null;
 
     @Override
@@ -51,8 +51,6 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         Utils.getInstance();
 
         toolbarImage = (ImageView) findViewById(R.id.image);
-        //todo load using picasso
-        toolbarImage.setImageDrawable(getResources().getDrawable(R.drawable.bus));
 
         company = (TextView) findViewById(R.id.company_view);
         source = (TextView) findViewById(R.id.source_view);
@@ -77,6 +75,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
             arrival.setText(cursor.getArrival());
             departure.setText(cursor.getDeparture());
             price.setText(String.valueOf(cursor.getPrice()));
+            picassoLoader(this, toolbarImage, cursor.getBuscompanyimage());
         } catch (Exception e) {
             e.printStackTrace();
         }

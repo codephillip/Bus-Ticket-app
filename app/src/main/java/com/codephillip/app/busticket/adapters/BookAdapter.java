@@ -16,6 +16,8 @@ import com.codephillip.app.busticket.Utils;
 import com.codephillip.app.busticket.provider.orders.OrdersCursor;
 import com.codephillip.app.busticket.provider.routes.RoutesCursor;
 
+import static com.codephillip.app.busticket.Utils.picassoLoader;
+
 
 /**
  * Created by codephillip on 10/05/17.
@@ -75,6 +77,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
             holder.sourceView.setText(dataCursor.getSource());
             holder.destinationView.setText(dataCursor.getDestination());
             holder.departureView.setText(dataCursor.getDeparture());
+            picassoLoader(context, holder.imageView, dataCursor.getBuscompanyimage());
         } catch (Exception e) {
             e.printStackTrace();
         }

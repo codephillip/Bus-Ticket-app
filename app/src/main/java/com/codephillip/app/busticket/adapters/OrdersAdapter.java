@@ -17,6 +17,8 @@ import com.codephillip.app.busticket.provider.orders.OrdersCursor;
 import com.codephillip.app.busticket.provider.routes.RoutesCursor;
 import com.codephillip.app.busticket.provider.routes.RoutesSelection;
 
+import static com.codephillip.app.busticket.Utils.picassoLoader;
+
 /**
  * Created by codephillip on 12/05/17.
  */
@@ -92,12 +94,12 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
         RoutesCursor routeCursor = new RoutesSelection().routeid(Integer.parseInt(dataCursor.getRoute())).query(context.getContentResolver());
         if (routeCursor.moveToFirst()) {
             try {
-                //todo add bus imageView
                 holder.priceView.setText(String.valueOf(routeCursor.getPrice()));
                 holder.companyNameView.setText(routeCursor.getBuscompanyname());
                 holder.sourceView.setText(routeCursor.getSource());
                 holder.destinationView.setText(routeCursor.getDestination());
                 holder.departureView.setText(routeCursor.getDeparture());
+                picassoLoader(context, holder.imageView, routeCursor.getBuscompanyimage());
                 routeCursor.close();
                 holder.validView.setText(dataCursor.getValid().toString());
                 holder.codeView.setText(dataCursor.getCode());
