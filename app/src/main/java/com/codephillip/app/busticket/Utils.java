@@ -1,5 +1,7 @@
 package com.codephillip.app.busticket;
 
+import android.database.Cursor;
+
 /**
  * Created by codephillip on 10/05/17.
  */
@@ -14,6 +16,8 @@ public class Utils {
 //    public static final String BASE_URL = "https://busticket.herokuapp.com";
 
     public static final Utils ourInstance = new Utils();
+    public static final String CURSOR_POSITION = "cursor_position";
+    public static Cursor cursor;
 
     public static Utils getInstance() {
         return ourInstance;

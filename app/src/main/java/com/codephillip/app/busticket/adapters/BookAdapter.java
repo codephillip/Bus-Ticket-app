@@ -45,6 +45,8 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
     }
 
     public BookAdapter(Context context, RoutesCursor cursor) {
+        Utils.getInstance();
+        Utils.cursor = cursor;
         dataCursor = cursor;
         this.context = context;
         Utils.getInstance();
@@ -66,6 +68,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         dataCursor.moveToPosition(position);
         try {
+            //todo add bus imageView
             holder.priceView.setText(String.valueOf(dataCursor.getPrice()));
             holder.companyNameView.setText(dataCursor.getBuscompanyname());
             holder.sourceView.setText(dataCursor.getSource());
@@ -80,7 +83,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
             public void onClick(View view) {
                 Log.d(TAG, "onClick: ");
                 dataCursor.moveToPosition(position);
-                context.startActivity(new Intent(context, ConfirmOrderActivity.class).putExtra(Utils.ROUTE_CODE, dataCursor.getCode()));
+                context.startActivity(new Intent(context, ConfirmOrderActivity.class).putExtra(Utils.CURSOR_POSITION, position));
             }
         });
     }
@@ -89,6 +92,5 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
     public int getItemCount() {
         // any number other than zero will cause a bug
         return (dataCursor == null) ? 0 : dataCursor.getCount();
-//        return 10;
     }
 }
