@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.codephillip.app.busticket.adapters.BookAdapter;
 import com.codephillip.app.busticket.provider.routes.RoutesCursor;
@@ -75,7 +74,7 @@ public class BookFragment extends Fragment implements AdapterView.OnItemSelected
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String item = parent.getItemAtPosition(position).toString();
-        Toast.makeText(getContext(), "Clicked " + item, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), "Clicked " + item, Toast.LENGTH_SHORT).show();
     }
 
     @Override
