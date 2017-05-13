@@ -11,8 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,8 +25,6 @@ import javax.net.ssl.HttpsURLConnection;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-import static com.codephillip.app.busticket.R.id.phone;
-
 public class SignInActivity extends AppCompatActivity {
 
     private static final String TAG = SignInActivity.class.getSimpleName();
@@ -41,35 +37,36 @@ public class SignInActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_in);
-
+        //todo activate sign in
+//        setContentView(R.layout.activity_sign_in);
+        //splash screen
+        setContentView(R.layout.splash_screen);
         Utils.getInstance();
-
-        phoneView = (EditText) findViewById(phone);
-        passwordView = (EditText) findViewById(R.id.password);
-
-        createAccountView = (TextView) findViewById(R.id.create_account);
-        createAccountView.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), SignUpActivity.class));
-            }
-        });
+//        phoneView = (EditText) findViewById(phone);
+//        passwordView = (EditText) findViewById(R.id.password);
+//
+//        createAccountView = (TextView) findViewById(R.id.create_account);
+//        createAccountView.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                startActivity(new Intent(getApplicationContext(), SignUpActivity.class));
+//            }
+//        });
 
         //todo remove on release
         signInUser("0771234566", "password123");
 
-        Button mSignInButton = (Button) findViewById(R.id.sign_in_button);
-        mSignInButton.setOnClickListener(new OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-            @Override
-            public void onClick(View view) {
-                attemptLogin();
-            }
-        });
-
-        loginFormView = findViewById(R.id.login_form);
-        progressView = findViewById(R.id.login_progress);
+//        Button mSignInButton = (Button) findViewById(R.id.sign_in_button);
+//        mSignInButton.setOnClickListener(new OnClickListener() {
+//            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+//            @Override
+//            public void onClick(View view) {
+//                attemptLogin();
+//            }
+//        });
+//
+//        loginFormView = findViewById(R.id.login_form);
+//        progressView = findViewById(R.id.login_progress);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -154,7 +151,7 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     private void processResult(boolean success, Customers customers) {
-        showProgress(false);
+//        showProgress(false);
         if (success) {
             Utils.customer = new Customer(customers.getCustomers().get(0).getId(), customers.getCustomers().get(0).getName(), customers.getCustomers().get(0).getAddress(), customers.getCustomers().get(0).getPhone());
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
