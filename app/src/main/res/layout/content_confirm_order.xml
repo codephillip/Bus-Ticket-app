@@ -141,7 +141,7 @@
         android:layout_marginTop="30dp"
         android:background="@color/colorAccent"
         android:id="@+id/order_button"
-        android:text="Order"
+        android:text="Pay"
         android:textColor="@android:color/white" />
 
     <Button

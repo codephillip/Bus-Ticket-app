@@ -11,8 +11,11 @@ import com.codephillip.app.busticket.mymodels.Order;
 import com.codephillip.app.busticket.mymodels.Orders;
 import com.codephillip.app.busticket.mymodels.routeobject.Route;
 import com.codephillip.app.busticket.mymodels.routeobject.Routes;
+import com.codephillip.app.busticket.provider.locations.LocationsColumns;
 import com.codephillip.app.busticket.provider.locations.LocationsContentValues;
+import com.codephillip.app.busticket.provider.orders.OrdersColumns;
 import com.codephillip.app.busticket.provider.orders.OrdersContentValues;
+import com.codephillip.app.busticket.provider.routes.RoutesColumns;
 import com.codephillip.app.busticket.provider.routes.RoutesContentValues;
 import com.codephillip.app.busticket.retrofit.ApiClient;
 import com.codephillip.app.busticket.retrofit.ApiInterface;
@@ -37,6 +40,12 @@ public class SetUpService extends IntentService {
         apiInterface = ApiClient.getClient(Utils.BASE_URL).create(ApiInterface.class);
 
         try {
+            deleteData();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
             loadLocations();
         } catch (Exception e) {
             e.printStackTrace();
@@ -53,6 +62,16 @@ public class SetUpService extends IntentService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void deleteData() {
+        long deleted;
+        deleted = getContentResolver().delete(LocationsColumns.CONTENT_URI, null, null);
+        Log.d("CONTENT_QUERY_deleted#", String.valueOf(deleted));
+        deleted = getContentResolver().delete(RoutesColumns.CONTENT_URI, null, null);
+        Log.d("CONTENT_QUERY_deleted#", String.valueOf(deleted));
+        deleted = getContentResolver().delete(OrdersColumns.CONTENT_URI, null, null);
+        Log.d("CONTENT_QUERY_deleted#", String.valueOf(deleted));
     }
 
     private void loadLocations() {
