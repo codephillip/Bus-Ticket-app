@@ -26,7 +26,6 @@ import static com.codephillip.app.busticket.Utils.picassoLoader;
 public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder> {
     private static final String TAG = OrdersAdapter.class.getSimpleName();
     private OrdersCursor dataCursor;
-    private String param;
     private static Context context;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -96,13 +95,13 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
             try {
                 holder.priceView.setText(String.valueOf(routeCursor.getPrice()));
                 holder.companyNameView.setText(routeCursor.getBuscompanyname());
-                holder.sourceView.setText(routeCursor.getSource());
-                holder.destinationView.setText(routeCursor.getDestination());
-                holder.departureView.setText(routeCursor.getDeparture());
+                holder.sourceView.setText("From: " + routeCursor.getSource());
+                holder.destinationView.setText("To: " + routeCursor.getDestination());
+                holder.departureView.setText("Departure: " + routeCursor.getDeparture());
                 picassoLoader(context, holder.imageView, routeCursor.getBuscompanyimage());
                 routeCursor.close();
-                holder.validView.setText(dataCursor.getValid().toString());
-                holder.codeView.setText(dataCursor.getCode());
+                holder.validView.setText("Valid: " + dataCursor.getValid().toString());
+                holder.codeView.setText("Receipt: " + dataCursor.getCode());
             } catch (Exception e) {
                 e.printStackTrace();
             }

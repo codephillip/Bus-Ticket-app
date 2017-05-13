@@ -96,11 +96,8 @@ public class MainActivity extends AppCompatActivity
             fragment = HistoryFragment.newInstance();
             getSupportActionBar().setTitle(screenNames[2]);
         } else if (id == R.id.nav_manage) {
-            return true;
-        } else if (id == R.id.nav_share) {
-            return true;
-        } else if (id == R.id.nav_send) {
-            return true;
+            fragment = ProfileFragment.newInstance();
+            getSupportActionBar().setTitle(screenNames[3]);
         } else {
             return true;
         }
