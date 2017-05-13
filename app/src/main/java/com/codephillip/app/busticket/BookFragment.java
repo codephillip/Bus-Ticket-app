@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import java.util.Map;
 
 public class BookFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
+    private static final String TAG = BookFragment.class.getSimpleName();
     Spinner spinner;
     RecyclerView recyclerView;
     Map<String, Integer> cropsMap = new Hashtable<>();
@@ -62,7 +64,12 @@ public class BookFragment extends Fragment implements AdapterView.OnItemSelected
 
     private RoutesCursor queryRoutesTable() {
 //        return new RoutesSelection().query(getContext().getContentResolver());
-        return new RoutesSelection().query(getContext().getContentResolver());
+        Log.d(TAG, "queryRoutesTable: ### " + getActivity().getIntent().getStringExtra(Utils.SOURCE));
+        return new RoutesSelection()
+                .source(getActivity().getIntent().getStringExtra(Utils.SOURCE))
+                .and()
+                .destination(getActivity().getIntent().getStringExtra(Utils.DESTINATION))
+                .query(getContext().getContentResolver());
     }
 
     @Override
