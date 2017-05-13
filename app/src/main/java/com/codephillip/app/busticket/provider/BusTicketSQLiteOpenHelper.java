@@ -37,6 +37,7 @@ public class BusTicketSQLiteOpenHelper extends SQLiteOpenHelper {
             + OrdersColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + OrdersColumns.CODE + " TEXT, "
             + OrdersColumns.VALID + " INTEGER, "
+            + OrdersColumns.DATECREATED + " TEXT, "
             + OrdersColumns.DATE + " TEXT, "
             + OrdersColumns.CUSTOMER + " TEXT, "
             + OrdersColumns.ROUTE + " TEXT "

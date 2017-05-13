@@ -74,9 +74,10 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
             //todo add bus imageView
             holder.priceView.setText(String.valueOf(dataCursor.getPrice()));
             holder.companyNameView.setText(dataCursor.getBuscompanyname());
-            holder.sourceView.setText(dataCursor.getSource());
-            holder.destinationView.setText(dataCursor.getDestination());
-            holder.departureView.setText(dataCursor.getDeparture());
+            holder.sourceView.setText("From: " + dataCursor.getSource());
+            holder.destinationView.setText("To: " + dataCursor.getDestination());
+            holder.departureView.setText("Departure: " + dataCursor.getDeparture());
+
             picassoLoader(context, holder.imageView, dataCursor.getBuscompanyimage());
         } catch (Exception e) {
             e.printStackTrace();

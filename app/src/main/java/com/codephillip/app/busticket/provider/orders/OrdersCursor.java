@@ -47,6 +47,16 @@ public class OrdersCursor extends AbstractCursor implements OrdersModel {
     }
 
     /**
+     * Get the {@code datecreated} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    public String getDatecreated() {
+        String res = getStringOrNull(OrdersColumns.DATECREATED);
+        return res;
+    }
+
+    /**
      * Get the {@code date} value.
      * Can be {@code null}.
      */

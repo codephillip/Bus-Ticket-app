@@ -27,6 +27,13 @@ public interface OrdersModel extends BaseModel {
     Boolean getValid();
 
     /**
+     * Get the {@code datecreated} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    String getDatecreated();
+
+    /**
      * Get the {@code date} value.
      * Can be {@code null}.
      */

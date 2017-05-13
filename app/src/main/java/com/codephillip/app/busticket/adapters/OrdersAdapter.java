@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.codephillip.app.busticket.ConfirmOrderActivity;
+import com.codephillip.app.busticket.OrderDetailsActivity;
 import com.codephillip.app.busticket.R;
 import com.codephillip.app.busticket.Utils;
 import com.codephillip.app.busticket.provider.orders.OrdersCursor;
@@ -54,8 +54,8 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
     public OrdersAdapter(Context context, OrdersCursor cursor) {
         Utils.getInstance();
         dataCursor = cursor;
+        Utils.cursor = cursor;
         this.context = context;
-        Utils.getInstance();
     }
 
     public OrdersAdapter(Context context) {
@@ -83,8 +83,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: ");
-                dataCursor.moveToPosition(position);
-                context.startActivity(new Intent(context, ConfirmOrderActivity.class).putExtra(Utils.CURSOR_POSITION, position));
+                context.startActivity(new Intent(context, OrderDetailsActivity.class).putExtra(Utils.CURSOR_POSITION, position));
             }
         });
     }
@@ -100,7 +99,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
                 holder.departureView.setText("Departure: " + routeCursor.getDeparture());
                 picassoLoader(context, holder.imageView, routeCursor.getBuscompanyimage());
                 routeCursor.close();
-                holder.validView.setText("Valid: " + dataCursor.getValid().toString());
+                holder.validView.setText("Valid: " + dataCursor.getValid());
                 holder.codeView.setText("Receipt: " + dataCursor.getCode());
             } catch (Exception e) {
                 e.printStackTrace();

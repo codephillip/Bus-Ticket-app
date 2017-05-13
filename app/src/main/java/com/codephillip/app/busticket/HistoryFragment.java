@@ -37,6 +37,6 @@ public class HistoryFragment extends Fragment {
     }
 
     private OrdersCursor queryOrdersTable() {
-        return new OrdersSelection().query(getContext().getContentResolver());
+        return new OrdersSelection().valid(false).query(getContext().getContentResolver());
     }
 }

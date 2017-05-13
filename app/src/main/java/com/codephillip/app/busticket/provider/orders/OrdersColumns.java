@@ -24,6 +24,8 @@ public class OrdersColumns implements BaseColumns {
 
     public static final String VALID = "Valid";
 
+    public static final String DATECREATED = "DateCreated";
+
     public static final String DATE = "Date";
 
     public static final String CUSTOMER = "Customer";
@@ -38,6 +40,7 @@ public class OrdersColumns implements BaseColumns {
             _ID,
             CODE,
             VALID,
+            DATECREATED,
             DATE,
             CUSTOMER,
             ROUTE
@@ -49,6 +52,7 @@ public class OrdersColumns implements BaseColumns {
         for (String c : projection) {
             if (c.equals(CODE) || c.contains("." + CODE)) return true;
             if (c.equals(VALID) || c.contains("." + VALID)) return true;
+            if (c.equals(DATECREATED) || c.contains("." + DATECREATED)) return true;
             if (c.equals(DATE) || c.contains("." + DATE)) return true;
             if (c.equals(CUSTOMER) || c.contains("." + CUSTOMER)) return true;
             if (c.equals(ROUTE) || c.contains("." + ROUTE)) return true;

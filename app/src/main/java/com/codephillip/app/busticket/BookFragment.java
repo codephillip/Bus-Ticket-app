@@ -61,6 +61,7 @@ public class BookFragment extends Fragment implements AdapterView.OnItemSelected
     }
 
     private RoutesCursor queryRoutesTable() {
+//        return new RoutesSelection().query(getContext().getContentResolver());
         return new RoutesSelection().query(getContext().getContentResolver());
     }
 

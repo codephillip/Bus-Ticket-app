@@ -133,6 +133,46 @@ public class OrdersSelection extends AbstractSelection<OrdersSelection> {
         return this;
     }
 
+    public OrdersSelection datecreated(String... value) {
+        addEquals(OrdersColumns.DATECREATED, value);
+        return this;
+    }
+
+    public OrdersSelection datecreatedNot(String... value) {
+        addNotEquals(OrdersColumns.DATECREATED, value);
+        return this;
+    }
+
+    public OrdersSelection datecreatedLike(String... value) {
+        addLike(OrdersColumns.DATECREATED, value);
+        return this;
+    }
+
+    public OrdersSelection datecreatedContains(String... value) {
+        addContains(OrdersColumns.DATECREATED, value);
+        return this;
+    }
+
+    public OrdersSelection datecreatedStartsWith(String... value) {
+        addStartsWith(OrdersColumns.DATECREATED, value);
+        return this;
+    }
+
+    public OrdersSelection datecreatedEndsWith(String... value) {
+        addEndsWith(OrdersColumns.DATECREATED, value);
+        return this;
+    }
+
+    public OrdersSelection orderByDatecreated(boolean desc) {
+        orderBy(OrdersColumns.DATECREATED, desc);
+        return this;
+    }
+
+    public OrdersSelection orderByDatecreated() {
+        orderBy(OrdersColumns.DATECREATED, false);
+        return this;
+    }
+
     public OrdersSelection date(String... value) {
         addEquals(OrdersColumns.DATE, value);
         return this;

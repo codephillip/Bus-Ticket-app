@@ -59,6 +59,16 @@ public class OrdersContentValues extends AbstractContentValues {
         return this;
     }
 
+    public OrdersContentValues putDatecreated(@Nullable String value) {
+        mContentValues.put(OrdersColumns.DATECREATED, value);
+        return this;
+    }
+
+    public OrdersContentValues putDatecreatedNull() {
+        mContentValues.putNull(OrdersColumns.DATECREATED);
+        return this;
+    }
+
     public OrdersContentValues putDate(@Nullable String value) {
         mContentValues.put(OrdersColumns.DATE, value);
         return this;
