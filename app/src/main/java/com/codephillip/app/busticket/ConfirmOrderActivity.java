@@ -2,6 +2,7 @@ package com.codephillip.app.busticket;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.CursorIndexOutOfBoundsException;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -111,6 +112,8 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                 Log.d(TAG, "onResponse: #" + statusCode);
                 int receiptCode = response.body().getCode();
                 showComfirmationDialog(receiptCode);
+                //update data
+                startService(new Intent(getApplicationContext(), SetUpService.class));
             }
 
             @Override
