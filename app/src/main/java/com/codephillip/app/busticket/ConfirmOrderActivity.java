@@ -3,8 +3,10 @@ package com.codephillip.app.busticket;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.CursorIndexOutOfBoundsException;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -43,7 +45,6 @@ public class ConfirmOrderActivity extends AppCompatActivity {
     private TextView departure;
     private TextView price;
     final RoutesCursor cursor = new RoutesCursor(Utils.cursor);
-//    private OrderAsyncTask orderAsyncTask = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,15 +135,11 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         });
     }
 
-//    private void startAsyncTask(Integer code) {
-//        orderAsyncTask = new OrderAsyncTask(code);
-//        orderAsyncTask.execute((Void) null);
-//    }
-
     private void showComfirmationDialog(int receiptCode) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(ConfirmOrderActivity.this);
         alertDialog.setTitle("RECEIPT");
-        alertDialog.setMessage("Thank You for purchasing a bus ticket.\nReceipt number " + receiptCode);
+        alertDialog.setMessage("Thank You.\nReceipt number: " + receiptCode
+                + "\nSeat number: " + getSeatNumber());
         alertDialog.setIcon(R.drawable.ic_shopping_cart_black_24dp);
         alertDialog.setNeutralButton("OK",
                 new DialogInterface.OnClickListener() {
@@ -153,61 +150,15 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-//    public class OrderAsyncTask extends AsyncTask<Void, Void, Boolean> {
-//
-//        private final Integer code;
-//
-//        public OrderAsyncTask(Integer code) {
-//            this.code = code;
-//        }
-//
-//        @Override
-//        protected Boolean doInBackground(Void... params) {
-//            try {
-//                Log.d(TAG, "doInBackground: " + code);
-//                makeOrder();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                return false;
-//            }
-//            return true;
-//        }
-//
-//        private void makeOrder() {
-//            Log.d(TAG, "makeOrder: making order");
-//            ApiInterface apiInterface = ApiClient.getClient(Utils.BASE_URL).create(ApiInterface.class);
-//            //todo remove code
-//            int order_code = 9834;
-//            Order order = new Order(Utils.customer.getId(), cursor.getRouteid(), true, new Date().toString(), order_code);
-//            Call<Order> call = apiInterface.createOrder(order);
-//            call.enqueue(new Callback<Order>() {
-//                @Override
-//                public void onResponse(Call<Order> call, retrofit2.Response<Order> response) {
-//                    int statusCode = response.code();
-//                    Log.d(TAG, "onResponse: #" + statusCode);
-//                    receiptCode = response.body().getCode();
-//                }
-//
-//                @Override
-//                public void onFailure(Call<Order> call, Throwable t) {
-//                    Log.d(TAG, "onFailure: " + t.toString());
-//                }
-//            });
-//        }
-//
-//        @Override
-//        protected void onPostExecute(final Boolean success) {
-//            orderAsyncTask = null;
-//            if (success) {
-//                showComfirmationDialog(receiptCode);
-//            } else {
-//                Toast.makeText(ConfirmOrderActivity.this, "Check Internet Connection", Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//
-//        @Override
-//        protected void onCancelled() {
-//            orderAsyncTask = null;
-//        }
-//    }
+    private void saveSeatNumber(String seatNumber) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(Utils.SEAT_NUMBER, seatNumber);
+        editor.apply();
+    }
+
+    private String getSeatNumber() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        return prefs.getString(Utils.SEAT_NUMBER, "1");
+    }
 }

@@ -30,6 +30,7 @@ public class Utils {
     public static final String DESTINATION = "destination";
     public static final String ORDERS = "orders";
     public static final String HISTORY = "history";
+    public static final String SEAT_NUMBER = "1";
     public static boolean HISTROY_FRAG_ACTIVE = false;
     public static Cursor cursor;
     public static Customer customer;

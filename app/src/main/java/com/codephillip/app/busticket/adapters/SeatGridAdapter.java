@@ -1,7 +1,10 @@
 package com.codephillip.app.busticket.adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.codephillip.app.busticket.R;
+import com.codephillip.app.busticket.Utils;
 
 /**
  * Created by codephillip on 31/03/17.
@@ -16,12 +20,14 @@ import com.codephillip.app.busticket.R;
 
 public class SeatGridAdapter extends RecyclerView.Adapter<SeatGridAdapter.ViewHolder> {
 
+    private static final String TAG = SeatGridAdapter.class.getSimpleName();
     private LayoutInflater mInflater;
     private static Context context;
     private boolean hasBooked = false;
 
     // hymns is passed into the constructor
     public SeatGridAdapter(Context context) {
+        Log.d(TAG, "SeatGridAdapter: ATTACHED");
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
     }
@@ -51,7 +57,7 @@ public class SeatGridAdapter extends RecyclerView.Adapter<SeatGridAdapter.ViewHo
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
 //        cursor.moveToPosition(position);
-//        holder.seatNumberText.setText(position + 1);
+        holder.seatNumberText.setText(String.valueOf(position + 1));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,6 +71,7 @@ public class SeatGridAdapter extends RecyclerView.Adapter<SeatGridAdapter.ViewHo
         if (!hasBooked) {
             seatView.setColorFilter(context.getResources().getColor((R.color.colorAccent)));
             numberView.setTextColor(context.getResources().getColor((R.color.colorAccent)));
+            saveSeatNumber(numberView.getText().toString());
             hasBooked = true;
         }
     }
@@ -88,5 +95,17 @@ public class SeatGridAdapter extends RecyclerView.Adapter<SeatGridAdapter.ViewHo
     public int getItemCount() {
 //        return cursor.getCount();
         return 20;
+    }
+
+    private void saveSeatNumber(String seatNumber) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(Utils.SEAT_NUMBER, seatNumber);
+        editor.apply();
+    }
+
+    private String getSeatNumber() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getString(Utils.SEAT_NUMBER, "1");
     }
 }
