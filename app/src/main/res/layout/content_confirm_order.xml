@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-    android:layout_marginRight="@dimen/activity_horizontal_margin"
     android:layout_marginTop="@dimen/activity_horizontal_margin"
+    android:layout_marginBottom="@dimen/activity_horizontal_margin"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.codephillip.app.busticket.ConfirmOrderActivity"
@@ -146,6 +145,7 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler"
+                android:layout_marginRight="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -155,6 +155,8 @@
             android:id="@+id/order_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginTop="30dp"
             android:background="@color/colorAccent"
             android:text="Pay"
@@ -164,11 +166,11 @@
             android:id="@+id/cancel_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginTop="10dp"
             android:background="@android:color/darker_gray"
             android:text="Cancel"
             android:textColor="@android:color/white" />
     </LinearLayout>
-
-
 </android.support.v4.widget.NestedScrollView>

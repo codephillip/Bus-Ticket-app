@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.codephillip.app.busticket.R;
 
@@ -28,11 +29,13 @@ public class SeatGridAdapter extends RecyclerView.Adapter<SeatGridAdapter.ViewHo
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView numberView;
+        public TextView seatNumberText;
+        public ImageView seatView;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            numberView = (ImageView) itemView.findViewById(R.id.numberImageView);
+            seatNumberText = (TextView) itemView.findViewById(R.id.seat_number);
+            seatView = (ImageView) itemView.findViewById(R.id.seat_image);
         }
     }
 
@@ -48,29 +51,32 @@ public class SeatGridAdapter extends RecyclerView.Adapter<SeatGridAdapter.ViewHo
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
 //        cursor.moveToPosition(position);
+//        holder.seatNumberText.setText(position + 1);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                changeSeatColourWhenBooked(holder.numberView);
+                changeSeatColourWhenBooked(holder.seatView, holder.seatNumberText);
             }
         });
-        changeSeatColourRandomly(holder.numberView);
+        changeSeatColourRandomly(holder.seatView, holder.seatNumberText);
     }
 
-    private void changeSeatColourWhenBooked(ImageView numberView) {
+    private void changeSeatColourWhenBooked(ImageView seatView, TextView numberView) {
         if (!hasBooked) {
-            numberView.setColorFilter(context.getResources().getColor((R.color.colorAccent)));
+            seatView.setColorFilter(context.getResources().getColor((R.color.colorAccent)));
+            numberView.setTextColor(context.getResources().getColor((R.color.colorAccent)));
             hasBooked = true;
         }
     }
 
-    private void changeSeatColourRandomly(ImageView numberView) {
+    private void changeSeatColourRandomly(ImageView seatView, TextView numberView) {
         int colorId;
         if (getRandomBoolean())
             colorId = R.color.colorAccent;
         else
             colorId = R.color.grey;
-        numberView.setColorFilter(context.getResources().getColor((colorId)));
+        seatView.setColorFilter(context.getResources().getColor((colorId)));
+        numberView.setTextColor(context.getResources().getColor((colorId)));
     }
 
     private boolean getRandomBoolean() {
