@@ -1,6 +1,7 @@
 package com.codephillip.app.busticket;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.database.CursorIndexOutOfBoundsException;
@@ -14,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -47,6 +49,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
     private TextView departure;
     private TextView price;
     final RoutesCursor cursor = new RoutesCursor(Utils.cursor);
+    private ProgressDialog pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +59,9 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Utils.getInstance();
+
+        pd = new ProgressDialog(this);
+
 
         toolbarImage = (ImageView) findViewById(R.id.image);
 
@@ -92,7 +98,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 //                startAsyncTask(cursor.getCode());
-                makeOrder();
+                displayInputDialog();
             }
         });
 
@@ -119,8 +125,8 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                 "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:b2b=\"http://b2b.mobilemoney.mtn.zm_v1.0\">\n" +
                 "  <soapenv:Header>\n" +
                 "    <RequestSOAPHeader xmlns=\"http://www.huawei.com.cn/schema/common/v2_1\">\n" +
-                "      <spId>2560110004782</spId>\n" +
-                "      <spPassword>A1FEA6B5D61038B82EEB9A5703D313BC</spPassword>\n" +
+                "      <spId>2560110004776</spId>\n" +
+                "      <spPassword>BD3B1BB8B4822636B7520B96C4A568C7</spPassword>\n" +
                 "      <bundleID/>\n" +
                 "      <serviceId/>\n" +
                 "      <timeStamp>20170503144638</timeStamp>\n" +
@@ -140,11 +146,11 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                 "      <parameter>\n" +
                 "        <name>ProcessingNumber</name>\n" +
                 "        <!-- generate random java value -->\n" +
-                "        <value>" + UUID.randomUUID().toString()+ "</value>\n" +
+                "        <value>" + UUID.randomUUID().toString() + "</value>\n" +
                 "      </parameter>\n" +
                 "      <parameter>\n" +
                 "        <name>serviceId</name>\n" +
-                "        <value>appchallenge11.sp</value>\n" +
+                "        <value>appchallenge3.sp</value>\n" +
                 "      </parameter>\n" +
                 "      <parameter>\n" +
                 "        <name>AcctRef</name>\n" +
@@ -178,7 +184,11 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                 "  </soapenv:Body>\n" +
                 "</soapenv:Envelope>";
 
+
+//        displayProgressDialog();
+
         try {
+            displayProgressDialog();
             String responseString = post("http://40.68.208.28:9002/ThirdPartyServiceUMMImpl/UMMServiceService/RequestPayment/v17", soapString);
             Log.d(TAG, "makeOrder: ####RESPONSE: " + responseString);
         } catch (IOException e) {
@@ -210,6 +220,12 @@ public class ConfirmOrderActivity extends AppCompatActivity {
 //        });
     }
 
+    private void displayProgressDialog() {
+        Log.d(TAG, "displayProgressDialog: showing###");
+        pd.setMessage("Making payment...");
+        pd.show();
+    }
+
 
     public static final MediaType JSON
             = MediaType.parse("application/xml; charset=utf-8");
@@ -227,12 +243,33 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                 .build();
         try {
             Response response = client.newCall(request).execute();
-            showComfirmationDialog(randInt(100000, 999999));
+            dismissProgressDialog();
             return response.body().string();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return "Network failure";
+    }
+
+    private void dismissProgressDialog() {
+//        new Thread(){
+//            @Override
+//            public void run() {
+//                super.run();
+//                try {
+//                    Thread.sleep(2000);
+//                    if (pd.isShowing())
+//                        pd.dismiss();
+//                    showComfirmationDialog(randInt(100000, 999999));
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }.start();
+
+        if (pd.isShowing())
+            pd.dismiss();
+        showComfirmationDialog(randInt(100000, 999999));
     }
 
     private void showComfirmationDialog(int receiptCode) {
@@ -260,5 +297,30 @@ public class ConfirmOrderActivity extends AppCompatActivity {
     private String getSeatNumber() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         return prefs.getString(Utils.SEAT_NUMBER, "1");
+    }
+
+    private void displayInputDialog() {
+        final EditText txtUrl = new EditText(this);
+
+        // Set the default text to a link of the Queen
+        txtUrl.setHint("1234");
+
+        new AlertDialog.Builder(this)
+                .setTitle("Verification Code")
+                .setMessage("Enter Mobile Money code")
+                .setView(txtUrl)
+                .setPositiveButton("Send", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        String verification_code = txtUrl.getText().toString();
+                        Log.d(TAG, "VerificationCode: " + verification_code);
+                        dialog.dismiss();
+                        makeOrder();
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }
+                })
+                .show();
     }
 }
