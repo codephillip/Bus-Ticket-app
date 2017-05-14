@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.database.CursorIndexOutOfBoundsException;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.codephillip.app.busticket.adapters.SeatGridAdapter;
 import com.codephillip.app.busticket.mymodels.Order;
 import com.codephillip.app.busticket.provider.routes.RoutesCursor;
 import com.codephillip.app.busticket.retrofit.ApiClient;
@@ -28,8 +31,10 @@ import static com.codephillip.app.busticket.Utils.picassoLoader;
 public class ConfirmOrderActivity extends AppCompatActivity {
 
     private static final String TAG = ConfirmOrderActivity.class.getSimpleName();
-    Button orderButton;
-    Button cancelButton;
+    private Button orderButton;
+    private Button cancelButton;
+    private SeatGridAdapter gridAdapter;
+    private RecyclerView recyclerView;
     private ImageView toolbarImage;
     private TextView company;
     private TextView source;
@@ -96,6 +101,12 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        int numberOfColumns = 4;
+        recyclerView = (RecyclerView) findViewById(R.id.recycler);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
+        gridAdapter = new SeatGridAdapter(this);
+        recyclerView.setAdapter(gridAdapter);
     }
 
     private void makeOrder() {
