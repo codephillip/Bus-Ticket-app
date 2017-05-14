@@ -21,6 +21,7 @@ import com.codephillip.app.busticket.adapters.SeatGridAdapter;
 import com.codephillip.app.busticket.provider.routes.RoutesCursor;
 
 import java.io.IOException;
+import java.util.UUID;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -130,7 +131,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                 "      <serviceId>200</serviceId>\n" +
                 "      <parameter>\n" +
                 "        <name>DueAmount</name>\n" +
-                "        <value>30000</value>\n" +
+                "        <value>500</value>\n" +
                 "      </parameter>\n" +
                 "      <parameter>\n" +
                 "        <name>MSISDNNum</name>\n" +
@@ -139,7 +140,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                 "      <parameter>\n" +
                 "        <name>ProcessingNumber</name>\n" +
                 "        <!-- generate random java value -->\n" +
-                "        <value>559</value>\n" +
+                "        <value>" + UUID.randomUUID().toString()+ "</value>\n" +
                 "      </parameter>\n" +
                 "      <parameter>\n" +
                 "        <name>serviceId</name>\n" +
