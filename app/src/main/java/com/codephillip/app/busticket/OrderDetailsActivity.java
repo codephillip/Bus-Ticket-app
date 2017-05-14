@@ -58,7 +58,11 @@ public class OrderDetailsActivity extends AppCompatActivity {
         try {
             cursorPosition = getIntent().getIntExtra(Utils.CURSOR_POSITION, 0);
             Log.d(TAG, "onCreate: ###" + cursorPosition);
-            ordersCursor = new OrdersSelection().orderById(true).query(getContentResolver());
+            if (Utils.HISTROY_FRAG_ACTIVE)
+                ordersCursor = new OrdersSelection().valid(false).orderById(true).query(getContentResolver());
+            else
+                ordersCursor = new OrdersSelection().orderById(true).query(getContentResolver());
+
             ordersCursor.moveToPosition(cursorPosition);
             Log.d(TAG, "onCreate: CURSOR###" + ordersCursor.getCode() + ordersCursor.getValid());
             if (ordersCursor == null)
