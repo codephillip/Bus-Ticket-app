@@ -89,6 +89,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
     }
 
     private void attackDataToViews(ViewHolder holder, int position) {
+        Log.d(TAG, "attackDataToViews: ROUTE_ID" + dataCursor.getRoute());
         RoutesCursor routeCursor = new RoutesSelection().routeid(Integer.parseInt(dataCursor.getRoute())).query(context.getContentResolver());
         if (routeCursor.moveToFirst()) {
             try {

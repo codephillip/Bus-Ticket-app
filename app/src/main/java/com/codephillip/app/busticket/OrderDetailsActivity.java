@@ -51,14 +51,14 @@ public class OrderDetailsActivity extends AppCompatActivity {
         arrival = (TextView) findViewById(R.id.arrival_view);
         departure = (TextView) findViewById(R.id.departure_view);
         price = (TextView) findViewById(R.id.price_view);
-        code = (TextView) findViewById(R.id.code_view);
+        code = (TextView) findViewById(R.id.receipt_number_view);
         valid = (TextView) findViewById(R.id.valid_view);
         dateCreated = (TextView) findViewById(R.id.date);
 
         try {
             cursorPosition = getIntent().getIntExtra(Utils.CURSOR_POSITION, 0);
             Log.d(TAG, "onCreate: ###" + cursorPosition);
-            ordersCursor = new OrdersSelection().query(getContentResolver());
+            ordersCursor = new OrdersSelection().orderById(true).query(getContentResolver());
             ordersCursor.moveToPosition(cursorPosition);
             Log.d(TAG, "onCreate: CURSOR###" + ordersCursor.getCode() + ordersCursor.getValid());
             if (ordersCursor == null)
@@ -68,10 +68,12 @@ public class OrderDetailsActivity extends AppCompatActivity {
         }
 
         try {
-//            RoutesCursor routesCursor = new RoutesSelection().query(getContentResolver());
-            Log.d(TAG, "onCreate: ROUTE_ID " + ordersCursor.getRoute());
+            Log.d(TAG, "onCreate: ROUTE_ID ###" + ordersCursor.getRoute());
+            Log.d(TAG, "onCreate: ROUTE_ID ###" + ordersCursor.getCode());
+            Log.d(TAG, "onCreate: ROUTE_ID ###" + ordersCursor.getCustomer());
             RoutesCursor routesCursor = new RoutesSelection().routeid(Integer.valueOf(ordersCursor.getRoute())).query(getContentResolver());
             routesCursor.moveToFirst();
+            Log.d(TAG, "onCreate: ROUTE COMPANY" + routesCursor.getBuscompanyname());
             company.setText(routesCursor.getBuscompanyname());
             source.setText(routesCursor.getSource());
             destination.setText(routesCursor.getDestination());
@@ -80,10 +82,9 @@ public class OrderDetailsActivity extends AppCompatActivity {
             price.setText(String.valueOf(routesCursor.getPrice()));
             Log.d(TAG, "onCreate: " + routesCursor.getBuscompanyimage());
             picassoLoader(this, toolbarImage, routesCursor.getBuscompanyimage());
-            routesCursor.close();
             code.setText(ordersCursor.getCode());
             valid.setText(ordersCursor.getValid().toString());
-            dateCreated.setText(ordersCursor.getDate());
+            dateCreated.setText(ordersCursor.getDate().toString().substring(0, 10));
             ordersCursor.close();
         } catch (Exception e) {
             e.printStackTrace();

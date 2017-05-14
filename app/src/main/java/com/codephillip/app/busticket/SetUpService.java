@@ -133,6 +133,7 @@ public class SetUpService extends IntentService {
             Log.d(TAG, "saveRoute: " + route.getArrival() + route.getCode() + route.getSource());
             RoutesContentValues values = new RoutesContentValues();
             values.putCode(route.getCode());
+            Log.d(TAG, "saveRoutes: ROUTE_ID" + route.getId());
             values.putRouteid(route.getId());
             values.putSource(route.getSource());
             values.putDestination(route.getDestination());

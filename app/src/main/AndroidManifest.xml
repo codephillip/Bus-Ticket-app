@@ -65,7 +65,7 @@
             android:name=".OrderDetailsActivity"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:label="Order Details">
+            android:label="Receipt Details">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.codephillip.app.busticket.MainActivity" />
