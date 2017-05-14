@@ -2,10 +2,10 @@ package com.codephillip.app.busticket;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.CursorIndexOutOfBoundsException;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -18,17 +18,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.codephillip.app.busticket.adapters.SeatGridAdapter;
-import com.codephillip.app.busticket.mymodels.Order;
 import com.codephillip.app.busticket.provider.routes.RoutesCursor;
-import com.codephillip.app.busticket.retrofit.ApiClient;
-import com.codephillip.app.busticket.retrofit.ApiInterface;
 
-import java.util.Date;
+import java.io.IOException;
 
-import retrofit2.Call;
-import retrofit2.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 import static com.codephillip.app.busticket.Utils.picassoLoader;
+import static com.codephillip.app.busticket.Utils.randInt;
 
 public class ConfirmOrderActivity extends AppCompatActivity {
 
@@ -112,27 +113,125 @@ public class ConfirmOrderActivity extends AppCompatActivity {
 
     private void makeOrder() {
         Log.d(TAG, "makeOrder: making order");
-        ApiInterface apiInterface = ApiClient.getClient(Utils.BASE_URL).create(ApiInterface.class);
-        //todo remove code
-        int order_code = 9834;
-        Order order = new Order(Utils.customer.getId(), cursor.getRouteid(), true, new Date().toString(), order_code);
-        Call<Order> call = apiInterface.createOrder(order);
-        call.enqueue(new Callback<Order>() {
-            @Override
-            public void onResponse(Call<Order> call, retrofit2.Response<Order> response) {
-                int statusCode = response.code();
-                Log.d(TAG, "onResponse: #" + statusCode);
-                int receiptCode = response.body().getCode();
-                showComfirmationDialog(receiptCode);
-                //update data
-                startService(new Intent(getApplicationContext(), SetUpService.class));
-            }
 
-            @Override
-            public void onFailure(Call<Order> call, Throwable t) {
-                Log.d(TAG, "onFailure: " + t.toString());
-            }
-        });
+        String soapString = "<?xml version=\"1.0\"?>\n" +
+                "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:b2b=\"http://b2b.mobilemoney.mtn.zm_v1.0\">\n" +
+                "  <soapenv:Header>\n" +
+                "    <RequestSOAPHeader xmlns=\"http://www.huawei.com.cn/schema/common/v2_1\">\n" +
+                "      <spId>2560110004782</spId>\n" +
+                "      <spPassword>A1FEA6B5D61038B82EEB9A5703D313BC</spPassword>\n" +
+                "      <bundleID/>\n" +
+                "      <serviceId/>\n" +
+                "      <timeStamp>20170503144638</timeStamp>\n" +
+                "    </RequestSOAPHeader>\n" +
+                "  </soapenv:Header>\n" +
+                "  <soapenv:Body>\n" +
+                "    <b2b:processRequest>\n" +
+                "      <serviceId>200</serviceId>\n" +
+                "      <parameter>\n" +
+                "        <name>DueAmount</name>\n" +
+                "        <value>30000</value>\n" +
+                "      </parameter>\n" +
+                "      <parameter>\n" +
+                "        <name>MSISDNNum</name>\n" +
+                "        <value>256789900760</value>\n" +
+                "      </parameter>\n" +
+                "      <parameter>\n" +
+                "        <name>ProcessingNumber</name>\n" +
+                "        <!-- generate random java value -->\n" +
+                "        <value>559</value>\n" +
+                "      </parameter>\n" +
+                "      <parameter>\n" +
+                "        <name>serviceId</name>\n" +
+                "        <value>appchallenge11.sp</value>\n" +
+                "      </parameter>\n" +
+                "      <parameter>\n" +
+                "        <name>AcctRef</name>\n" +
+                "         <value>101</value>\n" +
+                "      </parameter>\n" +
+                "      <parameter>\n" +
+                "        <name>AcctBalance</name>\n" +
+                "        <value>300000</value>\n" +
+                "      </parameter>\n" +
+                "      <parameter>\n" +
+                "        <name>MinDueAmount</name>\n" +
+                "        <value>200</value>\n" +
+                "      </parameter>\n" +
+                "      <parameter>\n" +
+                "        <name>Narration</name>\n" +
+                "        <value>You have made payment for a bus ticket</value>\n" +
+                "      </parameter>\n" +
+                "      <parameter>\n" +
+                "        <name>PrefLang</name>\n" +
+                "        <value>en</value>\n" +
+                "      </parameter>\n" +
+                "      <parameter>\n" +
+                "        <name>OpCoID</name>\n" +
+                "        <value>25601</value>\n" +
+                "      </parameter>\n" +
+                "      <parameter>\n" +
+                "        <name>CurrCode</name>\n" +
+                "        <value>UGX</value>\n" +
+                "      </parameter>\n" +
+                "    </b2b:processRequest>\n" +
+                "  </soapenv:Body>\n" +
+                "</soapenv:Envelope>";
+
+        try {
+            String responseString = post("http://40.68.208.28:9002/ThirdPartyServiceUMMImpl/UMMServiceService/RequestPayment/v17", soapString);
+            Log.d(TAG, "makeOrder: ####RESPONSE: " + responseString);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.d(TAG, "makeOrder: Server error");
+        }
+
+
+//        ApiInterface apiInterface = ApiClient.getClient(Utils.BASE_URL).create(ApiInterface.class);
+//        //todo remove code
+//        int order_code = 9834;
+//        Order order = new Order(Utils.customer.getId(), cursor.getRouteid(), true, new Date().toString(), order_code);
+//        Call<Order> call = apiInterface.createOrder(order);
+//        call.enqueue(new Callback<Order>() {
+//            @Override
+//            public void onResponse(Call<Order> call, retrofit2.Response<Order> response) {
+//                int statusCode = response.code();
+//                Log.d(TAG, "onResponse: #" + statusCode);
+//                int receiptCode = response.body().getCode();
+//                showComfirmationDialog(receiptCode);
+//                //update data
+//                startService(new Intent(getApplicationContext(), SetUpService.class));
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Order> call, Throwable t) {
+//                Log.d(TAG, "onFailure: " + t.toString());
+//            }
+//        });
+    }
+
+
+    public static final MediaType JSON
+            = MediaType.parse("application/xml; charset=utf-8");
+    OkHttpClient client = new OkHttpClient();
+
+    public String post(String url, String json) throws IOException {
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        RequestBody body = RequestBody.create(JSON, json);
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+            showComfirmationDialog(randInt(100000, 999999));
+            return response.body().string();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "Network failure";
     }
 
     private void showComfirmationDialog(int receiptCode) {

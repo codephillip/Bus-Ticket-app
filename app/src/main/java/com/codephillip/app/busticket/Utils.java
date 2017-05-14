@@ -60,4 +60,10 @@ public class Utils {
                 .error(R.drawable.bus)
                 .into(imageView);
     }
+
+    public static int randInt(int min, int max) {
+        int randomNum = min + (int) (Math.random() * ((max - min) + 1));
+        Log.d("RANDOM", String.valueOf(randomNum));
+        return randomNum;
+    }
 }
