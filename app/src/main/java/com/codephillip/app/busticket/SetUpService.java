@@ -108,6 +108,7 @@ public class SetUpService extends IntentService {
     }
 
     private void loadRoutes() {
+        Log.d(TAG, "loadRoutes: ROUTES FETCHING");
         Call<Routes> call = apiInterface.allRoutes();
         call.enqueue(new Callback<Routes>() {
             @Override
