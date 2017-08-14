@@ -161,7 +161,7 @@ public class SignInActivity extends AppCompatActivity {
         if (success) {
             Utils.customer = new Customer(customers.getCustomers().get(0).getId(), customers.getCustomers().get(0).getName(), customers.getCustomers().get(0).getAddress(), customers.getCustomers().get(0).getPhone());
             //get infor from the server
-            startService(new Intent(this, SetUpService.class));
+//            startService(new Intent(this, SetUpService.class));
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
             finish();
         } else {

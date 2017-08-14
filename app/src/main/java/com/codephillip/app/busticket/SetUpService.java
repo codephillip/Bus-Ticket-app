@@ -58,6 +58,7 @@ public class SetUpService extends IntentService {
         }
 
         try {
+            //todo query orders by user credentials after login
             loadOrders();
         } catch (Exception e) {
             e.printStackTrace();
