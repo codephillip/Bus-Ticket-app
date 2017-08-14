@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity
         Log.d("Navigation bar", "onNavigationItemSelected: " + id);
         Fragment fragment;
 
+        //todo change id names
         if (id == R.id.nav_camera) {
             fragment = SelectRouteFragment.newInstance();
             getSupportActionBar().setTitle(screenNames[0]);

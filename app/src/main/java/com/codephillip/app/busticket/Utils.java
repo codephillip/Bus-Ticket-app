@@ -16,7 +16,7 @@ import com.squareup.picasso.Picasso;
  */
 
 public class Utils {
-    public static final String[] screenNames = {"Make Payment", "Receipts", "History", "Profile"};
+    public static final String[] screenNames = {"Route", "Receipts", "History", "Profile"};
     public static final String ROUTE_CODE = "route_code";
     //local environment
     //use http://10.0.3.2 when using genymotion emulator
