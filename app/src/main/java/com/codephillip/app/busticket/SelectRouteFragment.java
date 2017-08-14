@@ -20,8 +20,13 @@ import android.widget.Toast;
 
 import com.codephillip.app.busticket.provider.locations.LocationsColumns;
 import com.codephillip.app.busticket.provider.locations.LocationsCursor;
+import com.daimajia.slider.library.Animations.DescriptionAnimation;
+import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.BaseSliderView;
+import com.daimajia.slider.library.SliderTypes.TextSliderView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +40,7 @@ public class SelectRouteFragment extends Fragment implements AdapterView.OnItemS
     Map<String, Long> locationsMap = new Hashtable<>();
     private String destination;
     private String source;
+    private SliderLayout mDemoSlider;
 
     public SelectRouteFragment() {
     }
@@ -49,6 +55,8 @@ public class SelectRouteFragment extends Fragment implements AdapterView.OnItemS
         View rootView = inflater.inflate(R.layout.fragment_select_route, container, false);
         destSpinner = (Spinner) rootView.findViewById(R.id.dest_spinner);
         sourceSpinner = (Spinner) rootView.findViewById(R.id.source_spinner);
+        mDemoSlider = (SliderLayout) rootView.findViewById(R.id.slider);
+
         destSpinner.setOnItemSelectedListener(this);
         sourceSpinner.setOnItemSelectedListener(this);
 
@@ -66,6 +74,32 @@ public class SelectRouteFragment extends Fragment implements AdapterView.OnItemS
                 }
             }
         });
+
+
+        //todo make a list of sponsors. query them from the server
+        HashMap<String,String> url_maps = new HashMap<String, String>();
+        url_maps.put("Hannibal", "http://static2.hypable.com/wp-content/uploads/2013/12/hannibal-season-2-release-date.jpg");
+
+        HashMap<String,Integer> file_maps = new HashMap<String, Integer>();
+        file_maps.put("Hannibal",R.drawable.hannibal);
+        file_maps.put("Big Bang Theory",R.drawable.bigbang);
+        file_maps.put("House of Cards",R.drawable.house);
+        file_maps.put("Game of Thrones", R.drawable.game_of_thrones);
+
+        //todo swap with sponsor_urls
+        for(String name : file_maps.keySet()){
+            TextSliderView textSliderView = new TextSliderView(getContext());
+            // initialize a SliderLayout
+            textSliderView
+                    .description(name)
+                    .image(file_maps.get(name))
+                    .setScaleType(BaseSliderView.ScaleType.Fit);
+            mDemoSlider.addSlider(textSliderView);
+        }
+        mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
+        mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+        mDemoSlider.setCustomAnimation(new DescriptionAnimation());
+        mDemoSlider.setDuration(4000);
         return rootView;
     }
 
@@ -73,6 +107,19 @@ public class SelectRouteFragment extends Fragment implements AdapterView.OnItemS
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getLoaderManager().initLoader(2, null, this);
+    }
+
+    @Override
+    public void onStop() {
+        // To prevent a memory leak on rotation, make sure to call stopAutoCycle() on the slider before activity or fragment is destroyed
+        mDemoSlider.stopAutoCycle();
+        super.onStop();
+    }
+
+    @Override
+    public void onStart() {
+        mDemoSlider.startAutoCycle();
+        super.onStart();
     }
 
     @Override

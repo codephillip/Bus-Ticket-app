@@ -54,7 +54,10 @@ public class SignInActivity extends AppCompatActivity {
 //        });
 
         //todo remove on release
-        signInUser("0771234566", "password123");
+//        signInUser("0771234566", "password123");
+
+//        todo remove on release. testing app without data
+        startActivity(new Intent(getApplicationContext(), MainActivity.class));
 
 //        Button mSignInButton = (Button) findViewById(R.id.sign_in_button);
 //        mSignInButton.setOnClickListener(new OnClickListener() {
@@ -140,12 +143,15 @@ public class SignInActivity extends AppCompatActivity {
             public void onResponse(Call<Customers> call, retrofit2.Response<Customers> response) {
                 int statusCode = response.code();
                 Customers customers = response.body();
+                //make server return 400 incase user failed to sign-in(has wrong credentials)
                 processResult((statusCode == HttpsURLConnection.HTTP_ACCEPTED), customers);
             }
 
             @Override
             public void onFailure(Call<Customers> call, Throwable t) {
                 Log.d(TAG, "onFailure: ");
+                passwordView.setError(getString(R.string.error_incorrect_password));
+                passwordView.requestFocus();
             }
         });
     }

@@ -2,32 +2,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="com.codephillip.app.busticket.BookFragment">
 
 
-    <FrameLayout
+    <com.daimajia.slider.library.SliderLayout
+        android:id="@+id/slider"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="-30dp">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@drawable/bus" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-            android:textColor="@android:color/white"
-            android:text="Take a trip of your life"/>
-
-    </FrameLayout>
-
+        custom:pager_animation="Accordion"
+        custom:auto_cycle="true"
+        custom:indicator_visibility="visible"
+        custom:pager_animation_span="1100"
+        android:layout_height="200dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -76,13 +63,13 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/select_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_marginTop="40dp"
         android:background="@color/colorAccent"
-        android:id="@+id/select_button"
         android:text="Select"
         android:textColor="@android:color/white" />
 </LinearLayout>
