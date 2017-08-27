@@ -31,14 +31,14 @@ public interface OrdersModel extends BaseModel {
      * Can be {@code null}.
      */
     @Nullable
-    String getDatecreated();
+    Date getDatecreated();
 
     /**
      * Get the {@code date} value.
      * Can be {@code null}.
      */
     @Nullable
-    String getDate();
+    Date getDate();
 
     /**
      * Get the {@code customer} value.

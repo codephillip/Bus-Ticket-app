@@ -109,8 +109,8 @@ public class RoutesContentValues extends AbstractContentValues {
         return this;
     }
 
-    public RoutesContentValues putArrival(@Nullable String value) {
-        mContentValues.put(RoutesColumns.ARRIVAL, value);
+    public RoutesContentValues putArrival(@Nullable Date value) {
+        mContentValues.put(RoutesColumns.ARRIVAL, value == null ? null : value.getTime());
         return this;
     }
 
@@ -119,13 +119,23 @@ public class RoutesContentValues extends AbstractContentValues {
         return this;
     }
 
-    public RoutesContentValues putDeparture(@Nullable String value) {
-        mContentValues.put(RoutesColumns.DEPARTURE, value);
+    public RoutesContentValues putArrival(@Nullable Long value) {
+        mContentValues.put(RoutesColumns.ARRIVAL, value);
+        return this;
+    }
+
+    public RoutesContentValues putDeparture(@Nullable Date value) {
+        mContentValues.put(RoutesColumns.DEPARTURE, value == null ? null : value.getTime());
         return this;
     }
 
     public RoutesContentValues putDepartureNull() {
         mContentValues.putNull(RoutesColumns.DEPARTURE);
+        return this;
+    }
+
+    public RoutesContentValues putDeparture(@Nullable Long value) {
+        mContentValues.put(RoutesColumns.DEPARTURE, value);
         return this;
     }
 }

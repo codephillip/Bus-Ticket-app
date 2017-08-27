@@ -37,8 +37,8 @@ public class BusTicketSQLiteOpenHelper extends SQLiteOpenHelper {
             + OrdersColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + OrdersColumns.CODE + " TEXT, "
             + OrdersColumns.VALID + " INTEGER, "
-            + OrdersColumns.DATECREATED + " TEXT, "
-            + OrdersColumns.DATE + " TEXT, "
+            + OrdersColumns.DATECREATED + " INTEGER, "
+            + OrdersColumns.DATE + " INTEGER, "
             + OrdersColumns.CUSTOMER + " TEXT, "
             + OrdersColumns.ROUTE + " TEXT "
             + " );";
@@ -53,8 +53,8 @@ public class BusTicketSQLiteOpenHelper extends SQLiteOpenHelper {
             + RoutesColumns.BUSCOMPANYNAME + " TEXT, "
             + RoutesColumns.BUSCOMPANYIMAGE + " TEXT, "
             + RoutesColumns.PRICE + " INTEGER, "
-            + RoutesColumns.ARRIVAL + " TEXT, "
-            + RoutesColumns.DEPARTURE + " TEXT "
+            + RoutesColumns.ARRIVAL + " INTEGER, "
+            + RoutesColumns.DEPARTURE + " INTEGER "
             + " );";
 
     // @formatter:on

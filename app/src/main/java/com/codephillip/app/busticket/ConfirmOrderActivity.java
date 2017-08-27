@@ -61,10 +61,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         Utils.getInstance();
 
         pd = new ProgressDialog(this);
-
-
         toolbarImage = (ImageView) findViewById(R.id.image);
-
         company = (TextView) findViewById(R.id.company_view);
         source = (TextView) findViewById(R.id.source_view);
         destination = (TextView) findViewById(R.id.dest_view);
@@ -85,8 +82,8 @@ public class ConfirmOrderActivity extends AppCompatActivity {
             company.setText(cursor.getBuscompanyname());
             source.setText(cursor.getSource());
             destination.setText(cursor.getDestination());
-            arrival.setText(cursor.getArrival());
-            departure.setText(cursor.getDeparture());
+            arrival.setText(cursor.getArrival().toString());
+            departure.setText(cursor.getDeparture().toString());
             price.setText(String.valueOf(cursor.getPrice()));
             picassoLoader(this, toolbarImage, cursor.getBuscompanyimage());
         } catch (Exception e) {

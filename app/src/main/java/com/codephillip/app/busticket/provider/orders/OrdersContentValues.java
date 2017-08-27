@@ -59,8 +59,8 @@ public class OrdersContentValues extends AbstractContentValues {
         return this;
     }
 
-    public OrdersContentValues putDatecreated(@Nullable String value) {
-        mContentValues.put(OrdersColumns.DATECREATED, value);
+    public OrdersContentValues putDatecreated(@Nullable Date value) {
+        mContentValues.put(OrdersColumns.DATECREATED, value == null ? null : value.getTime());
         return this;
     }
 
@@ -69,13 +69,23 @@ public class OrdersContentValues extends AbstractContentValues {
         return this;
     }
 
-    public OrdersContentValues putDate(@Nullable String value) {
-        mContentValues.put(OrdersColumns.DATE, value);
+    public OrdersContentValues putDatecreated(@Nullable Long value) {
+        mContentValues.put(OrdersColumns.DATECREATED, value);
+        return this;
+    }
+
+    public OrdersContentValues putDate(@Nullable Date value) {
+        mContentValues.put(OrdersColumns.DATE, value == null ? null : value.getTime());
         return this;
     }
 
     public OrdersContentValues putDateNull() {
         mContentValues.putNull(OrdersColumns.DATE);
+        return this;
+    }
+
+    public OrdersContentValues putDate(@Nullable Long value) {
+        mContentValues.put(OrdersColumns.DATE, value);
         return this;
     }
 

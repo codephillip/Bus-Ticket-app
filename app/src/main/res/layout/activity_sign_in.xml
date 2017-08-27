@@ -30,23 +30,33 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <!--todo add image view above the input fields-->
+            <!--<ImageView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="250dp"-->
+                <!--android:layout_marginTop="@dimen/activity_vertical_margin"-->
+                <!--android:src="@drawable/logo" />-->
+
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin">
+
                 <EditText
                     android:id="@+id/phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_phoneNumber"
                     android:inputType="phone"
-                    android:maxLines="1"
                     android:maxLength="10"
+                    android:maxLines="1"
                     android:singleLine="true" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <EditText
                     android:id="@+id/password"
                     android:layout_width="match_parent"
@@ -66,19 +76,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:textColor="@android:color/white"
                 android:background="@android:color/darker_gray"
                 android:text="@string/register"
+                android:textColor="@android:color/white"
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/create_account"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Create an account"
-                android:layout_marginTop="8dp"
                 android:layout_gravity="center"
-                android:textColor="@color/colorAccent"
-                android:id="@+id/create_account"/>
+                android:layout_marginTop="8dp"
+                android:text="Create an account"
+                android:textColor="@color/colorAccent" />
 
         </LinearLayout>
     </ScrollView>

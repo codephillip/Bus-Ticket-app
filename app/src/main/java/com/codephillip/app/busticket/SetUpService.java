@@ -20,6 +20,7 @@ import com.codephillip.app.busticket.provider.routes.RoutesContentValues;
 import com.codephillip.app.busticket.retrofit.ApiClient;
 import com.codephillip.app.busticket.retrofit.ApiInterface;
 
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -39,11 +40,12 @@ public class SetUpService extends IntentService {
         Log.d(TAG, "onHandleIntent: started service");
         apiInterface = ApiClient.getClient(Utils.BASE_URL).create(ApiInterface.class);
 
-        try {
-            deleteData();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        //todo activate on launch
+//        try {
+//            deleteData();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
         try {
             loadLocations();
@@ -140,8 +142,9 @@ public class SetUpService extends IntentService {
             values.putSource(route.getSource());
             values.putDestination(route.getDestination());
             values.putPrice(route.getPrice());
-            values.putDeparture(route.getDeparture());
-            values.putArrival(route.getArrival());
+            //todo get correct date from server
+            values.putDeparture(new Date());
+            values.putArrival(new Date());
             values.putBuscompanyname(route.getBus().getBusCompany().getName());
             values.putBuscompanyimage(route.getBus().getBusCompany().getImage());
             final Uri uri = values.insert(getContentResolver());
@@ -178,7 +181,8 @@ public class SetUpService extends IntentService {
             values.putValid(order.getValid());
             values.putRoute(String.valueOf(order.getRoute()));
             values.putCustomer(String.valueOf(order.getCustomer()));
-            values.putDate(order.getDate());
+            //todo get correct date from server
+            values.putDate(new Date());
             final Uri uri = values.insert(getContentResolver());
             Log.d("INSERT: ", "inserting" + uri.toString());
         }

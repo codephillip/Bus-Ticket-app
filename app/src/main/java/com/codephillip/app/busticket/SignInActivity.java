@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,38 +39,36 @@ public class SignInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //todo activate sign in
-//        setContentView(R.layout.activity_sign_in);
-        //splash screen
-        setContentView(R.layout.splash_screen);
-        Utils.getInstance();
-//        phoneView = (EditText) findViewById(phone);
-//        passwordView = (EditText) findViewById(R.id.password);
-//
-//        createAccountView = (TextView) findViewById(R.id.create_account);
-//        createAccountView.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                startActivity(new Intent(getApplicationContext(), SignUpActivity.class));
-//            }
-//        });
+        setContentView(R.layout.activity_sign_in);
+        phoneView = (EditText) findViewById(R.id.phone);
+        passwordView = (EditText) findViewById(R.id.password);
+
+        createAccountView = (TextView) findViewById(R.id.create_account);
+        createAccountView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), SignUpActivity.class));
+            }
+        });
 
         //todo remove on release
 //        signInUser("0771234566", "password123");
 
+        Log.d(TAG, "onCreate: auto start main activity#");
 //        todo remove on release. testing app without data
         startActivity(new Intent(getApplicationContext(), MainActivity.class));
 
-//        Button mSignInButton = (Button) findViewById(R.id.sign_in_button);
-//        mSignInButton.setOnClickListener(new OnClickListener() {
-//            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-//            @Override
-//            public void onClick(View view) {
-//                attemptLogin();
-//            }
-//        });
-//
-//        loginFormView = findViewById(R.id.login_form);
-//        progressView = findViewById(R.id.login_progress);
+        Button mSignInButton = (Button) findViewById(R.id.sign_in_button);
+        mSignInButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+            @Override
+            public void onClick(View view) {
+                attemptLogin();
+            }
+        });
+
+        loginFormView = findViewById(R.id.login_form);
+        progressView = findViewById(R.id.login_progress);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)

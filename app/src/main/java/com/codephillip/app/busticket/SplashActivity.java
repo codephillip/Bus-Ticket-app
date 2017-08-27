@@ -14,25 +14,28 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_screen);
 
-        if (Utils.isConnectedToInternet(this)) {
-            startService(new Intent(this, SetUpService.class));
-        }
+        //todo activate setup service
+//        if (Utils.isConnectedToInternet(this)) {
+//            startService(new Intent(this, SetUpService.class));
+//        }
 
-        //todo check if service has finished.
+        //todo check if service has finished. use broadcast
         //then end animation and move to sign in screen
         //or directly get credentials and move to main activity
 
 
         final int animTime = getResources().getInteger(android.R.integer.config_mediumAnimTime);
         final ImageView logo = (ImageView) findViewById(R.id.imageView2);
-        while (true) {
+        //todo add animation
+//        while (true) {
             logo.animate().setDuration(animTime).alpha(1).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
+                    startActivity(new Intent(getApplicationContext(), SignInActivity.class));
 //                    logo.animate().setDuration(animTime).alpha(0);
                 }
             });
-        }
+//        }
 
     }
 }

@@ -66,12 +66,12 @@ public interface RoutesModel extends BaseModel {
      * Can be {@code null}.
      */
     @Nullable
-    String getArrival();
+    Date getArrival();
 
     /**
      * Get the {@code departure} value.
      * Can be {@code null}.
      */
     @Nullable
-    String getDeparture();
+    Date getDeparture();
 }

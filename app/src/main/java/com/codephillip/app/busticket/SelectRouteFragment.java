@@ -87,6 +87,7 @@ public class SelectRouteFragment extends Fragment implements AdapterView.OnItemS
         file_maps.put("Game of Thrones", R.drawable.game_of_thrones);
 
         //todo swap with sponsor_urls
+        //todo fix the out of memory exception. doing too much work on its main thread
         for(String name : file_maps.keySet()){
             TextSliderView textSliderView = new TextSliderView(getContext());
             // initialize a SliderLayout

@@ -133,33 +133,38 @@ public class OrdersSelection extends AbstractSelection<OrdersSelection> {
         return this;
     }
 
-    public OrdersSelection datecreated(String... value) {
+    public OrdersSelection datecreated(Date... value) {
         addEquals(OrdersColumns.DATECREATED, value);
         return this;
     }
 
-    public OrdersSelection datecreatedNot(String... value) {
+    public OrdersSelection datecreatedNot(Date... value) {
         addNotEquals(OrdersColumns.DATECREATED, value);
         return this;
     }
 
-    public OrdersSelection datecreatedLike(String... value) {
-        addLike(OrdersColumns.DATECREATED, value);
+    public OrdersSelection datecreated(Long... value) {
+        addEquals(OrdersColumns.DATECREATED, value);
         return this;
     }
 
-    public OrdersSelection datecreatedContains(String... value) {
-        addContains(OrdersColumns.DATECREATED, value);
+    public OrdersSelection datecreatedAfter(Date value) {
+        addGreaterThan(OrdersColumns.DATECREATED, value);
         return this;
     }
 
-    public OrdersSelection datecreatedStartsWith(String... value) {
-        addStartsWith(OrdersColumns.DATECREATED, value);
+    public OrdersSelection datecreatedAfterEq(Date value) {
+        addGreaterThanOrEquals(OrdersColumns.DATECREATED, value);
         return this;
     }
 
-    public OrdersSelection datecreatedEndsWith(String... value) {
-        addEndsWith(OrdersColumns.DATECREATED, value);
+    public OrdersSelection datecreatedBefore(Date value) {
+        addLessThan(OrdersColumns.DATECREATED, value);
+        return this;
+    }
+
+    public OrdersSelection datecreatedBeforeEq(Date value) {
+        addLessThanOrEquals(OrdersColumns.DATECREATED, value);
         return this;
     }
 
@@ -173,33 +178,38 @@ public class OrdersSelection extends AbstractSelection<OrdersSelection> {
         return this;
     }
 
-    public OrdersSelection date(String... value) {
+    public OrdersSelection date(Date... value) {
         addEquals(OrdersColumns.DATE, value);
         return this;
     }
 
-    public OrdersSelection dateNot(String... value) {
+    public OrdersSelection dateNot(Date... value) {
         addNotEquals(OrdersColumns.DATE, value);
         return this;
     }
 
-    public OrdersSelection dateLike(String... value) {
-        addLike(OrdersColumns.DATE, value);
+    public OrdersSelection date(Long... value) {
+        addEquals(OrdersColumns.DATE, value);
         return this;
     }
 
-    public OrdersSelection dateContains(String... value) {
-        addContains(OrdersColumns.DATE, value);
+    public OrdersSelection dateAfter(Date value) {
+        addGreaterThan(OrdersColumns.DATE, value);
         return this;
     }
 
-    public OrdersSelection dateStartsWith(String... value) {
-        addStartsWith(OrdersColumns.DATE, value);
+    public OrdersSelection dateAfterEq(Date value) {
+        addGreaterThanOrEquals(OrdersColumns.DATE, value);
         return this;
     }
 
-    public OrdersSelection dateEndsWith(String... value) {
-        addEndsWith(OrdersColumns.DATE, value);
+    public OrdersSelection dateBefore(Date value) {
+        addLessThan(OrdersColumns.DATE, value);
+        return this;
+    }
+
+    public OrdersSelection dateBeforeEq(Date value) {
+        addLessThanOrEquals(OrdersColumns.DATE, value);
         return this;
     }
 

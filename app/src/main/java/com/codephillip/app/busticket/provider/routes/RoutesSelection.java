@@ -358,33 +358,38 @@ public class RoutesSelection extends AbstractSelection<RoutesSelection> {
         return this;
     }
 
-    public RoutesSelection arrival(String... value) {
+    public RoutesSelection arrival(Date... value) {
         addEquals(RoutesColumns.ARRIVAL, value);
         return this;
     }
 
-    public RoutesSelection arrivalNot(String... value) {
+    public RoutesSelection arrivalNot(Date... value) {
         addNotEquals(RoutesColumns.ARRIVAL, value);
         return this;
     }
 
-    public RoutesSelection arrivalLike(String... value) {
-        addLike(RoutesColumns.ARRIVAL, value);
+    public RoutesSelection arrival(Long... value) {
+        addEquals(RoutesColumns.ARRIVAL, value);
         return this;
     }
 
-    public RoutesSelection arrivalContains(String... value) {
-        addContains(RoutesColumns.ARRIVAL, value);
+    public RoutesSelection arrivalAfter(Date value) {
+        addGreaterThan(RoutesColumns.ARRIVAL, value);
         return this;
     }
 
-    public RoutesSelection arrivalStartsWith(String... value) {
-        addStartsWith(RoutesColumns.ARRIVAL, value);
+    public RoutesSelection arrivalAfterEq(Date value) {
+        addGreaterThanOrEquals(RoutesColumns.ARRIVAL, value);
         return this;
     }
 
-    public RoutesSelection arrivalEndsWith(String... value) {
-        addEndsWith(RoutesColumns.ARRIVAL, value);
+    public RoutesSelection arrivalBefore(Date value) {
+        addLessThan(RoutesColumns.ARRIVAL, value);
+        return this;
+    }
+
+    public RoutesSelection arrivalBeforeEq(Date value) {
+        addLessThanOrEquals(RoutesColumns.ARRIVAL, value);
         return this;
     }
 
@@ -398,33 +403,38 @@ public class RoutesSelection extends AbstractSelection<RoutesSelection> {
         return this;
     }
 
-    public RoutesSelection departure(String... value) {
+    public RoutesSelection departure(Date... value) {
         addEquals(RoutesColumns.DEPARTURE, value);
         return this;
     }
 
-    public RoutesSelection departureNot(String... value) {
+    public RoutesSelection departureNot(Date... value) {
         addNotEquals(RoutesColumns.DEPARTURE, value);
         return this;
     }
 
-    public RoutesSelection departureLike(String... value) {
-        addLike(RoutesColumns.DEPARTURE, value);
+    public RoutesSelection departure(Long... value) {
+        addEquals(RoutesColumns.DEPARTURE, value);
         return this;
     }
 
-    public RoutesSelection departureContains(String... value) {
-        addContains(RoutesColumns.DEPARTURE, value);
+    public RoutesSelection departureAfter(Date value) {
+        addGreaterThan(RoutesColumns.DEPARTURE, value);
         return this;
     }
 
-    public RoutesSelection departureStartsWith(String... value) {
-        addStartsWith(RoutesColumns.DEPARTURE, value);
+    public RoutesSelection departureAfterEq(Date value) {
+        addGreaterThanOrEquals(RoutesColumns.DEPARTURE, value);
         return this;
     }
 
-    public RoutesSelection departureEndsWith(String... value) {
-        addEndsWith(RoutesColumns.DEPARTURE, value);
+    public RoutesSelection departureBefore(Date value) {
+        addLessThan(RoutesColumns.DEPARTURE, value);
+        return this;
+    }
+
+    public RoutesSelection departureBeforeEq(Date value) {
+        addLessThanOrEquals(RoutesColumns.DEPARTURE, value);
         return this;
     }
 

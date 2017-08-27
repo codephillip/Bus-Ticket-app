@@ -51,8 +51,8 @@ public class OrdersCursor extends AbstractCursor implements OrdersModel {
      * Can be {@code null}.
      */
     @Nullable
-    public String getDatecreated() {
-        String res = getStringOrNull(OrdersColumns.DATECREATED);
+    public Date getDatecreated() {
+        Date res = getDateOrNull(OrdersColumns.DATECREATED);
         return res;
     }
 
@@ -61,8 +61,8 @@ public class OrdersCursor extends AbstractCursor implements OrdersModel {
      * Can be {@code null}.
      */
     @Nullable
-    public String getDate() {
-        String res = getStringOrNull(OrdersColumns.DATE);
+    public Date getDate() {
+        Date res = getDateOrNull(OrdersColumns.DATE);
         return res;
     }
 

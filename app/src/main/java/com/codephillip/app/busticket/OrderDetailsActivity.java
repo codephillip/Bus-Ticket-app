@@ -81,8 +81,8 @@ public class OrderDetailsActivity extends AppCompatActivity {
             company.setText(routesCursor.getBuscompanyname());
             source.setText(routesCursor.getSource());
             destination.setText(routesCursor.getDestination());
-            arrival.setText(routesCursor.getArrival());
-            departure.setText(routesCursor.getDeparture());
+            arrival.setText(routesCursor.getArrival().toString());
+            departure.setText(routesCursor.getDeparture().toString());
             price.setText(String.valueOf(routesCursor.getPrice()));
             Log.d(TAG, "onCreate: " + routesCursor.getBuscompanyimage());
             picassoLoader(this, toolbarImage, routesCursor.getBuscompanyimage());
