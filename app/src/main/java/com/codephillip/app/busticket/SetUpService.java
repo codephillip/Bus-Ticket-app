@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 
+import com.codephillip.app.busticket.broadcasts.MyReceiver;
 import com.codephillip.app.busticket.mymodels.Location;
 import com.codephillip.app.busticket.mymodels.Locations;
 import com.codephillip.app.busticket.mymodels.Order;
@@ -186,5 +187,13 @@ public class SetUpService extends IntentService {
             final Uri uri = values.insert(getContentResolver());
             Log.d("INSERT: ", "inserting" + uri.toString());
         }
+        startBroadcast();
+    }
+
+    private void startBroadcast() {
+        // send broadcast to start MainActivity after all server request are complete
+        Log.d(TAG, "onHandleIntent: start broadcast");
+        Intent mainIntent = new Intent(getApplicationContext(), MyReceiver.class);
+        sendBroadcast(mainIntent);
     }
 }

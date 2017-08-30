@@ -1,33 +1,35 @@
 package com.codephillip.app.busticket;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.wang.avi.AVLoadingIndicatorView;
-
 public class SplashActivity extends AppCompatActivity {
 
-    private AVLoadingIndicatorView animation;
+    private static final String TAG = SplashActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_screen);
 
-        //todo activate setup service
-//        if (Utils.isConnectedToInternet(this)) {
-//            startService(new Intent(this, SetUpService.class));
-//        }
-
-        //todo check if service has finished. use broadcast
-        //then end animation and move to sign in screen
-        //or directly get credentials and move to main activity
-
+        // start animation
         lineScaleLoaderExample();
+
+        if (Utils.isConnectedToInternet(SplashActivity.this)) {
+            startService(new Intent(getApplicationContext(), SetUpService.class));
+        }
     }
 
     private void lineScaleLoaderExample() {
         findViewById(R.id.material_design_linear_scale_progress_loader).setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // prevent activity from surfacing when MainActivity is started
+        finish();
     }
 }

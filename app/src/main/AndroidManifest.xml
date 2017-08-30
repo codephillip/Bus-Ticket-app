@@ -46,8 +46,7 @@
         <activity
             android:name=".SignInActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".BookActivity"
             android:label="@string/title_activity_book"
@@ -56,6 +55,7 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.codephillip.app.busticket.MainActivity" />
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
@@ -69,12 +69,19 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.codephillip.app.busticket.MainActivity" />
         </activity>
-        <activity android:name=".SplashActivity">
+        <activity
+            android:name=".SplashActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver
+            android:name=".broadcasts.MyReceiver"
+            android:enabled="true" />
     </application>
 
 </manifest>
