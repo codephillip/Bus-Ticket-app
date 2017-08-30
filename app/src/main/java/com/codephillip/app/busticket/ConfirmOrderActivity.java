@@ -8,6 +8,7 @@ import android.database.CursorIndexOutOfBoundsException;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +18,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.codephillip.app.busticket.adapters.SeatGridAdapter;
@@ -34,7 +37,7 @@ import okhttp3.Response;
 import static com.codephillip.app.busticket.Utils.picassoLoader;
 import static com.codephillip.app.busticket.Utils.randInt;
 
-public class ConfirmOrderActivity extends AppCompatActivity {
+public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridAdapter.ItemClickListener {
 
     private static final String TAG = ConfirmOrderActivity.class.getSimpleName();
     private Button orderButton;
@@ -50,6 +53,8 @@ public class ConfirmOrderActivity extends AppCompatActivity {
     private TextView price;
     final RoutesCursor cursor = new RoutesCursor(Utils.cursor);
     private ProgressDialog pd;
+    private LinearLayout linearLayout;
+    private NestedScrollView scrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +65,9 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Utils.getInstance();
 
+        Log.i("TAG", "setup ############");
+
+
         pd = new ProgressDialog(this);
         toolbarImage = (ImageView) findViewById(R.id.image);
         company = (TextView) findViewById(R.id.company_view);
@@ -68,6 +76,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         arrival = (TextView) findViewById(R.id.arrival_view);
         departure = (TextView) findViewById(R.id.departure_view);
         price = (TextView) findViewById(R.id.price_view);
+        scrollView = (NestedScrollView) findViewById(R.id.scroll_view);
 
         try {
             final int cursorPosition = getIntent().getIntExtra(Utils.CURSOR_POSITION, 0);
@@ -112,7 +121,15 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
         gridAdapter = new SeatGridAdapter(this);
+        gridAdapter.setClickListener(this);
         recyclerView.setAdapter(gridAdapter);
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        // scroll to bottom of the recycler view when user selects a seat
+        Log.d(TAG, "onCreate: adding onclick");
+        scrollView.fullScroll(ScrollView.FOCUS_DOWN);
     }
 
     private void makeOrder() {

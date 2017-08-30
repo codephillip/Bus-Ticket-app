@@ -24,8 +24,8 @@ public class SeatGridAdapter extends RecyclerView.Adapter<SeatGridAdapter.ViewHo
     private LayoutInflater mInflater;
     private static Context context;
     private boolean hasBooked = false;
+    private ItemClickListener mClickListener;
 
-    // hymns is passed into the constructor
     public SeatGridAdapter(Context context) {
         Log.d(TAG, "SeatGridAdapter: ATTACHED");
         this.mInflater = LayoutInflater.from(context);
@@ -53,17 +53,20 @@ public class SeatGridAdapter extends RecyclerView.Adapter<SeatGridAdapter.ViewHo
         return viewHolder;
     }
 
-    // binds the hymns to the textview in each cell
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
 //        cursor.moveToPosition(position);
         holder.seatNumberText.setText(String.valueOf(position + 1));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 changeSeatColourWhenBooked(holder.seatView, holder.seatNumberText);
+                if (mClickListener != null)
+                    mClickListener.onItemClick(view, position);
             }
         });
+        //todo replace with actual number of seats available
+        //randomly place booked seats
         changeSeatColourRandomly(holder.seatView, holder.seatNumberText);
     }
 
@@ -95,6 +98,16 @@ public class SeatGridAdapter extends RecyclerView.Adapter<SeatGridAdapter.ViewHo
     public int getItemCount() {
 //        return cursor.getCount();
         return 20;
+    }
+
+    // allows clicks events to be caught
+    public void setClickListener(ItemClickListener itemClickListener) {
+        this.mClickListener = itemClickListener;
+    }
+
+    // parent activity will implement this method to respond to click events
+    public interface ItemClickListener {
+        void onItemClick(View view, int position);
     }
 
     private void saveSeatNumber(String seatNumber) {

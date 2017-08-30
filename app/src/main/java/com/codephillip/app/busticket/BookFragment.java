@@ -17,16 +17,17 @@ import com.codephillip.app.busticket.provider.routes.RoutesCursor;
 import com.codephillip.app.busticket.provider.routes.RoutesSelection;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class BookFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
     private static final String TAG = BookFragment.class.getSimpleName();
-    Spinner spinner;
-    RecyclerView recyclerView;
-    public BookAdapter adapter;
-    List<String> categories = new ArrayList<>();
+    private Spinner spinner, spinner2;
+    private RecyclerView recyclerView;
+    private BookAdapter adapter;
+    private List<String> categories = new ArrayList<>();
+    //category package is set according to which category is selected
+    private List<String> categoryPackages = new ArrayList<>();
 
     public BookFragment() {
     }
@@ -41,6 +42,8 @@ public class BookFragment extends Fragment implements AdapterView.OnItemSelected
         View rootView = inflater.inflate(R.layout.fragment_book, container, false);
         spinner = (Spinner) rootView.findViewById(R.id.spinner);
         spinner.setOnItemSelectedListener(this);
+        spinner2 = (Spinner) rootView.findViewById(R.id.spinner2);
+        spinner2.setOnItemSelectedListener(this);
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler);
         recyclerView.setHasFixedSize(true);
@@ -48,12 +51,22 @@ public class BookFragment extends Fragment implements AdapterView.OnItemSelected
         adapter = new BookAdapter(getContext(), queryRoutesTable());
         recyclerView.setAdapter(adapter);
 
+        initializeSpinners();
+        return rootView;
+    }
+
+    private void initializeSpinners() {
         categories.add("Price");
         categories.add("Date");
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, categories);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);
-        return rootView;
+        
+        categoryPackages.add("20000");
+        categoryPackages.add("30000");
+        ArrayAdapter<String> dataAdapter2 = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, categoryPackages);
+        dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner2.setAdapter(dataAdapter2);
     }
 
     private RoutesCursor queryRoutesTable() {
@@ -69,34 +82,12 @@ public class BookFragment extends Fragment implements AdapterView.OnItemSelected
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String item = parent.getItemAtPosition(position).toString();
+        Log.d(TAG, "onItemSelected: item#" + item);
+        Log.d(TAG, "onItemSelected: id#" + view.getId());
+//        Log.d(TAG, "onItemSelected: parent id#" + parent.get);
+        Log.d(TAG, "onItemSelected: position#" + position);
+        Log.d(TAG, "onItemSelected: id#" + id);
 
-        RoutesCursor routesCursor = null;
-        if (item.equals(categories.get(0))) {
-            //query by price
-            routesCursor = new RoutesSelection()
-                    .source(getActivity().getIntent().getStringExtra(Utils.SOURCE))
-                    .and()
-                    .destination(getActivity().getIntent().getStringExtra(Utils.DESTINATION))
-                    .and()
-                    //todo grap price from second spinner
-                    .priceLtEq(30000)
-                    .query(getContext().getContentResolver());
-        } else if (item.equals(categories.get(1))) {
-            //query by date
-            routesCursor = new RoutesSelection()
-                    .source(getActivity().getIntent().getStringExtra(Utils.SOURCE))
-                    .and()
-                    .destination(getActivity().getIntent().getStringExtra(Utils.DESTINATION))
-                    .and()
-                    //todo grap date from second spinner
-                    .departureBeforeEq(new Date())
-                    .query(getContext().getContentResolver());
-        } else {
-            routesCursor = queryRoutesTable();
-        }
-
-        adapter = new BookAdapter(getContext(), routesCursor);
-        recyclerView.setAdapter(adapter);
     }
 
     @Override
