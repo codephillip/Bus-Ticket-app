@@ -109,6 +109,7 @@ public class Utils {
             "    </b2b:processRequest>\n" +
             "  </soapenv:Body>\n" +
             "</soapenv:Envelope>";
+    public static final String MM_URL = "http://40.68.208.28:9002/ThirdPartyServiceUMMImpl/UMMServiceService/RequestPayment/v17";
 
 
     public static Utils getInstance() {

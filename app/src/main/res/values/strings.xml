@@ -30,4 +30,6 @@
     <string name="title_activity_book">Choose</string>
     <string name="error">Error</string>
     <string name="receipt">RECEIPT</string>
+    <string name="cancel">CANCEL</string>
+    <string name="proceed">PROCEED</string>
 </resources>
