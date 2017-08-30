@@ -11,6 +11,9 @@ import android.widget.ImageView;
 import com.codephillip.app.busticket.mymodels.Customer;
 import com.squareup.picasso.Picasso;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Created by codephillip on 12/05/17.
  */
@@ -34,6 +37,74 @@ public class Utils {
     public static boolean HISTROY_FRAG_ACTIVE = false;
     public static Cursor cursor;
     public static Customer customer;
+    // airtel and mtn valid numbers only
+    public static final String PHONE_PATTERN = "^((07)+(0|5|7|8)[0-9]{7})$";
+    public static final String PASSWORD_PATTERN = "^[_A-Za-z0-9-\\+].{7,}$";
+    public static final String MM_CODE_PATTERN = "^\\d{4}$";
+
+    public static String soapString = "<?xml version=\"1.0\"?>\n" +
+            "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:b2b=\"http://b2b.mobilemoney.mtn.zm_v1.0\">\n" +
+            "  <soapenv:Header>\n" +
+            "    <RequestSOAPHeader xmlns=\"http://www.huawei.com.cn/schema/common/v2_1\">\n" +
+            "      <spId>2560110004776</spId>\n" +
+            "      <spPassword>BD3B1BB8B4822636B7520B96C4A568C7</spPassword>\n" +
+            "      <bundleID/>\n" +
+            "      <serviceId/>\n" +
+            "      <timeStamp>20170503144638</timeStamp>\n" +
+            "    </RequestSOAPHeader>\n" +
+            "  </soapenv:Header>\n" +
+            "  <soapenv:Body>\n" +
+            "    <b2b:processRequest>\n" +
+            "      <serviceId>200</serviceId>\n" +
+            "      <parameter>\n" +
+            "        <name>DueAmount</name>\n" +
+            "        <value>500</value>\n" +
+            "      </parameter>\n" +
+            "      <parameter>\n" +
+            "        <name>MSISDNNum</name>\n" +
+            "        <value>256789900760</value>\n" +
+            "      </parameter>\n" +
+            "      <parameter>\n" +
+            "        <name>ProcessingNumber</name>\n" +
+            "        <!-- generate random java value -->\n" +
+            "        <value>%s</value>\n" +
+            "      </parameter>\n" +
+            "      <parameter>\n" +
+            "        <name>serviceId</name>\n" +
+            "        <value>appchallenge3.sp</value>\n" +
+            "      </parameter>\n" +
+            "      <parameter>\n" +
+            "        <name>AcctRef</name>\n" +
+            "         <value>101</value>\n" +
+            "      </parameter>\n" +
+            "      <parameter>\n" +
+            "        <name>AcctBalance</name>\n" +
+            "        <value>300000</value>\n" +
+            "      </parameter>\n" +
+            "      <parameter>\n" +
+            "        <name>MinDueAmount</name>\n" +
+            "        <value>200</value>\n" +
+            "      </parameter>\n" +
+            "      <parameter>\n" +
+            "        <name>Narration</name>\n" +
+            "        <value>You have made payment for a bus ticket</value>\n" +
+            "      </parameter>\n" +
+            "      <parameter>\n" +
+            "        <name>PrefLang</name>\n" +
+            "        <value>en</value>\n" +
+            "      </parameter>\n" +
+            "      <parameter>\n" +
+            "        <name>OpCoID</name>\n" +
+            "        <value>25601</value>\n" +
+            "      </parameter>\n" +
+            "      <parameter>\n" +
+            "        <name>CurrCode</name>\n" +
+            "        <value>UGX</value>\n" +
+            "      </parameter>\n" +
+            "    </b2b:processRequest>\n" +
+            "  </soapenv:Body>\n" +
+            "</soapenv:Envelope>";
+
 
     public static Utils getInstance() {
         return ourInstance;
@@ -65,5 +136,11 @@ public class Utils {
         int randomNum = min + (int) (Math.random() * ((max - min) + 1));
         Log.d("RANDOM", String.valueOf(randomNum));
         return randomNum;
+    }
+
+    public static boolean validateData(final String text, final String PATTERN) {
+        Pattern pattern = Pattern.compile(PATTERN);
+        Matcher matcher = pattern.matcher(text);
+        return matcher.matches();
     }
 }

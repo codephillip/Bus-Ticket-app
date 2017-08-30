@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.codephillip.app.busticket.adapters.SeatGridAdapter;
 import com.codephillip.app.busticket.provider.routes.RoutesCursor;
@@ -34,8 +35,11 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import static com.codephillip.app.busticket.Utils.MM_CODE_PATTERN;
+import static com.codephillip.app.busticket.Utils.PHONE_PATTERN;
 import static com.codephillip.app.busticket.Utils.picassoLoader;
 import static com.codephillip.app.busticket.Utils.randInt;
+import static com.codephillip.app.busticket.Utils.validateData;
 
 public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridAdapter.ItemClickListener {
 
@@ -64,9 +68,6 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Utils.getInstance();
-
-        Log.i("TAG", "setup ############");
-
 
         pd = new ProgressDialog(this);
         toolbarImage = (ImageView) findViewById(R.id.image);
@@ -134,76 +135,13 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
 
     private void makeOrder() {
         Log.d(TAG, "makeOrder: making order");
-
-        String soapString = "<?xml version=\"1.0\"?>\n" +
-                "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:b2b=\"http://b2b.mobilemoney.mtn.zm_v1.0\">\n" +
-                "  <soapenv:Header>\n" +
-                "    <RequestSOAPHeader xmlns=\"http://www.huawei.com.cn/schema/common/v2_1\">\n" +
-                "      <spId>2560110004776</spId>\n" +
-                "      <spPassword>BD3B1BB8B4822636B7520B96C4A568C7</spPassword>\n" +
-                "      <bundleID/>\n" +
-                "      <serviceId/>\n" +
-                "      <timeStamp>20170503144638</timeStamp>\n" +
-                "    </RequestSOAPHeader>\n" +
-                "  </soapenv:Header>\n" +
-                "  <soapenv:Body>\n" +
-                "    <b2b:processRequest>\n" +
-                "      <serviceId>200</serviceId>\n" +
-                "      <parameter>\n" +
-                "        <name>DueAmount</name>\n" +
-                "        <value>500</value>\n" +
-                "      </parameter>\n" +
-                "      <parameter>\n" +
-                "        <name>MSISDNNum</name>\n" +
-                "        <value>256789900760</value>\n" +
-                "      </parameter>\n" +
-                "      <parameter>\n" +
-                "        <name>ProcessingNumber</name>\n" +
-                "        <!-- generate random java value -->\n" +
-                "        <value>" + UUID.randomUUID().toString() + "</value>\n" +
-                "      </parameter>\n" +
-                "      <parameter>\n" +
-                "        <name>serviceId</name>\n" +
-                "        <value>appchallenge3.sp</value>\n" +
-                "      </parameter>\n" +
-                "      <parameter>\n" +
-                "        <name>AcctRef</name>\n" +
-                "         <value>101</value>\n" +
-                "      </parameter>\n" +
-                "      <parameter>\n" +
-                "        <name>AcctBalance</name>\n" +
-                "        <value>300000</value>\n" +
-                "      </parameter>\n" +
-                "      <parameter>\n" +
-                "        <name>MinDueAmount</name>\n" +
-                "        <value>200</value>\n" +
-                "      </parameter>\n" +
-                "      <parameter>\n" +
-                "        <name>Narration</name>\n" +
-                "        <value>You have made payment for a bus ticket</value>\n" +
-                "      </parameter>\n" +
-                "      <parameter>\n" +
-                "        <name>PrefLang</name>\n" +
-                "        <value>en</value>\n" +
-                "      </parameter>\n" +
-                "      <parameter>\n" +
-                "        <name>OpCoID</name>\n" +
-                "        <value>25601</value>\n" +
-                "      </parameter>\n" +
-                "      <parameter>\n" +
-                "        <name>CurrCode</name>\n" +
-                "        <value>UGX</value>\n" +
-                "      </parameter>\n" +
-                "    </b2b:processRequest>\n" +
-                "  </soapenv:Body>\n" +
-                "</soapenv:Envelope>";
-
-
-//        displayProgressDialog();
+        final String UUIDString = UUID.randomUUID().toString();
+        String serverData = String.format(Utils.soapString, UUIDString);
 
         try {
             displayProgressDialog();
-            String responseString = post("http://40.68.208.28:9002/ThirdPartyServiceUMMImpl/UMMServiceService/RequestPayment/v17", soapString);
+            //todo get MM api
+            String responseString = post("http://40.68.208.28:9002/ThirdPartyServiceUMMImpl/UMMServiceService/RequestPayment/v17", serverData);
             Log.d(TAG, "makeOrder: ####RESPONSE: " + responseString);
         } catch (IOException e) {
             e.printStackTrace();
@@ -246,7 +184,7 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
     OkHttpClient client = new OkHttpClient();
 
     public String post(String url, String json) throws IOException {
-
+        //todo remove and use asyncTask
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
@@ -266,21 +204,6 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
     }
 
     private void dismissProgressDialog() {
-//        new Thread(){
-//            @Override
-//            public void run() {
-//                super.run();
-//                try {
-//                    Thread.sleep(2000);
-//                    if (pd.isShowing())
-//                        pd.dismiss();
-//                    showComfirmationDialog(randInt(100000, 999999));
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }.start();
-
         if (pd.isShowing())
             pd.dismiss();
         showComfirmationDialog(randInt(100000, 999999));
@@ -301,34 +224,42 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
         alertDialog.show();
     }
 
-    private void saveSeatNumber(String seatNumber) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(Utils.SEAT_NUMBER, seatNumber);
-        editor.apply();
-    }
-
     private String getSeatNumber() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         return prefs.getString(Utils.SEAT_NUMBER, "1");
     }
 
     private void displayInputDialog() {
-        final EditText txtUrl = new EditText(this);
+        final EditText phoneNumberEdit = new EditText(this);
+        final EditText codeEdit = new EditText(this);
 
-        // Set the default text to a link of the Queen
-        txtUrl.setHint("1234");
+        phoneNumberEdit.setHint("0772123456");
+        codeEdit.setHint("1234");
 
         new AlertDialog.Builder(this)
                 .setTitle("Verification Code")
                 .setMessage("Enter Mobile Money code")
-                .setView(txtUrl)
+                .setView(phoneNumberEdit)
+                .setView(codeEdit)
                 .setPositiveButton("Send", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        String verification_code = txtUrl.getText().toString();
-                        Log.d(TAG, "VerificationCode: " + verification_code);
-                        dialog.dismiss();
-                        makeOrder();
+                        validateUserData(dialog);
+                    }
+
+                    private void validateUserData(DialogInterface dialog) {
+                        String verificationCode = codeEdit.getText().toString();
+                        String phoneNumber = phoneNumberEdit.getText().toString();
+                        Log.d(TAG, "VerificationCode: " + verificationCode);
+                        Log.d(TAG, "PhoneNumber: " + phoneNumber);
+
+                        if (validateData(verificationCode, MM_CODE_PATTERN) && validateData(phoneNumber, PHONE_PATTERN)) {
+                            dialog.dismiss();
+                            makeOrder();
+                        } else {
+                            dialog.dismiss();
+                            //todo replace with dialog
+                            Toast.makeText(ConfirmOrderActivity.this, "Invalid input", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

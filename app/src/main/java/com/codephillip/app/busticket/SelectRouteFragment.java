@@ -78,22 +78,18 @@ public class SelectRouteFragment extends Fragment implements AdapterView.OnItemS
 
         //todo make a list of sponsors. query them from the server
         HashMap<String,String> url_maps = new HashMap<String, String>();
-        url_maps.put("Hannibal", "http://static2.hypable.com/wp-content/uploads/2013/12/hannibal-season-2-release-date.jpg");
-
-        HashMap<String,Integer> file_maps = new HashMap<String, Integer>();
-        file_maps.put("Hannibal",R.drawable.hannibal);
-        file_maps.put("Big Bang Theory",R.drawable.bigbang);
-        file_maps.put("House of Cards",R.drawable.house);
-        file_maps.put("Game of Thrones", R.drawable.game_of_thrones);
+        url_maps.put("MTN Uganda", "https://seeklogo.com/images/M/MTN-logo-459AAF9482-seeklogo.com.png");
+        url_maps.put("MTN Uganda2", "https://seeklogo.com/images/M/MTN-logo-459AAF9482-seeklogo.com.png");
+        url_maps.put("MTN Uganda3", "https://seeklogo.com/images/M/MTN-logo-459AAF9482-seeklogo.com.png");
 
         //todo swap with sponsor_urls
         //todo fix the out of memory exception. doing too much work on its main thread
-        for(String name : file_maps.keySet()){
+        for(String name : url_maps.keySet()){
             TextSliderView textSliderView = new TextSliderView(getContext());
             // initialize a SliderLayout
             textSliderView
                     .description(name)
-                    .image(file_maps.get(name))
+                    .image(url_maps.get(name))
                     .setScaleType(BaseSliderView.ScaleType.Fit);
             mDemoSlider.addSlider(textSliderView);
         }
