@@ -8,6 +8,22 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="ButtonTransparentGrey">
+        <item name="android:background">@drawable/button_grey_border</item>
+        <item name="android:textColor">@android:color/darker_gray</item>
+        <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Medium</item>
+        <item name="android:layout_margin">@dimen/five_dp</item>
+        <item name="android:width">200dp</item>
+    </style>
+
+    <style name="ButtonTransparentGreen">
+        <item name="android:background">@drawable/button_green_border</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Medium</item>
+        <item name="android:layout_margin">@dimen/five_dp</item>
+        <item name="android:width">200dp</item>
+    </style>
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

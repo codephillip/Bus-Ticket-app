@@ -28,4 +28,6 @@
     <string name="title_signup">Sign Up</string>
     <string name="title_activity_login">Sign In</string>
     <string name="title_activity_book">Choose</string>
+    <string name="error">Error</string>
+    <string name="receipt">RECEIPT</string>
 </resources>

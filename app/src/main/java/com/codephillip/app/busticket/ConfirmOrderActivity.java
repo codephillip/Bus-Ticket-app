@@ -27,16 +27,18 @@ import com.codephillip.app.busticket.adapters.SeatGridAdapter;
 import com.codephillip.app.busticket.provider.routes.RoutesCursor;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.UUID;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import static com.codephillip.app.busticket.Utils.MM_CODE_PATTERN;
 import static com.codephillip.app.busticket.Utils.PHONE_PATTERN;
+import static com.codephillip.app.busticket.Utils.displayErrorDialog;
+import static com.codephillip.app.busticket.Utils.displayInfoDialog;
 import static com.codephillip.app.busticket.Utils.formatDateString;
 import static com.codephillip.app.busticket.Utils.picassoLoader;
 import static com.codephillip.app.busticket.Utils.randInt;
@@ -60,6 +62,9 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
     private ProgressDialog pd;
     private LinearLayout linearLayout;
     private NestedScrollView scrollView;
+    public static final MediaType JSON = MediaType.parse("application/xml; charset=utf-8");
+    private OkHttpClient client = new OkHttpClient();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +111,8 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
             @Override
             public void onClick(View view) {
 //                startAsyncTask(cursor.getCode());
-                displayInputDialog();
+//                displayInputDialog();
+                makeOrder();
             }
         });
 
@@ -147,30 +153,11 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
         } catch (IOException e) {
             e.printStackTrace();
             Log.d(TAG, "makeOrder: Server error");
+            displayErrorDialog(this, getString(R.string.error), "Please check Internect connection");
         }
 
 
-//        ApiInterface apiInterface = ApiClient.getClient(Utils.BASE_URL).create(ApiInterface.class);
-//        //todo remove code
-//        int order_code = 9834;
-//        Order order = new Order(Utils.customer.getId(), cursor.getRouteid(), true, new Date().toString(), order_code);
-//        Call<Order> call = apiInterface.createOrder(order);
-//        call.enqueue(new Callback<Order>() {
-//            @Override
-//            public void onResponse(Call<Order> call, retrofit2.Response<Order> response) {
-//                int statusCode = response.code();
-//                Log.d(TAG, "onResponse: #" + statusCode);
-//                int receiptCode = response.body().getCode();
-//                showComfirmationDialog(receiptCode);
-//                //update data
-//                startService(new Intent(getApplicationContext(), SetUpService.class));
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Order> call, Throwable t) {
-//                Log.d(TAG, "onFailure: " + t.toString());
-//            }
-//        });
+
     }
 
     private void displayProgressDialog() {
@@ -179,50 +166,23 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
         pd.show();
     }
 
-
-    public static final MediaType JSON
-            = MediaType.parse("application/xml; charset=utf-8");
-    OkHttpClient client = new OkHttpClient();
-
     public String post(String url, String json) throws IOException {
-        //todo remove and use asyncTask
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
+        //TODO REMOVE IMMEDIATELY
+        dismissProgressDialog();
 
-        RequestBody body = RequestBody.create(JSON, json);
-        Request request = new Request.Builder()
-                .url(url)
-                .post(body)
-                .build();
-        try {
-            Response response = client.newCall(request).execute();
-            dismissProgressDialog();
-            return response.body().string();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        //todo remove and use asyncTask
+
         return "Network failure";
     }
 
     private void dismissProgressDialog() {
+        Log.d(TAG, "dismissProgressDialog: GONE");
         if (pd.isShowing())
             pd.dismiss();
-        showComfirmationDialog(randInt(100000, 999999));
-    }
-
-    private void showComfirmationDialog(int receiptCode) {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(ConfirmOrderActivity.this);
-        alertDialog.setTitle("RECEIPT");
-        alertDialog.setMessage("Thank You.\nReceipt number: " + receiptCode
-                + "\nSeat number: " + getSeatNumber());
-        alertDialog.setIcon(R.drawable.ic_shopping_cart_black_24dp);
-        alertDialog.setNeutralButton("OK",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        Log.d(TAG, "onClick: OK");
-                    }
-                });
-        alertDialog.show();
+        //todo get receipt number from server response
+        displayInfoDialog(this, getString(R.string.receipt), "Receipt number: " + randInt(100000, 999999)
+                + "\nSeat number: " + getSeatNumber()
+                + "\nDate: " + formatDateString(new Date().toString()));
     }
 
     private String getSeatNumber() {

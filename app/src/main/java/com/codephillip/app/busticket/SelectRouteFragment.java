@@ -31,6 +31,9 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
+import static com.codephillip.app.busticket.Utils.displayErrorDialog;
+import static com.codephillip.app.busticket.Utils.displayInfoDialog;
+
 public class SelectRouteFragment extends Fragment implements AdapterView.OnItemSelectedListener, LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String TAG = SelectRouteFragment.class.getSimpleName();

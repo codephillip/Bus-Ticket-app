@@ -1,12 +1,17 @@
 package com.codephillip.app.busticket;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
+import android.view.View;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.codephillip.app.busticket.mymodels.Customer;
 import com.squareup.picasso.Picasso;
@@ -146,5 +151,49 @@ public class Utils {
 
     public static String formatDateString(String date) {
         return date.substring(0, 10);
+    }
+
+    public static void displayInfoDialog(Context context, String titleText, String messageText) {
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.info_dialog);
+
+        TextView title = (TextView) dialog.findViewById(R.id.title);
+        title.setText(titleText);
+
+        TextView message = (TextView) dialog.findViewById(R.id.message);
+        message.setText(messageText);
+
+        Button ok = (Button) dialog.findViewById(R.id.ok_button);
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+    public static void displayErrorDialog(Context context, String titleText, String messageText) {
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.error_dialog);
+
+        TextView title = (TextView) dialog.findViewById(R.id.title);
+        title.setText(titleText);
+
+        TextView message = (TextView) dialog.findViewById(R.id.message);
+        message.setText(messageText);
+
+        Button ok = (Button) dialog.findViewById(R.id.ok_button);
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 }
