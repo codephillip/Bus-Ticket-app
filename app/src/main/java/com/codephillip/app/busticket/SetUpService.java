@@ -146,6 +146,7 @@ public class SetUpService extends IntentService {
             //todo get correct date from server
             values.putDeparture(new Date());
             values.putArrival(new Date());
+            Log.d(TAG, "saveRoutes: Date#" + (new Date().toString()));
             values.putBuscompanyname(route.getBus().getBusCompany().getName());
             values.putBuscompanyimage(route.getBus().getBusCompany().getImage());
             final Uri uri = values.insert(getContentResolver());

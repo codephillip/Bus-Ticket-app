@@ -76,7 +76,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
             holder.sourceView.setText("From: " + dataCursor.getSource());
             holder.destinationView.setText("To: " + dataCursor.getDestination());
             //todo truncate date
-            holder.departureView.setText("Departure: " + dataCursor.getDeparture().toString().substring(0, 12));
+            holder.departureView.setText("Departure: " + Utils.formatDateString(dataCursor.getDeparture().toString()));
 
 //            picassoLoader(context, holder.imageView, dataCursor.getBuscompanyimage());
         } catch (Exception e) {

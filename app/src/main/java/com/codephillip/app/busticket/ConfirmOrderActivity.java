@@ -37,6 +37,7 @@ import okhttp3.Response;
 
 import static com.codephillip.app.busticket.Utils.MM_CODE_PATTERN;
 import static com.codephillip.app.busticket.Utils.PHONE_PATTERN;
+import static com.codephillip.app.busticket.Utils.formatDateString;
 import static com.codephillip.app.busticket.Utils.picassoLoader;
 import static com.codephillip.app.busticket.Utils.randInt;
 import static com.codephillip.app.busticket.Utils.validateData;
@@ -92,8 +93,8 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
             company.setText(cursor.getBuscompanyname());
             source.setText(cursor.getSource());
             destination.setText(cursor.getDestination());
-            arrival.setText(cursor.getArrival().toString());
-            departure.setText(cursor.getDeparture().toString());
+            arrival.setText(formatDateString(cursor.getArrival().toString()));
+            departure.setText(formatDateString(cursor.getDeparture().toString()));
             price.setText(String.valueOf(cursor.getPrice()));
             picassoLoader(this, toolbarImage, cursor.getBuscompanyimage());
         } catch (Exception e) {

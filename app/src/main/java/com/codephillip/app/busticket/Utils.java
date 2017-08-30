@@ -143,4 +143,8 @@ public class Utils {
         Matcher matcher = pattern.matcher(text);
         return matcher.matches();
     }
+
+    public static String formatDateString(String date) {
+        return date.substring(0, 10);
+    }
 }

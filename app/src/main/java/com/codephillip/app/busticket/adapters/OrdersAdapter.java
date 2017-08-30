@@ -97,7 +97,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
                 holder.companyNameView.setText(routeCursor.getBuscompanyname());
                 holder.sourceView.setText("From: " + routeCursor.getSource());
                 holder.destinationView.setText("To: " + routeCursor.getDestination());
-                holder.departureView.setText("Departure: " + routeCursor.getDeparture());
+                holder.departureView.setText("Departure: " + Utils.formatDateString(routeCursor.getDeparture().toString()));
                 picassoLoader(context, holder.imageView, routeCursor.getBuscompanyimage());
                 routeCursor.close();
                 holder.validView.setText("Valid: " + dataCursor.getValid());

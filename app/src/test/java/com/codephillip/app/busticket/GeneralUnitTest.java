@@ -2,9 +2,12 @@ package com.codephillip.app.busticket;
 
 import org.junit.Test;
 
+import java.util.Date;
+
 import static org.junit.Assert.assertEquals;
 
-public class ExampleUnitTest {
+public class GeneralUnitTest {
+
     @Test
     public void addition_isCorrect() throws Exception {
         assertEquals(4, 2 + 2);
@@ -141,5 +144,10 @@ public class ExampleUnitTest {
         soapString = String.format(soapString, "hello");
 
         assertEquals(expectedSoapString, soapString);
+    }
+
+    @Test
+    public void testFormatDate() throws Exception {
+        assertEquals("Wed Aug 30", Utils.formatDateString(new Date().toString()));
     }
 }
