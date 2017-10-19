@@ -21,6 +21,17 @@
         android:orientation="vertical"
         tools:context="com.codephillip.app.busticket.BookFragment">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:gravity="center"
+            android:fontFamily="sans-serif-light"
+            android:textSize="30sp"
+            android:textColor="@android:color/white"
+            android:text="Take a trip of a lifetime"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
