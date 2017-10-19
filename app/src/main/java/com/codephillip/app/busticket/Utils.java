@@ -3,6 +3,7 @@ package com.codephillip.app.busticket;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -39,6 +40,7 @@ public class Utils {
     public static final String ORDERS = "orders";
     public static final String HISTORY = "history";
     public static final String SEAT_NUMBER = "1";
+    private static final String PREFERENCE_NAME = "just_go";
     public static boolean HISTROY_FRAG_ACTIVE = false;
     public static Cursor cursor;
     public static Customer customer;
@@ -110,10 +112,21 @@ public class Utils {
             "  </soapenv:Body>\n" +
             "</soapenv:Envelope>";
     public static final String MM_URL = "http://40.68.208.28:9002/ThirdPartyServiceUMMImpl/UMMServiceService/RequestPayment/v17";
-
+    private SharedPreferences pref;
+    private SharedPreferences.Editor edit;
+    private Context context;
 
     public static Utils getInstance() {
         return ourInstance;
+    }
+
+    public Utils() {
+    }
+
+    public Utils(Context context) {
+        this.context = context;
+        pref = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
+        edit = pref.edit();
     }
 
     public static boolean isConnectedToInternet(Activity activity) {
@@ -196,5 +209,27 @@ public class Utils {
         });
 
         dialog.show();
+    }
+
+    public void clearPref(Context context){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = sharedPreferences.edit();
+        edit.clear().apply();
+    }
+
+    public void savePrefString(String key, String value) {
+        pref.edit().putString(key, value).apply();
+    }
+
+    public String getPrefString(String key) {
+        return pref.getString(key, "");
+    }
+
+    public void savePrefBoolean(String key, Boolean value) {
+        pref.edit().putBoolean(key, value).apply();
+    }
+
+    public boolean getPrefBoolean(String key) {
+        return pref.getBoolean(key, false);
     }
 }

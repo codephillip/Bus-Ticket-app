@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.UUID;
 
+import static com.codephillip.app.busticket.Constants.HAS_BOOKED;
 import static com.codephillip.app.busticket.Utils.MM_CODE_PATTERN;
 import static com.codephillip.app.busticket.Utils.MM_URL;
 import static com.codephillip.app.busticket.Utils.PHONE_PATTERN;
@@ -55,6 +56,7 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
     final RoutesCursor cursor = new RoutesCursor(Utils.cursor);
     private ProgressDialog pd;
     private NestedScrollView scrollView;
+    private Utils utils;
 
 
     @Override
@@ -65,6 +67,7 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Utils.getInstance();
+        utils = new Utils(this);
 
         pd = new ProgressDialog(this);
         toolbarImage = (ImageView) findViewById(R.id.image);
@@ -102,7 +105,11 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
             @Override
             public void onClick(View view) {
 //                startAsyncTask(cursor.getCode());
-                displayOrderInputDialog();
+                if (utils.getPrefBoolean(HAS_BOOKED)) {
+                    displayOrderInputDialog();
+                } else {
+                    displayErrorDialog(ConfirmOrderActivity.this, getString(R.string.error), "Please first book a seat.");
+                }
             }
         });
 
@@ -170,6 +177,7 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
             displayErrorDialog(this, getString(R.string.error), "Please insert correct information");
             Toast.makeText(ConfirmOrderActivity.this, "Hint PHONE:0756878567 CODE:4444", Toast.LENGTH_LONG).show();
         }
+        utils.savePrefBoolean(HAS_BOOKED, false);
         dialog.dismiss();
     }
 

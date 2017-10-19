@@ -14,6 +14,8 @@ import android.widget.TextView;
 import com.codephillip.app.busticket.R;
 import com.codephillip.app.busticket.Utils;
 
+import static com.codephillip.app.busticket.Constants.HAS_BOOKED;
+
 /**
  * Created by codephillip on 31/03/17.
  */
@@ -21,6 +23,7 @@ import com.codephillip.app.busticket.Utils;
 public class SeatGridAdapter extends RecyclerView.Adapter<SeatGridAdapter.ViewHolder> {
 
     private static final String TAG = SeatGridAdapter.class.getSimpleName();
+    private final Utils utils;
     private LayoutInflater mInflater;
     private static Context context;
     private boolean hasBooked = false;
@@ -28,10 +31,13 @@ public class SeatGridAdapter extends RecyclerView.Adapter<SeatGridAdapter.ViewHo
     private ImageView oldSeatView;
     private TextView oldNumberView;
 
+
     public SeatGridAdapter(Context context) {
         Log.d(TAG, "SeatGridAdapter: ATTACHED");
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
+        utils = new Utils(context);
+        utils.savePrefBoolean(HAS_BOOKED, false);
     }
 
 
@@ -73,13 +79,22 @@ public class SeatGridAdapter extends RecyclerView.Adapter<SeatGridAdapter.ViewHo
     }
 
     private void changeSeatColourWhenBooked(ImageView seatView, TextView numberView) {
+        if (utils.getPrefBoolean(HAS_BOOKED)) {
+            changeSeatColour(seatView, numberView);
+        } else {
+            setSeatColour(seatView, numberView, context.getResources().getColor((R.color.colorAccent)));
+        }
+        
         oldSeatView = seatView;
         oldNumberView = numberView;
+        saveSeatNumber(numberView.getText().toString());
+        utils.savePrefBoolean(HAS_BOOKED, true);
+    }
 
+    private void changeSeatColour(ImageView seatView, TextView numberView) {
         if (!oldSeatView.equals(seatView) && !oldNumberView.equals(numberView)) {
+            setSeatColour(oldSeatView, oldNumberView, context.getResources().getColor((R.color.grey)));
             setSeatColour(seatView, numberView, context.getResources().getColor((R.color.colorAccent)));
-            saveSeatNumber(numberView.getText().toString());
-            hasBooked = true;
         }
     }
 
