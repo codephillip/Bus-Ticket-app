@@ -17,7 +17,6 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,9 +27,6 @@ import com.codephillip.app.busticket.provider.routes.RoutesCursor;
 import java.io.IOException;
 import java.util.Date;
 import java.util.UUID;
-
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
 
 import static com.codephillip.app.busticket.Utils.MM_CODE_PATTERN;
 import static com.codephillip.app.busticket.Utils.MM_URL;
@@ -58,10 +54,7 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
     private TextView price;
     final RoutesCursor cursor = new RoutesCursor(Utils.cursor);
     private ProgressDialog pd;
-    private LinearLayout linearLayout;
     private NestedScrollView scrollView;
-    public static final MediaType JSON = MediaType.parse("application/xml; charset=utf-8");
-    private OkHttpClient client = new OkHttpClient();
 
 
     @Override

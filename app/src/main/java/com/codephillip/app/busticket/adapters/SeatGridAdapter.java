@@ -25,6 +25,8 @@ public class SeatGridAdapter extends RecyclerView.Adapter<SeatGridAdapter.ViewHo
     private static Context context;
     private boolean hasBooked = false;
     private ItemClickListener mClickListener;
+    private ImageView oldSeatView;
+    private TextView oldNumberView;
 
     public SeatGridAdapter(Context context) {
         Log.d(TAG, "SeatGridAdapter: ATTACHED");
@@ -71,9 +73,11 @@ public class SeatGridAdapter extends RecyclerView.Adapter<SeatGridAdapter.ViewHo
     }
 
     private void changeSeatColourWhenBooked(ImageView seatView, TextView numberView) {
-        if (!hasBooked) {
-            seatView.setColorFilter(context.getResources().getColor((R.color.colorAccent)));
-            numberView.setTextColor(context.getResources().getColor((R.color.colorAccent)));
+        oldSeatView = seatView;
+        oldNumberView = numberView;
+
+        if (!oldSeatView.equals(seatView) && !oldNumberView.equals(numberView)) {
+            setSeatColour(seatView, numberView, context.getResources().getColor((R.color.colorAccent)));
             saveSeatNumber(numberView.getText().toString());
             hasBooked = true;
         }
@@ -85,12 +89,16 @@ public class SeatGridAdapter extends RecyclerView.Adapter<SeatGridAdapter.ViewHo
             colorId = R.color.colorAccent;
         else
             colorId = R.color.grey;
-        seatView.setColorFilter(context.getResources().getColor((colorId)));
-        numberView.setTextColor(context.getResources().getColor((colorId)));
+        setSeatColour(seatView, numberView, context.getResources().getColor((colorId)));
     }
 
     private boolean getRandomBoolean() {
         return Math.random() < 0.5;
+    }
+
+    private void setSeatColour(ImageView seatView, TextView numberView, int color) {
+        seatView.setColorFilter(color);
+        numberView.setTextColor(color);
     }
 
     // total number of cells
