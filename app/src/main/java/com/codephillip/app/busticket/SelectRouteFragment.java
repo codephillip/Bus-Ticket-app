@@ -2,6 +2,9 @@ package com.codephillip.app.busticket;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,24 +18,19 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.codephillip.app.busticket.provider.locations.LocationsColumns;
 import com.codephillip.app.busticket.provider.locations.LocationsCursor;
-import com.daimajia.slider.library.Animations.DescriptionAnimation;
-import com.daimajia.slider.library.SliderLayout;
-import com.daimajia.slider.library.SliderTypes.BaseSliderView;
-import com.daimajia.slider.library.SliderTypes.TextSliderView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
-import static com.codephillip.app.busticket.Utils.displayErrorDialog;
-import static com.codephillip.app.busticket.Utils.displayInfoDialog;
+import jp.wasabeef.blurry.Blurry;
 
 public class SelectRouteFragment extends Fragment implements AdapterView.OnItemSelectedListener, LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -43,7 +41,6 @@ public class SelectRouteFragment extends Fragment implements AdapterView.OnItemS
     Map<String, Long> locationsMap = new Hashtable<>();
     private String destination;
     private String source;
-    private SliderLayout mDemoSlider;
 
     public SelectRouteFragment() {
     }
@@ -58,7 +55,6 @@ public class SelectRouteFragment extends Fragment implements AdapterView.OnItemS
         View rootView = inflater.inflate(R.layout.fragment_select_route, container, false);
         destSpinner = (Spinner) rootView.findViewById(R.id.dest_spinner);
         sourceSpinner = (Spinner) rootView.findViewById(R.id.source_spinner);
-        mDemoSlider = (SliderLayout) rootView.findViewById(R.id.slider);
 
         destSpinner.setOnItemSelectedListener(this);
         sourceSpinner.setOnItemSelectedListener(this);
@@ -78,28 +74,9 @@ public class SelectRouteFragment extends Fragment implements AdapterView.OnItemS
             }
         });
 
-
-        //todo make a list of sponsors. query them from the server
-        HashMap<String,String> url_maps = new HashMap<String, String>();
-        url_maps.put("MTN Uganda", "https://seeklogo.com/images/M/MTN-logo-459AAF9482-seeklogo.com.png");
-        url_maps.put("MTN Uganda2", "https://seeklogo.com/images/M/MTN-logo-459AAF9482-seeklogo.com.png");
-        url_maps.put("MTN Uganda3", "https://seeklogo.com/images/M/MTN-logo-459AAF9482-seeklogo.com.png");
-
-        //todo swap with sponsor_urls
-        //todo fix the out of memory exception. doing too much work on its main thread
-        for(String name : url_maps.keySet()){
-            TextSliderView textSliderView = new TextSliderView(getContext());
-            // initialize a SliderLayout
-            textSliderView
-                    .description(name)
-                    .image(url_maps.get(name))
-                    .setScaleType(BaseSliderView.ScaleType.Fit);
-            mDemoSlider.addSlider(textSliderView);
-        }
-        mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
-        mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-        mDemoSlider.setCustomAnimation(new DescriptionAnimation());
-        mDemoSlider.setDuration(4000);
+        Blurry.with(getContext())
+                .from(BitmapFactory.decodeResource(getResources(), R.drawable.bus))
+                .into((ImageView) rootView.findViewById(R.id.image));
         return rootView;
     }
 
@@ -107,19 +84,6 @@ public class SelectRouteFragment extends Fragment implements AdapterView.OnItemS
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getLoaderManager().initLoader(2, null, this);
-    }
-
-    @Override
-    public void onStop() {
-        // To prevent a memory leak on rotation, make sure to call stopAutoCycle() on the slider before activity or fragment is destroyed
-        mDemoSlider.stopAutoCycle();
-        super.onStop();
-    }
-
-    @Override
-    public void onStart() {
-        mDemoSlider.startAutoCycle();
-        super.onStart();
     }
 
     @Override
@@ -157,7 +121,7 @@ public class SelectRouteFragment extends Fragment implements AdapterView.OnItemS
                 locationsMap.put(cursor.getName(), cursor.getId());
             } while (cursor.moveToNext());
         }
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, locations);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, locations);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sourceSpinner.setAdapter(dataAdapter);
         destSpinner.setAdapter(dataAdapter);

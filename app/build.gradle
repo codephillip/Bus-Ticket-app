@@ -38,5 +38,6 @@ dependencies {
     compile 'com.daimajia.slider:library:1.1.5@aar'
     compile 'com.wang.avi:library:1.0.3'
     compile 'com.nineoldandroids:library:2.4.0'
+    compile 'jp.wasabeef:blurry:2.1.1'
     testCompile 'junit:junit:4.12'
 }

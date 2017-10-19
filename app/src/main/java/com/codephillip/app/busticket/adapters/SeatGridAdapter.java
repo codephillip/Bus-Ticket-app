@@ -26,7 +26,6 @@ public class SeatGridAdapter extends RecyclerView.Adapter<SeatGridAdapter.ViewHo
     private final Utils utils;
     private LayoutInflater mInflater;
     private static Context context;
-    private boolean hasBooked = false;
     private ItemClickListener mClickListener;
     private ImageView oldSeatView;
     private TextView oldNumberView;
@@ -84,7 +83,7 @@ public class SeatGridAdapter extends RecyclerView.Adapter<SeatGridAdapter.ViewHo
         } else {
             setSeatColour(seatView, numberView, context.getResources().getColor((R.color.colorAccent)));
         }
-        
+
         oldSeatView = seatView;
         oldNumberView = numberView;
         saveSeatNumber(numberView.getText().toString());
