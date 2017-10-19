@@ -31,12 +31,12 @@
         android:padding="@dimen/ten_dp" />
 
     <EditText
-        android:id="@+id/password"
+        android:id="@+id/pin"
         android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@drawable/input_box"
-        android:hint="Password"
+        android:hint="Pin"
         android:inputType="numberPassword"
         android:padding="@dimen/ten_dp" />
 

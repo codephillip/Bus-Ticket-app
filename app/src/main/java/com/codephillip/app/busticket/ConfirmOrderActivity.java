@@ -138,7 +138,7 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
         TextView title = (TextView) dialog.findViewById(R.id.title);
         title.setText("Confirm");
         final EditText phoneNumberEdit = (EditText) dialog.findViewById(R.id.phoneNumber);
-        final EditText passwordEdit = (EditText) dialog.findViewById(R.id.password);
+        final EditText pinEdit = (EditText) dialog.findViewById(R.id.pin);
 
         Button cancel = (Button) dialog.findViewById(R.id.cancel_button);
         cancel.setOnClickListener(new View.OnClickListener() {
@@ -152,8 +152,8 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
         proceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //todo compare with server password
-                validateUserData(dialog ,phoneNumberEdit.getText().toString(), passwordEdit.getText().toString());
+                //todo compare with server pin
+                validateUserData(dialog ,phoneNumberEdit.getText().toString(), pinEdit.getText().toString());
                 dialog.dismiss();
             }
         });
@@ -161,10 +161,10 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
         dialog.show();
     }
 
-    private void validateUserData(Dialog dialog, String phoneNumber, String password) {
-        Log.d(TAG, "VerificationCode: " + password);
+    private void validateUserData(Dialog dialog, String phoneNumber, String pin) {
+        Log.d(TAG, "VerificationCode: " + pin);
         Log.d(TAG, "PhoneNumber: " + phoneNumber);
-        if (validateData(password, MM_CODE_PATTERN) && validateData(phoneNumber, PHONE_PATTERN)) {
+        if (validateData(pin, MM_CODE_PATTERN) && validateData(phoneNumber, PHONE_PATTERN)) {
             makeOrder();
         } else {
             displayErrorDialog(this, getString(R.string.error), "Please insert correct information");
