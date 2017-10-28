@@ -48,13 +48,13 @@
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/confirm_text_size" />
 
-            <Spinner
+            <com.jaredrummler.materialspinner.MaterialSpinner
                 android:id="@+id/source_spinner"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:prompt="@string/spinner_title"
-                android:textColor="@android:color/white" />
+                android:prompt="@string/spinner_title"/>
+
         </LinearLayout>
 
         <LinearLayout
@@ -73,18 +73,17 @@
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/confirm_text_size" />
 
-            <Spinner
+            <com.jaredrummler.materialspinner.MaterialSpinner
                 android:id="@+id/dest_spinner"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:prompt="@string/spinner_title"
-                android:textColor="@android:color/white" />
+                android:prompt="@string/spinner_title" />
         </LinearLayout>
 
         <Button
             android:id="@+id/select_button"
-            android:layout_width="match_parent"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"

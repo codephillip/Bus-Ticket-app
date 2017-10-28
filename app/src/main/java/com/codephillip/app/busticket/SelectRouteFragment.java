@@ -2,9 +2,9 @@ package com.codephillip.app.busticket;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -13,30 +13,23 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.codephillip.app.busticket.provider.locations.LocationsColumns;
 import com.codephillip.app.busticket.provider.locations.LocationsCursor;
+import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
-import java.util.Map;
 
-import jp.wasabeef.blurry.Blurry;
-
-public class SelectRouteFragment extends Fragment implements AdapterView.OnItemSelectedListener, LoaderManager.LoaderCallbacks<Cursor> {
+public class SelectRouteFragment extends Fragment implements MaterialSpinner.OnItemSelectedListener, LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String TAG = SelectRouteFragment.class.getSimpleName();
-    Spinner destSpinner;
-    Spinner sourceSpinner;
-    Button selectButton;
-    Map<String, Long> locationsMap = new Hashtable<>();
+    private MaterialSpinner destSpinner;
+    private MaterialSpinner sourceSpinner;
+    private Button selectButton;
     private String destination;
     private String source;
 
@@ -51,13 +44,13 @@ public class SelectRouteFragment extends Fragment implements AdapterView.OnItemS
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_select_route, container, false);
-        destSpinner = (Spinner) rootView.findViewById(R.id.dest_spinner);
-        sourceSpinner = (Spinner) rootView.findViewById(R.id.source_spinner);
+        destSpinner = rootView.findViewById(R.id.dest_spinner);
+        sourceSpinner = rootView.findViewById(R.id.source_spinner);
 
         destSpinner.setOnItemSelectedListener(this);
         sourceSpinner.setOnItemSelectedListener(this);
 
-        selectButton = (Button) rootView.findViewById(R.id.select_button);
+        selectButton = rootView.findViewById(R.id.select_button);
         selectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,10 +64,6 @@ public class SelectRouteFragment extends Fragment implements AdapterView.OnItemS
                 }
             }
         });
-
-        Blurry.with(getContext())
-                .from(BitmapFactory.decodeResource(getResources(), R.drawable.bus))
-                .into((ImageView) rootView.findViewById(R.id.image));
         return rootView;
     }
 
@@ -82,25 +71,6 @@ public class SelectRouteFragment extends Fragment implements AdapterView.OnItemS
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getLoaderManager().initLoader(2, null, this);
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String item = parent.getItemAtPosition(position).toString();
-        Log.d(TAG, "onItemSelected: " + item);
-
-        if (parent.getId() == destSpinner.getId()) {
-            Log.d(TAG, "onItemSelected: clicked dest");
-            destination = item;
-        } else {
-            Log.d(TAG, "onItemSelected: clicked source");
-            source = item;
-        }
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-        //dummy
     }
 
     @Override
@@ -116,10 +86,14 @@ public class SelectRouteFragment extends Fragment implements AdapterView.OnItemS
         if (cursor.moveToFirst()) {
             do {
                 locations.add(cursor.getName());
-                locationsMap.put(cursor.getName(), cursor.getId());
             } while (cursor.moveToNext());
         }
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_text, locations);
+
+        // Set default route values
+        source = locations.get(0);
+        destination = locations.get(0);
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_expandable_list_item_1, locations);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sourceSpinner.setAdapter(dataAdapter);
         destSpinner.setAdapter(dataAdapter);
@@ -128,5 +102,20 @@ public class SelectRouteFragment extends Fragment implements AdapterView.OnItemS
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 
+    }
+
+    @Override
+    public void onItemSelected(MaterialSpinner view, int position, long id, Object itemObject) {
+        Snackbar.make(view, "Clicked " + itemObject.toString(), Snackbar.LENGTH_LONG).show();
+        String item = itemObject.toString();
+        Log.d(TAG, "onItemSelected: " + item);
+
+        if (view.getId() == destSpinner.getId()) {
+            Log.d(TAG, "onItemSelected: clicked dest");
+            destination = item;
+        } else {
+            Log.d(TAG, "onItemSelected: clicked source");
+            source = item;
+        }
     }
 }
