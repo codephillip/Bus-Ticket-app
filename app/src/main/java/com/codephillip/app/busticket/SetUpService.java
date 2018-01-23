@@ -42,11 +42,11 @@ public class SetUpService extends IntentService {
         apiInterface = ApiClient.getClient(Utils.BASE_URL).create(ApiInterface.class);
 
         //todo activate on launch
-//        try {
-//            deleteData();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        try {
+            deleteData();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         try {
             loadLocations();

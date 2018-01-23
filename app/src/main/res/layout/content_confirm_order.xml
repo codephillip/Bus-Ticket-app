@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="@dimen/activity_horizontal_margin"
     android:layout_marginBottom="@dimen/activity_horizontal_margin"
     android:id="@+id/scroll_view"
     android:orientation="vertical"
@@ -16,15 +15,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:descendantFocusability="blocksDescendants"
         android:id="@+id/confirm_linear_layout"
-        android:clickable="true"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -147,13 +144,32 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:orientation="horizontal">
+            android:gravity="center"
+            android:orientation="vertical">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler"
+                android:visibility="gone"
                 android:layout_marginRight="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/tickImage"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:visibility="visible"
+                app:srcCompat="@drawable/animated_check" />
+
+            <EditText
+                android:id="@+id/phoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:background="@drawable/input_box"
+                android:hint="Phone Number"
+                android:padding="@dimen/ten_dp" />
 
         </LinearLayout>
 
@@ -165,7 +181,7 @@
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginTop="30dp"
             android:background="@color/colorAccent"
-            android:text="Pay"
+            android:text="ORDER"
             android:textColor="@android:color/white" />
 
         <Button
@@ -176,7 +192,9 @@
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginTop="10dp"
             android:background="@android:color/darker_gray"
-            android:text="Cancel"
+            android:text="CANCEL"
             android:textColor="@android:color/white" />
+
+
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

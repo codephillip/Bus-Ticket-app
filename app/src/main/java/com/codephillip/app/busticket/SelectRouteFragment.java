@@ -83,19 +83,27 @@ public class SelectRouteFragment extends Fragment implements MaterialSpinner.OnI
         Log.d(TAG, "onLoadFinished: started");
         LocationsCursor cursor = new LocationsCursor(data);
         List<String> locations = new ArrayList<>();
+        List<String> sourceLocations = new ArrayList<>();
         if (cursor.moveToFirst()) {
             do {
                 locations.add(cursor.getName());
+                if (cursor.getName().equalsIgnoreCase("Kampala")) {
+                    // Spinner won't show single item
+                    sourceLocations.add(cursor.getName());
+                    sourceLocations.add(cursor.getName());
+                }
             } while (cursor.moveToNext());
         }
 
         // Set default route values
-        source = locations.get(0);
+        source = sourceLocations.get(0);
         destination = locations.get(0);
 
+        ArrayAdapter<String> sourceDataAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_expandable_list_item_1, sourceLocations);
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_expandable_list_item_1, locations);
+        sourceDataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sourceSpinner.setAdapter(dataAdapter);
+        sourceSpinner.setAdapter(sourceDataAdapter);
         destSpinner.setAdapter(dataAdapter);
     }
 

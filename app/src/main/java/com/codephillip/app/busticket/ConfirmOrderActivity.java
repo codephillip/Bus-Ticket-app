@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.database.CursorIndexOutOfBoundsException;
+import android.graphics.drawable.Animatable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.NestedScrollView;
@@ -57,6 +58,7 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
     private ProgressDialog pd;
     private NestedScrollView scrollView;
     private Utils utils;
+    private ImageView tickImage;
 
 
     @Override
@@ -78,6 +80,9 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
         departure = (TextView) findViewById(R.id.departure_view);
         price = (TextView) findViewById(R.id.price_view);
         scrollView = (NestedScrollView) findViewById(R.id.scroll_view);
+        tickImage = (ImageView) findViewById(R.id.tickImage);
+        final EditText phoneNumberEdit = findViewById(R.id.phoneNumber);
+
 
         try {
             final int cursorPosition = getIntent().getIntExtra(Utils.CURSOR_POSITION, 0);
@@ -104,12 +109,18 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
         orderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String phoneNumber = phoneNumberEdit.getText().toString();
+                if (Utils.validateData(phoneNumber, Utils.PHONE_PATTERN))
+                    sendToBroker(phoneNumber);
+                else
+                    displayErrorDialog(ConfirmOrderActivity.this, getString(R.string.error), "Please insert valid phone number");
+
 //                startAsyncTask(cursor.getCode());
-                if (utils.getPrefBoolean(HAS_BOOKED)) {
-                    displayOrderInputDialog();
-                } else {
-                    displayErrorDialog(ConfirmOrderActivity.this, getString(R.string.error), "Please first book a seat.");
-                }
+//                if (utils.getPrefBoolean(HAS_BOOKED)) {
+//                    displayOrderInputDialog();
+//                } else {
+//                    displayErrorDialog(ConfirmOrderActivity.this, getString(R.string.error), "Please first book a seat.");
+//                }
             }
         });
 
@@ -128,6 +139,11 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
         gridAdapter = new SeatGridAdapter(this);
         gridAdapter.setClickListener(this);
         recyclerView.setAdapter(gridAdapter);
+    }
+
+    private void sendToBroker(String phoneNumber) {
+        Log.d(TAG, "sendToBroker: " + phoneNumber);
+        ((Animatable) tickImage.getDrawable()).start();
     }
 
     @Override
