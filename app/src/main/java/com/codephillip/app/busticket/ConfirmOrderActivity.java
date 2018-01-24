@@ -18,6 +18,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,6 +60,9 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
     private NestedScrollView scrollView;
     private Utils utils;
     private ImageView tickImage;
+    private LinearLayout routeDetailsLayout;
+    private TextView successMessageTextView;
+    private EditText phoneNumberEdit;
 
 
     @Override
@@ -81,7 +85,9 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
         price = (TextView) findViewById(R.id.price_view);
         scrollView = (NestedScrollView) findViewById(R.id.scroll_view);
         tickImage = (ImageView) findViewById(R.id.tickImage);
-        final EditText phoneNumberEdit = findViewById(R.id.phoneNumber);
+        phoneNumberEdit = findViewById(R.id.phoneNumber);
+        routeDetailsLayout = findViewById(R.id.route_details_layout);
+        successMessageTextView = findViewById(R.id.success_message);
 
 
         try {
@@ -110,10 +116,13 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
             @Override
             public void onClick(View view) {
                 String phoneNumber = phoneNumberEdit.getText().toString();
-                if (Utils.validateData(phoneNumber, Utils.PHONE_PATTERN))
+                if (Utils.validateData(phoneNumber, Utils.PHONE_PATTERN)) {
+                    displaySuccessMessage();
                     sendToBroker(phoneNumber);
-                else
+                }
+                else {
                     displayErrorDialog(ConfirmOrderActivity.this, getString(R.string.error), "Please insert valid phone number");
+                }
 
 //                startAsyncTask(cursor.getCode());
 //                if (utils.getPrefBoolean(HAS_BOOKED)) {
@@ -141,9 +150,18 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
         recyclerView.setAdapter(gridAdapter);
     }
 
+    private void displaySuccessMessage() {
+        routeDetailsLayout.setVisibility(View.GONE);
+        tickImage.setVisibility(View.VISIBLE);
+        successMessageTextView.setVisibility(View.VISIBLE);
+        phoneNumberEdit.setVisibility(View.GONE);
+        orderButton.setVisibility(View.GONE);
+        cancelButton.setText("OK");
+        ((Animatable) tickImage.getDrawable()).start();
+    }
+
     private void sendToBroker(String phoneNumber) {
         Log.d(TAG, "sendToBroker: " + phoneNumber);
-        ((Animatable) tickImage.getDrawable()).start();
     }
 
     @Override

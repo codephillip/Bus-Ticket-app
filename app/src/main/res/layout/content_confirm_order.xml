@@ -2,10 +2,10 @@
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="@dimen/activity_horizontal_margin"
-    android:id="@+id/scroll_view"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.codephillip.app.busticket.ConfirmOrderActivity"
@@ -13,12 +13,13 @@
 
 
     <LinearLayout
+        android:id="@+id/confirm_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/confirm_linear_layout"
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/route_details_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -27,8 +28,8 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.9"
                 android:layout_marginTop="@dimen/five_dp"
+                android:layout_weight="1.9"
                 android:orientation="vertical">
 
                 <TextView
@@ -86,8 +87,8 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.9"
                 android:layout_marginTop="@dimen/five_dp"
+                android:layout_weight="1.9"
                 android:orientation="vertical">
 
                 <TextView
@@ -149,24 +150,36 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler"
-                android:visibility="gone"
-                android:layout_marginRight="15dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/tickImage"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:visibility="visible"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:visibility="gone"
                 app:srcCompat="@drawable/animated_check" />
+
+            <TextView
+                android:id="@+id/success_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:gravity="center"
+                android:text="Thank you. \nYou will receive your ticket shortly"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:visibility="gone" />
 
             <EditText
                 android:id="@+id/phoneNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:background="@drawable/input_box"
                 android:hint="Phone Number"
                 android:padding="@dimen/ten_dp" />
@@ -177,8 +190,8 @@
             android:id="@+id/order_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_marginTop="30dp"
             android:background="@color/colorAccent"
             android:text="ORDER"
@@ -188,8 +201,8 @@
             android:id="@+id/cancel_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_marginTop="10dp"
             android:background="@android:color/darker_gray"
             android:text="CANCEL"
