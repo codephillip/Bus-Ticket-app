@@ -6,12 +6,14 @@ import android.content.SharedPreferences;
 import android.database.CursorIndexOutOfBoundsException;
 import android.graphics.drawable.Animatable;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -30,10 +32,17 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.UUID;
 
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 import static com.codephillip.app.busticket.Constants.HAS_BOOKED;
 import static com.codephillip.app.busticket.Utils.MM_CODE_PATTERN;
 import static com.codephillip.app.busticket.Utils.MM_URL;
 import static com.codephillip.app.busticket.Utils.PHONE_PATTERN;
+import static com.codephillip.app.busticket.Utils.base64String;
 import static com.codephillip.app.busticket.Utils.displayErrorDialog;
 import static com.codephillip.app.busticket.Utils.displayInfoDialog;
 import static com.codephillip.app.busticket.Utils.formatDateString;
@@ -116,11 +125,11 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
             @Override
             public void onClick(View view) {
                 String phoneNumber = phoneNumberEdit.getText().toString();
-                if (Utils.validateData(phoneNumber, Utils.PHONE_PATTERN)) {
+                if (Utils.validateData(phoneNumber, Utils.PHONE_PATTERN_CODE)
+                        || Utils.validateData(phoneNumber, Utils.PHONE_PATTERN)) {
                     displaySuccessMessage();
                     sendToBroker(phoneNumber);
-                }
-                else {
+                } else {
                     displayErrorDialog(ConfirmOrderActivity.this, getString(R.string.error), "Please insert valid phone number");
                 }
 
@@ -157,7 +166,65 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
         phoneNumberEdit.setVisibility(View.GONE);
         orderButton.setVisibility(View.GONE);
         cancelButton.setText("OK");
+
+        try {
+            postToServer();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            sendSms(phoneNumberEdit.getText().toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         ((Animatable) tickImage.getDrawable()).start();
+    }
+
+    private void postToServer() {
+        //TODO post order to server
+    }
+
+    private void sendSms(String phoneNumber) throws IOException {
+        String url = "https://api.twilio.com/2010-04-01/Accounts/AC447a79dddb6ff5bfddb3a662e1e8e59a/Messages.json";
+        String result = postToTwillio(url, phoneNumber);
+        Log.d(TAG, "sendSms: " + result);
+    }
+
+    public String postToTwillio(String url, String phoneNumber) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+
+        // TODO Replace with Async task
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        final String basic = "Basic " + base64String;
+
+        RequestBody body = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("To", "+256779226226")
+                .addFormDataPart("From", "+18477448802")
+                .addFormDataPart("Body", "Testing JustGo. Book ticket for client " + phoneNumber)
+                .build();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .header("Authorization", basic)
+                .post(body)
+                .build();
+
+        try {
+            Response response = client.newCall(request).execute();
+            Log.d(TAG, "postToTwillio: >>> " + response.toString());
+
+            if (response.code() == 201)
+                return response.body().string();
+            else
+                throw new IOException("Not found on server");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "Network failure";
     }
 
     private void sendToBroker(String phoneNumber) {

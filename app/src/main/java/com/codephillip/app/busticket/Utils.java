@@ -46,8 +46,10 @@ public class Utils {
     public static Customer customer;
     // airtel and mtn valid numbers only
     public static final String PHONE_PATTERN = "^((07)+(0|5|7|8)[0-9]{7})$";
+    public static final String PHONE_PATTERN_CODE = "^(256|254|255|250|257)[0-9]{9}$";
     public static final String PASSWORD_PATTERN = "^[_A-Za-z0-9-\\+].{7,}$";
     public static final String MM_CODE_PATTERN = "^\\d{4}$";
+    public static final String base64String = "QUM0NDdhNzlkZGRiNmZmNWJmZGRiM2E2NjJlMWU4ZTU5YTo4Y2JhNWU5YzJiMDM2ZjE5ZDU5YmYyOWJiM2Y1Y2IxOA==";
 
     public static String soapString = "<?xml version=\"1.0\"?>\n" +
             "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:b2b=\"http://b2b.mobilemoney.mtn.zm_v1.0\">\n" +

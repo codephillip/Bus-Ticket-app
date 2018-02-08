@@ -114,7 +114,6 @@ public class SelectRouteFragment extends Fragment implements MaterialSpinner.OnI
 
     @Override
     public void onItemSelected(MaterialSpinner view, int position, long id, Object itemObject) {
-        Snackbar.make(view, "Clicked " + itemObject.toString(), Snackbar.LENGTH_LONG).show();
         String item = itemObject.toString();
         Log.d(TAG, "onItemSelected: " + item);
 
