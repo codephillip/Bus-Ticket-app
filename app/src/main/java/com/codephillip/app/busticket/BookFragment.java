@@ -67,6 +67,9 @@ public class BookFragment extends Fragment implements AdapterView.OnItemSelected
         ArrayAdapter<String> dataAdapter2 = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, categoryPackages);
         dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner2.setAdapter(dataAdapter2);
+        //TODO place spinner in v2
+        spinner.setVisibility(View.GONE);
+        spinner2.setVisibility(View.GONE);
     }
 
     private RoutesCursor queryRoutesTable() {

@@ -5,15 +5,14 @@ import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.database.CursorIndexOutOfBoundsException;
 import android.graphics.drawable.Animatable;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -173,31 +172,27 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
             e.printStackTrace();
         }
         try {
-            sendSms(phoneNumberEdit.getText().toString());
+            SmsAsyncTask task = new SmsAsyncTask();
+            task.execute(phoneNumberEdit.getText().toString());
         } catch (Exception e) {
             e.printStackTrace();
+            Toast.makeText(this, "Check your Internet connection", Toast.LENGTH_SHORT).show();
         }
-
-        ((Animatable) tickImage.getDrawable()).start();
     }
 
     private void postToServer() {
         //TODO post order to server
     }
 
-    private void sendSms(String phoneNumber) throws IOException {
+    private String sendSms(String phoneNumber) throws IOException {
         String url = "https://api.twilio.com/2010-04-01/Accounts/AC447a79dddb6ff5bfddb3a662e1e8e59a/Messages.json";
         String result = postToTwillio(url, phoneNumber);
         Log.d(TAG, "sendSms: " + result);
+        return result;
     }
 
     public String postToTwillio(String url, String phoneNumber) throws IOException {
         OkHttpClient client = new OkHttpClient();
-
-        // TODO Replace with Async task
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-
         final String basic = "Basic " + base64String;
 
         RequestBody body = new MultipartBody.Builder()
@@ -224,6 +219,8 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        Toast.makeText(this, "Check your Internet connection", Toast.LENGTH_SHORT).show();
         return "Network failure";
     }
 
@@ -325,5 +322,26 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
     private String getSeatNumber() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         return prefs.getString(Utils.SEAT_NUMBER, "1");
+    }
+
+    private class SmsAsyncTask extends AsyncTask<String, String, String> {
+        private String resp = "Failed";
+
+        @Override
+        protected String doInBackground(String... params) {
+            publishProgress("Sleeping...");
+            try {
+                return sendSms(params[0]);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return resp;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            Log.d(TAG, "onPostExecute: " + result);
+            ((Animatable) tickImage.getDrawable()).start();
+        }
     }
 }
