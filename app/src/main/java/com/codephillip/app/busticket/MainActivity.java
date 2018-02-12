@@ -86,16 +86,18 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             fragment = SelectRouteFragment.newInstance();
             getSupportActionBar().setTitle(screenNames[0]);
-        } else if (id == R.id.nav_gallery) {
-            fragment = OrdersFragment.newInstance();
-            getSupportActionBar().setTitle(screenNames[1]);
-        } else if (id == R.id.nav_slideshow) {
-            fragment = HistoryFragment.newInstance();
-            getSupportActionBar().setTitle(screenNames[2]);
-        } else if (id == R.id.nav_manage) {
-            fragment = ProfileFragment.newInstance();
-            getSupportActionBar().setTitle(screenNames[3]);
-        } else {
+        }
+//        else if (id == R.id.nav_gallery) {
+//            fragment = OrdersFragment.newInstance();
+//            getSupportActionBar().setTitle(screenNames[1]);
+//        } else if (id == R.id.nav_slideshow) {
+//            fragment = HistoryFragment.newInstance();
+//            getSupportActionBar().setTitle(screenNames[2]);
+//        } else if (id == R.id.nav_manage) {
+//            fragment = ProfileFragment.newInstance();
+//            getSupportActionBar().setTitle(screenNames[3]);
+//        }
+        else {
             return true;
         }
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
