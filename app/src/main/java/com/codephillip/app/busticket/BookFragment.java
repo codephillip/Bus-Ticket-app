@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.codephillip.app.busticket.adapters.BookAdapter;
@@ -28,6 +29,7 @@ public class BookFragment extends Fragment implements AdapterView.OnItemSelected
     private List<String> categories = new ArrayList<>();
     //category package is set according to which category is selected
     private List<String> categoryPackages = new ArrayList<>();
+    private LinearLayout errorLayout;
 
     public BookFragment() {
     }
@@ -40,6 +42,7 @@ public class BookFragment extends Fragment implements AdapterView.OnItemSelected
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_book, container, false);
+        errorLayout = rootView.findViewById(R.id.error_layout);
         spinner = (Spinner) rootView.findViewById(R.id.spinner);
         spinner.setOnItemSelectedListener(this);
         spinner2 = (Spinner) rootView.findViewById(R.id.spinner2);
@@ -48,10 +51,16 @@ public class BookFragment extends Fragment implements AdapterView.OnItemSelected
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new BookAdapter(getContext(), queryRoutesTable());
-        recyclerView.setAdapter(adapter);
 
-        initializeSpinners();
+        RoutesCursor cursor = queryRoutesTable();
+        int count = cursor.getCount();
+        if(count <= 0) {
+            recyclerView.setVisibility(View.GONE);
+            errorLayout.setVisibility(View.VISIBLE);
+        } else {
+            adapter = new BookAdapter(getContext(), cursor);
+            recyclerView.setAdapter(adapter);
+        }
         return rootView;
     }
 

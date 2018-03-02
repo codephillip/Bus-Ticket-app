@@ -1,17 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="#F5F5F5"
     android:layout_width="wrap_content"
     android:layout_height="match_parent">
-
-    <ImageView
-        android:id="@+id/image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:scaleType="centerCrop"
-        android:src="@drawable/bus"
-        tools:ignore="ContentDescription" />
 
     <LinearLayout
         android:id="@+id/layout"
@@ -21,17 +12,6 @@
         android:orientation="vertical"
         tools:context="com.codephillip.app.busticket.BookFragment">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/activity_horizontal_margin"
-            android:gravity="center"
-            android:fontFamily="sans-serif-light"
-            android:textSize="30sp"
-            android:textColor="@android:color/white"
-            android:text="Take a trip of a lifetime"/>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -39,21 +19,22 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:text="From: "
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/confirm_text_size" />
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/location2"
+                android:layout_marginRight="10dp" />
 
-            <com.jaredrummler.materialspinner.MaterialSpinner
-                android:id="@+id/source_spinner"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
+            <AutoCompleteTextView
+                android:id="@+id/from_auto_complete"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:textSize="20sp"
                 android:layout_gravity="center"
-                android:prompt="@string/spinner_title"/>
+                android:background="@drawable/input_box"
+                android:hint="FROM"
+                android:padding="10dp"
+                android:textColorHint="@android:color/black" />
 
         </LinearLayout>
 
@@ -64,21 +45,68 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/location2"
+                android:layout_marginRight="10dp" />
+
+            <AutoCompleteTextView
+                android:id="@+id/to_auto_complete"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:textSize="20sp"
                 android:layout_gravity="center"
-                android:layout_marginRight="37dp"
-                android:text="To: "
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/confirm_text_size" />
+                android:background="@drawable/input_box"
+                android:hint="TO"
+                android:padding="10dp"
+                android:textColorHint="@android:color/black" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/clock"
+                android:layout_marginRight="10dp" />
 
             <com.jaredrummler.materialspinner.MaterialSpinner
-                android:id="@+id/dest_spinner"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
+                android:id="@+id/time_spinner"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:prompt="@string/spinner_title" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/calendar"
+                android:layout_marginRight="10dp" />
+
+            <EditText
+                android:id="@+id/departure_date"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:textSize="20sp"
+                android:layout_gravity="center"
+                android:background="@drawable/input_box"
+                android:hint="DATE"
+                android:padding="10dp"
+                android:textColorHint="@android:color/black" />
         </LinearLayout>
 
         <Button
