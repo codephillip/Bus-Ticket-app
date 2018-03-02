@@ -64,13 +64,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:text="Arrival"
-                    android:textSize="@dimen/confirm_text_size" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
                     android:text="Price"
                     android:textSize="@dimen/confirm_text_size" />
 
@@ -78,7 +71,7 @@
 
             <View
                 android:layout_width="1dp"
-                android:layout_height="160dp"
+                android:layout_height="140dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
@@ -121,14 +114,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:text="14:00"
-                    android:textSize="@dimen/confirm_text_size" />
-
-                <TextView
-                    android:id="@+id/arrival_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:text="18:00"
                     android:textSize="@dimen/confirm_text_size" />
 
                 <TextView
@@ -181,7 +166,7 @@
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:background="@drawable/input_box"
-                android:hint="Phone Number"
+                android:hint="Enter Phone Number"
                 android:padding="@dimen/ten_dp" />
 
         </LinearLayout>

@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.database.CursorIndexOutOfBoundsException;
 import android.graphics.drawable.Animatable;
+import android.icu.text.LocaleDisplayNames;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -29,6 +30,7 @@ import com.codephillip.app.busticket.provider.routes.RoutesCursor;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.Locale;
 import java.util.UUID;
 
 import okhttp3.MultipartBody;
@@ -60,7 +62,6 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
     private TextView company;
     private TextView source;
     private TextView destination;
-    private TextView arrival;
     private TextView departure;
     private TextView price;
     final RoutesCursor cursor = new RoutesCursor(Utils.cursor);
@@ -88,7 +89,6 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
         company = (TextView) findViewById(R.id.company_view);
         source = (TextView) findViewById(R.id.source_view);
         destination = (TextView) findViewById(R.id.dest_view);
-        arrival = (TextView) findViewById(R.id.arrival_view);
         departure = (TextView) findViewById(R.id.departure_view);
         price = (TextView) findViewById(R.id.price_view);
         scrollView = (NestedScrollView) findViewById(R.id.scroll_view);
@@ -111,7 +111,6 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
             company.setText(cursor.getBuscompanyname());
             source.setText(cursor.getSource());
             destination.setText(cursor.getDestination());
-            arrival.setText(formatDateString(cursor.getArrival().toString()));
             departure.setText(formatDateString(cursor.getDeparture().toString()));
             price.setText(String.valueOf(cursor.getPrice()));
             picassoLoader(this, toolbarImage, cursor.getBuscompanyimage());
@@ -131,13 +130,6 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
                 } else {
                     displayErrorDialog(ConfirmOrderActivity.this, getString(R.string.error), "Please insert valid phone number");
                 }
-
-//                startAsyncTask(cursor.getCode());
-//                if (utils.getPrefBoolean(HAS_BOOKED)) {
-//                    displayOrderInputDialog();
-//                } else {
-//                    displayErrorDialog(ConfirmOrderActivity.this, getString(R.string.error), "Please first book a seat.");
-//                }
             }
         });
 
@@ -159,47 +151,57 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
     }
 
     private void displaySuccessMessage() {
+        try {
+            postToServer();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            String values[] = {
+                    phoneNumberEdit.getText().toString(),
+                    source.getText().toString(),
+                    destination.getText().toString(),
+            };
+
+            SmsAsyncTask task = new SmsAsyncTask();
+            task.execute(values);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Check your Internet connection", Toast.LENGTH_SHORT).show();
+        }
+
         routeDetailsLayout.setVisibility(View.GONE);
         tickImage.setVisibility(View.VISIBLE);
         successMessageTextView.setVisibility(View.VISIBLE);
         phoneNumberEdit.setVisibility(View.GONE);
         orderButton.setVisibility(View.GONE);
         cancelButton.setText("OK");
-
-        try {
-            postToServer();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            SmsAsyncTask task = new SmsAsyncTask();
-            task.execute(phoneNumberEdit.getText().toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Check your Internet connection", Toast.LENGTH_SHORT).show();
-        }
     }
 
     private void postToServer() {
         //TODO post order to server
     }
 
-    private String sendSms(String phoneNumber) throws IOException {
+    private String sendSms(String[] values) throws IOException {
         String url = "https://api.twilio.com/2010-04-01/Accounts/AC447a79dddb6ff5bfddb3a662e1e8e59a/Messages.json";
-        String result = postToTwillio(url, phoneNumber);
+        String result = postToTwillio(url, values[0], values[1], values[2]);
         Log.d(TAG, "sendSms: " + result);
         return result;
     }
 
-    public String postToTwillio(String url, String phoneNumber) throws IOException {
+    public String postToTwillio( String url, String to, String from, String phoneNumber) throws IOException {
         OkHttpClient client = new OkHttpClient();
         final String basic = "Basic " + base64String;
+        String message = "JustGo. Client %s. From: %s - To: %s";
+        message = String.format(Locale.ENGLISH, message, phoneNumber, from, to);
+        Log.d(TAG, "postToTwillio: " + message);
 
         RequestBody body = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("To", "+256779226226")
                 .addFormDataPart("From", "+18477448802")
-                .addFormDataPart("Body", "Testing JustGo. Book ticket for client " + phoneNumber)
+                .addFormDataPart("Body", message)
                 .build();
 
         Request request = new Request.Builder()
@@ -324,11 +326,11 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
         return prefs.getString(Utils.SEAT_NUMBER, "1");
     }
 
-    private class SmsAsyncTask extends AsyncTask<String, String, String> {
+    private class SmsAsyncTask extends AsyncTask<String[], String, String> {
         private String resp = "Failed";
 
         @Override
-        protected String doInBackground(String... params) {
+        protected String doInBackground(String[]... params) {
             publishProgress("Sleeping...");
             try {
                 return sendSms(params[0]);
