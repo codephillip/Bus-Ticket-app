@@ -1,123 +1,134 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#F5F5F5"
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5">
 
     <LinearLayout
         android:id="@+id/layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_horizontal_margin"
         android:gravity="center"
         android:orientation="vertical"
         tools:context="com.codephillip.app.busticket.BookFragment">
 
-        <LinearLayout
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:layout_gravity="center"
+            android:gravity="center">
 
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/location2"
-                android:layout_marginRight="10dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                android:gravity="center"
+                android:orientation="vertical">
 
-            <AutoCompleteTextView
-                android:id="@+id/from_auto_complete"
-                android:layout_width="300dp"
-                android:layout_height="50dp"
-                android:textSize="20sp"
-                android:layout_gravity="center"
-                android:background="@drawable/input_box"
-                android:hint="FROM"
-                android:padding="10dp"
-                android:textColorHint="@android:color/black" />
+                <com.github.florent37.materialtextfield.MaterialTextField
+                    android:layout_width="300dp"
+                    android:layout_height="100dp"
+                    app:mtf_image="@drawable/location2"
+                    app:mtf_labelColor="#666">
 
-        </LinearLayout>
+                    <AutoCompleteTextView
+                        android:id="@+id/from_auto_complete"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:hint="FROM"
+                        android:padding="10dp"
+                        android:textColorHint="@android:color/black"
+                        android:textSize="20sp" />
+                </com.github.florent37.materialtextfield.MaterialTextField>
 
-        <LinearLayout
+                <com.github.florent37.materialtextfield.MaterialTextField
+                    android:layout_width="300dp"
+                    android:layout_height="100dp"
+                    app:mtf_image="@drawable/location2"
+                    app:mtf_labelColor="#666">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/to_auto_complete"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:hint="TO"
+                        android:padding="10dp"
+                        android:textColorHint="@android:color/black"
+                        android:textSize="20sp" />
+
+                </com.github.florent37.materialtextfield.MaterialTextField>
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginTop="@dimen/activity_horizontal_margin"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:padding="@dimen/activity_horizontal_margin">
 
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/location2"
-                android:layout_marginRight="10dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-            <AutoCompleteTextView
-                android:id="@+id/to_auto_complete"
-                android:layout_width="300dp"
-                android:layout_height="50dp"
-                android:textSize="20sp"
-                android:layout_gravity="center"
-                android:background="@drawable/input_box"
-                android:hint="TO"
-                android:padding="10dp"
-                android:textColorHint="@android:color/black" />
-        </LinearLayout>
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/clock" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:gravity="center"
-            android:orientation="horizontal">
+                <com.jaredrummler.materialspinner.MaterialSpinner
+                    android:id="@+id/time_spinner"
+                    android:layout_width="230dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:prompt="@string/spinner_title" />
+            </LinearLayout>
 
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/clock"
-                android:layout_marginRight="10dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="70dp"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-            <com.jaredrummler.materialspinner.MaterialSpinner
-                android:id="@+id/time_spinner"
-                android:layout_width="300dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:prompt="@string/spinner_title" />
-        </LinearLayout>
+                <com.github.florent37.materialtextfield.MaterialTextField
+                    android:layout_width="300dp"
+                    android:layout_height="100dp"
+                    app:mtf_image="@drawable/calendar"
+                    app:mtf_labelColor="#666">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_horizontal_margin"
-            android:gravity="center"
-            android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/departure_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:hint="DATE"
+                        android:padding="10dp"
+                        android:textColorHint="@android:color/black"
+                        android:textSize="20sp" />
 
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/calendar"
-                android:layout_marginRight="10dp" />
-
-            <EditText
-                android:id="@+id/departure_date"
-                android:layout_width="300dp"
-                android:layout_height="50dp"
-                android:textSize="20sp"
-                android:layout_gravity="center"
-                android:background="@drawable/input_box"
-                android:hint="DATE"
-                android:padding="10dp"
-                android:textColorHint="@android:color/black" />
-        </LinearLayout>
+                </com.github.florent37.materialtextfield.MaterialTextField>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
 
         <Button
             android:id="@+id/select_button"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="40dp"
             android:background="@color/colorAccent"
             android:text="Next"
             android:textColor="@android:color/white" />
     </LinearLayout>
-</RelativeLayout>
+</ScrollView>
