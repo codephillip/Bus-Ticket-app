@@ -16,8 +16,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.codephillip.app.busticket.mymodels.Customer;
-import com.codephillip.app.busticket.mymodels.Customers;
+import com.codephillip.app.busticket.retromodels.Customer;
+import com.codephillip.app.busticket.retromodels.Customers;
 import com.codephillip.app.busticket.retrofit.ApiClient;
 import com.codephillip.app.busticket.retrofit.ApiInterface;
 

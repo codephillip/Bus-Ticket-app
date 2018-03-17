@@ -101,8 +101,8 @@ public class RoutesCursor extends AbstractCursor implements RoutesModel {
      * Can be {@code null}.
      */
     @Nullable
-    public Date getArrival() {
-        Date res = getDateOrNull(RoutesColumns.ARRIVAL);
+    public String getArrival() {
+        String res = getStringOrNull(RoutesColumns.ARRIVAL);
         return res;
     }
 
@@ -111,8 +111,8 @@ public class RoutesCursor extends AbstractCursor implements RoutesModel {
      * Can be {@code null}.
      */
     @Nullable
-    public Date getDeparture() {
-        Date res = getDateOrNull(RoutesColumns.DEPARTURE);
+    public String getDeparture() {
+        String res = getStringOrNull(RoutesColumns.DEPARTURE);
         return res;
     }
 }

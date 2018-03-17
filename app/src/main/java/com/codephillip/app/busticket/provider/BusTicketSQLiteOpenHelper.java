@@ -53,8 +53,8 @@ public class BusTicketSQLiteOpenHelper extends SQLiteOpenHelper {
             + RoutesColumns.BUSCOMPANYNAME + " TEXT, "
             + RoutesColumns.BUSCOMPANYIMAGE + " TEXT, "
             + RoutesColumns.PRICE + " INTEGER, "
-            + RoutesColumns.ARRIVAL + " INTEGER, "
-            + RoutesColumns.DEPARTURE + " INTEGER "
+            + RoutesColumns.ARRIVAL + " TEXT, "
+            + RoutesColumns.DEPARTURE + " TEXT "
             + " );";
 
     // @formatter:on

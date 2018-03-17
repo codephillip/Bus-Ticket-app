@@ -1,5 +1,5 @@
 
-package com.codephillip.app.busticket.mymodels;
+package com.codephillip.app.busticket.retromodels;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

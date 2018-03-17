@@ -1,5 +1,4 @@
-
-package com.codephillip.app.busticket.mymodels.routeobject;
+package com.codephillip.app.busticket.retromodels.route;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -21,6 +20,9 @@ public class Bus {
     @SerializedName("model")
     @Expose
     private String model;
+    @SerializedName("created_at")
+    @Expose
+    private String createdAt;
 
     public Integer getId() {
         return id;
@@ -60,6 +62,14 @@ public class Bus {
 
     public void setModel(String model) {
         this.model = model;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 
 }

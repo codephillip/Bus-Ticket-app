@@ -1,10 +1,9 @@
-
-package com.codephillip.app.busticket.mymodels.routeobject;
+package com.codephillip.app.busticket.retromodels.route;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class BusCompany {
+public class Destination {
 
     @SerializedName("id")
     @Expose
@@ -12,24 +11,15 @@ public class BusCompany {
     @SerializedName("name")
     @Expose
     private String name;
-    @SerializedName("image")
-    @Expose
-    private String image;
-    @SerializedName("phone")
-    @Expose
-    private String phone;
-    @SerializedName("email")
-    @Expose
-    private String email;
-    @SerializedName("address")
-    @Expose
-    private String address;
     @SerializedName("longitude")
     @Expose
     private Integer longitude;
     @SerializedName("latitude")
     @Expose
     private Integer latitude;
+    @SerializedName("created_at")
+    @Expose
+    private String createdAt;
 
     public Integer getId() {
         return id;
@@ -47,38 +37,6 @@ public class BusCompany {
         this.name = name;
     }
 
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     public Integer getLongitude() {
         return longitude;
     }
@@ -93,6 +51,14 @@ public class BusCompany {
 
     public void setLatitude(Integer latitude) {
         this.latitude = latitude;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 
 }

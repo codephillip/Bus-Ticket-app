@@ -16,7 +16,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.codephillip.app.busticket.mymodels.Customer;
+import com.codephillip.app.busticket.retromodels.Customer;
 import com.codephillip.app.busticket.retrofit.ApiClient;
 import com.codephillip.app.busticket.retrofit.ApiInterface;
 

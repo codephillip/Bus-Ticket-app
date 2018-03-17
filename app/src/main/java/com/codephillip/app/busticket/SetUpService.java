@@ -6,12 +6,10 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.codephillip.app.busticket.broadcasts.MyReceiver;
-import com.codephillip.app.busticket.mymodels.Location;
-import com.codephillip.app.busticket.mymodels.Locations;
-import com.codephillip.app.busticket.mymodels.Order;
-import com.codephillip.app.busticket.mymodels.Orders;
-import com.codephillip.app.busticket.mymodels.routeobject.Route;
-import com.codephillip.app.busticket.mymodels.routeobject.Routes;
+import com.codephillip.app.busticket.retromodels.Order;
+import com.codephillip.app.busticket.retromodels.Orders;
+import com.codephillip.app.busticket.retromodels.location.Location;
+import com.codephillip.app.busticket.retromodels.location.Locations;
 import com.codephillip.app.busticket.provider.locations.LocationsColumns;
 import com.codephillip.app.busticket.provider.locations.LocationsContentValues;
 import com.codephillip.app.busticket.provider.orders.OrdersColumns;
@@ -20,6 +18,8 @@ import com.codephillip.app.busticket.provider.routes.RoutesColumns;
 import com.codephillip.app.busticket.provider.routes.RoutesContentValues;
 import com.codephillip.app.busticket.retrofit.ApiClient;
 import com.codephillip.app.busticket.retrofit.ApiInterface;
+import com.codephillip.app.busticket.retromodels.route.Route;
+import com.codephillip.app.busticket.retromodels.route.Routes;
 
 import java.util.Date;
 import java.util.List;
@@ -41,7 +41,6 @@ public class SetUpService extends IntentService {
         Log.d(TAG, "onHandleIntent: started service");
         apiInterface = ApiClient.getClient(Utils.BASE_URL).create(ApiInterface.class);
 
-        //todo activate on launch
         try {
             deleteData();
         } catch (Exception e) {
@@ -60,22 +59,18 @@ public class SetUpService extends IntentService {
             e.printStackTrace();
         }
 
-        try {
-            //todo query orders by user credentials after login
-            loadOrders();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            //todo query orders by user credentials after login
+//            loadOrders();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     private void deleteData() {
-        long deleted;
-        deleted = getContentResolver().delete(LocationsColumns.CONTENT_URI, null, null);
-        Log.d("CONTENT_QUERY_deleted#", String.valueOf(deleted));
-        deleted = getContentResolver().delete(RoutesColumns.CONTENT_URI, null, null);
-        Log.d("CONTENT_QUERY_deleted#", String.valueOf(deleted));
-        deleted = getContentResolver().delete(OrdersColumns.CONTENT_URI, null, null);
-        Log.d("CONTENT_QUERY_deleted#", String.valueOf(deleted));
+        getContentResolver().delete(LocationsColumns.CONTENT_URI, null, null);
+        getContentResolver().delete(RoutesColumns.CONTENT_URI, null, null);
+        getContentResolver().delete(OrdersColumns.CONTENT_URI, null, null);
     }
 
     private void loadLocations() {
@@ -104,11 +99,12 @@ public class SetUpService extends IntentService {
             Log.d(TAG, "saveLocation: " + location.getName() + location.getId());
             LocationsContentValues values = new LocationsContentValues();
             values.putName(location.getName());
-            values.putLatitude(location.getLatitude());
-            values.putLongitude(location.getLongitude());
+            values.putLatitude(location.getLatitude().doubleValue());
+            values.putLongitude(location.getLongitude().doubleValue());
             final Uri uri = values.insert(getContentResolver());
             Log.d("INSERT: ", "inserting" + uri.toString());
         }
+        Log.d(TAG, "saveLocations: finished");
     }
 
     private void loadRoutes() {
@@ -140,18 +136,17 @@ public class SetUpService extends IntentService {
             values.putCode(route.getCode());
             Log.d(TAG, "saveRoutes: ROUTE_ID" + route.getId());
             values.putRouteid(route.getId());
-            values.putSource(route.getSource());
-            values.putDestination(route.getDestination());
+            values.putSource(route.getSource().getName());
+            values.putDestination(route.getDestination().getName());
             values.putPrice(route.getPrice());
-            //todo get correct date from server
-            values.putDeparture(new Date());
-            values.putArrival(new Date());
-            Log.d(TAG, "saveRoutes: Date#" + (new Date().toString()));
+            values.putDeparture(route.getArrival());
+            values.putArrival(route.getDeparture());
             values.putBuscompanyname(route.getBus().getBusCompany().getName());
             values.putBuscompanyimage(route.getBus().getBusCompany().getImage());
             final Uri uri = values.insert(getContentResolver());
             Log.d("INSERT: ", "inserting" + uri.toString());
         }
+        startBroadcast();
     }
 
     private void loadOrders() {
@@ -188,7 +183,6 @@ public class SetUpService extends IntentService {
             final Uri uri = values.insert(getContentResolver());
             Log.d("INSERT: ", "inserting" + uri.toString());
         }
-        startBroadcast();
     }
 
     private void startBroadcast() {

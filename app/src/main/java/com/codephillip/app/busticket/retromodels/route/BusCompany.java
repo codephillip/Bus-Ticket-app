@@ -1,10 +1,9 @@
-
-package com.codephillip.app.busticket.mymodels;
+package com.codephillip.app.busticket.retromodels.route;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Customer {
+public class BusCompany {
 
     @SerializedName("id")
     @Expose
@@ -21,40 +20,18 @@ public class Customer {
     @SerializedName("email")
     @Expose
     private String email;
-    @SerializedName("password")
-    @Expose
-    private String password;
     @SerializedName("address")
     @Expose
     private String address;
     @SerializedName("longitude")
     @Expose
-    private double longitude;
+    private Integer longitude;
     @SerializedName("latitude")
     @Expose
-    private double latitude;
-
-    public Customer(String name, String address, String phoneNumber, String password, String emailAddress, double longitude, double latitude) {
-        this.name = name;
-        this.address = address;
-        this.phone = phoneNumber;
-        this.password = password;
-        this.email = emailAddress;
-        this.longitude = longitude;
-        this.latitude = latitude;
-    }
-
-    public Customer(String phoneNumber, String password) {
-        this.phone = phoneNumber;
-        this.password = password;
-    }
-
-    public Customer(Integer id, String name, String address, String phone) {
-        this.id = id;
-        this.name = name;
-        this.address = address;
-        this.phone = phone;
-    }
+    private Integer latitude;
+    @SerializedName("created_at")
+    @Expose
+    private String createdAt;
 
     public Integer getId() {
         return id;
@@ -104,19 +81,28 @@ public class Customer {
         this.address = address;
     }
 
-    public String getPassword() {
-        return password;
+    public Integer getLongitude() {
+        return longitude;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setLongitude(double longitude) {
+    public void setLongitude(Integer longitude) {
         this.longitude = longitude;
     }
 
-    public void setLatitude(double latitude) {
+    public Integer getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Integer latitude) {
         this.latitude = latitude;
     }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
 }

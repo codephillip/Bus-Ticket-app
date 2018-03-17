@@ -1,11 +1,11 @@
 package com.codephillip.app.busticket.retrofit;
 
-import com.codephillip.app.busticket.mymodels.Customer;
-import com.codephillip.app.busticket.mymodels.Customers;
-import com.codephillip.app.busticket.mymodels.Locations;
-import com.codephillip.app.busticket.mymodels.Order;
-import com.codephillip.app.busticket.mymodels.Orders;
-import com.codephillip.app.busticket.mymodels.routeobject.Routes;
+import com.codephillip.app.busticket.retromodels.Customer;
+import com.codephillip.app.busticket.retromodels.Customers;
+import com.codephillip.app.busticket.retromodels.Order;
+import com.codephillip.app.busticket.retromodels.Orders;
+import com.codephillip.app.busticket.retromodels.location.Locations;
+import com.codephillip.app.busticket.retromodels.route.Routes;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

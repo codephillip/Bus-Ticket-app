@@ -111,7 +111,7 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
             company.setText(cursor.getBuscompanyname());
             source.setText(cursor.getSource());
             destination.setText(cursor.getDestination());
-            departure.setText(formatDateString(cursor.getDeparture().toString()));
+            departure.setText(cursor.getDeparture());
             price.setText(String.valueOf(cursor.getPrice()));
             picassoLoader(this, toolbarImage, cursor.getBuscompanyimage());
         } catch (Exception e) {
@@ -331,7 +331,6 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
 
         @Override
         protected String doInBackground(String[]... params) {
-            publishProgress("Sleeping...");
             try {
                 return sendSms(params[0]);
             } catch (Exception e) {

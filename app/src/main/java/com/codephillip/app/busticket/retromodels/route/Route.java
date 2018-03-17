@@ -1,5 +1,5 @@
 
-package com.codephillip.app.busticket.mymodels.routeobject;
+package com.codephillip.app.busticket.retromodels.route;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -14,10 +14,10 @@ public class Route {
     private Integer code;
     @SerializedName("source")
     @Expose
-    private String source;
+    private Source source;
     @SerializedName("destination")
     @Expose
-    private String destination;
+    private Destination destination;
     @SerializedName("bus")
     @Expose
     private Bus bus;
@@ -30,6 +30,9 @@ public class Route {
     @SerializedName("departure")
     @Expose
     private String departure;
+    @SerializedName("created_at")
+    @Expose
+    private String createdAt;
 
     public Integer getId() {
         return id;
@@ -47,19 +50,19 @@ public class Route {
         this.code = code;
     }
 
-    public String getSource() {
+    public Source getSource() {
         return source;
     }
 
-    public void setSource(String source) {
+    public void setSource(Source source) {
         this.source = source;
     }
 
-    public String getDestination() {
+    public Destination getDestination() {
         return destination;
     }
 
-    public void setDestination(String destination) {
+    public void setDestination(Destination destination) {
         this.destination = destination;
     }
 
@@ -93,6 +96,14 @@ public class Route {
 
     public void setDeparture(String departure) {
         this.departure = departure;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 
 }

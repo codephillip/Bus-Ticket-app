@@ -1,10 +1,10 @@
 
-package com.codephillip.app.busticket.mymodels;
+package com.codephillip.app.busticket.retromodels.route;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Location {
+public class Source {
 
     @SerializedName("id")
     @Expose
@@ -14,10 +14,13 @@ public class Location {
     private String name;
     @SerializedName("longitude")
     @Expose
-    private double longitude;
+    private Integer longitude;
     @SerializedName("latitude")
     @Expose
-    private double latitude;
+    private Integer latitude;
+    @SerializedName("created_at")
+    @Expose
+    private String createdAt;
 
     public Integer getId() {
         return id;
@@ -35,19 +38,28 @@ public class Location {
         this.name = name;
     }
 
-    public double getLongitude() {
+    public Integer getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
+    public void setLongitude(Integer longitude) {
         this.longitude = longitude;
     }
 
-    public double getLatitude() {
+    public Integer getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
+    public void setLatitude(Integer latitude) {
         this.latitude = latitude;
     }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
 }

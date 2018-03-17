@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.codephillip.app.busticket.mymodels.Customer;
+import com.codephillip.app.busticket.retromodels.Customer;
 import com.squareup.picasso.Picasso;
 
 import java.util.regex.Matcher;
