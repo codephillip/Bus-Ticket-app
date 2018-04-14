@@ -66,11 +66,11 @@ public class SelectRouteFragment extends Fragment implements MaterialSpinner.OnI
         selectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                source = sourceAutoComp.getText().toString();
+                destination = destAutoComp.getText().toString();
                 if (source.equals(destination)) {
                     Toast.makeText(getContext(), "Choose a different Destination", Toast.LENGTH_SHORT).show();
                 } else {
-                    source = sourceAutoComp.getText().toString();
-                    destination = destAutoComp.getText().toString();
                     Intent intent = new Intent(getContext(), BookActivity.class);
                     intent.putExtra(Utils.SOURCE, source);
                     intent.putExtra(Utils.DESTINATION, destination);
@@ -91,14 +91,16 @@ public class SelectRouteFragment extends Fragment implements MaterialSpinner.OnI
     }
 
     private void initializeDate() {
+        Calendar.getInstance().setTimeInMillis(System.currentTimeMillis());
         Date date = Calendar.getInstance().getTime();
         Log.d(TAG, "initializeDate: " + date.toString());
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-dd-MMM");
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = df.format(date);
         dateTextView.setText(formattedDate);
-
-        datePickerDialog = new DatePickerDialog(
-                getContext(), this, date.getYear(), date.getMonth(), date.getDay());
+        Log.d(TAG, "initializeDate: " + date.getYear() + " # " +  date.getMonth() + " # " +  date.getDay());
+        datePickerDialog = new DatePickerDialog(getContext(), this, date.getYear(), date.getMonth(), date.getDay());
+        datePickerDialog.updateDate(date.getYear(), date.getMonth(), date.getDay());
+        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
     }
 
     @Override
@@ -130,8 +132,12 @@ public class SelectRouteFragment extends Fragment implements MaterialSpinner.OnI
         }
 
         // Set default route values
-        source = sourceLocations.get(0);
-        destination = destLocations.get(0);
+        try {
+            source = sourceLocations.get(0);
+            destination = destLocations.get(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         String time[] = {"Morning", "Afternoon", "Evening"};
         ArrayAdapter<String> sourceDataAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_expandable_list_item_1, sourceLocations);
@@ -156,16 +162,13 @@ public class SelectRouteFragment extends Fragment implements MaterialSpinner.OnI
     public void onItemSelected(MaterialSpinner view, int position, long id, Object itemObject) {
         String item = itemObject.toString();
         Log.d(TAG, "onItemSelected: " + item);
-
-        if (view.getId() == timeSpinner.getId()) {
-            Log.d(TAG, "onItemSelected: clicked dest");
-            destination = item;
-        }
     }
 
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
         String formattedDate = "%d-%d-%d";
+        // month counts from 0
+        month += 1;
         formattedDate = String.format(Locale.ENGLISH, formattedDate, year, month, day);
         Log.d(TAG, "onDateSet: " + formattedDate);
         dateTextView.setText(formattedDate);
