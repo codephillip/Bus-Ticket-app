@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -23,6 +22,7 @@ import android.widget.Toast;
 
 import com.codephillip.app.busticket.provider.locations.LocationsColumns;
 import com.codephillip.app.busticket.provider.locations.LocationsCursor;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import java.text.SimpleDateFormat;
@@ -31,6 +31,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import static com.codephillip.app.busticket.Constants.HAS_BOOKED;
 
 public class SelectRouteFragment extends Fragment implements MaterialSpinner.OnItemSelectedListener, LoaderManager.LoaderCallbacks<Cursor>, DatePickerDialog.OnDateSetListener {
 
@@ -42,6 +44,8 @@ public class SelectRouteFragment extends Fragment implements MaterialSpinner.OnI
     private AutoCompleteTextView sourceAutoComp, destAutoComp;
     private EditText dateTextView;
     private DatePickerDialog datePickerDialog;
+    private FirebaseAnalytics mFirebaseAnalytics;
+    private Utils utils;
 
     public SelectRouteFragment() {
     }
@@ -54,6 +58,18 @@ public class SelectRouteFragment extends Fragment implements MaterialSpinner.OnI
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_select_route, container, false);
+
+        try {
+            mFirebaseAnalytics = FirebaseAnalytics.getInstance(getContext());
+            Utils.trackEvent(mFirebaseAnalytics, TAG, "Select route: started");
+            utils = Utils.getInstance();
+            utils = new Utils(getContext());
+            if (utils.getPrefBoolean(HAS_BOOKED))
+                utils.showFeedBackDialog(getContext(), mFirebaseAnalytics);
+                utils.savePrefBoolean(HAS_BOOKED, false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         sourceAutoComp = rootView.findViewById(R.id.from_auto_complete);
         destAutoComp = rootView.findViewById(R.id.to_auto_complete);
@@ -71,9 +87,14 @@ public class SelectRouteFragment extends Fragment implements MaterialSpinner.OnI
                 if (source.equals(destination)) {
                     Toast.makeText(getContext(), "Choose a different Destination", Toast.LENGTH_SHORT).show();
                 } else {
+                    Bundle bundle = new Bundle();
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_ID, TAG);
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Select route " + source + " # " + destination);
+                    mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
                     Intent intent = new Intent(getContext(), BookActivity.class);
-                    intent.putExtra(Utils.SOURCE, source);
-                    intent.putExtra(Utils.DESTINATION, destination);
+                    intent.putExtra(utils.SOURCE, source);
+                    intent.putExtra(utils.DESTINATION, destination);
                     getActivity().startActivity(intent);
                 }
             }
@@ -172,5 +193,6 @@ public class SelectRouteFragment extends Fragment implements MaterialSpinner.OnI
         formattedDate = String.format(Locale.ENGLISH, formattedDate, year, month, day);
         Log.d(TAG, "onDateSet: " + formattedDate);
         dateTextView.setText(formattedDate);
+        Utils.trackEvent(mFirebaseAnalytics, TAG,"select date");
     }
 }

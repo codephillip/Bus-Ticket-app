@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.database.CursorIndexOutOfBoundsException;
 import android.graphics.drawable.Animatable;
-import android.icu.text.LocaleDisplayNames;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -27,12 +26,15 @@ import android.widget.Toast;
 
 import com.codephillip.app.busticket.adapters.SeatGridAdapter;
 import com.codephillip.app.busticket.provider.routes.RoutesCursor;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.io.IOException;
 import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
 
+import design.ivisionblog.apps.reviewdialoglibrary.FeedBackActionsListeners;
+import design.ivisionblog.apps.reviewdialoglibrary.FeedBackDialog;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -72,6 +74,7 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
     private LinearLayout routeDetailsLayout;
     private TextView successMessageTextView;
     private EditText phoneNumberEdit;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
 
     @Override
@@ -83,6 +86,14 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Utils.getInstance();
         utils = new Utils(this);
+
+        try {
+            mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+            Utils.trackEvent(mFirebaseAnalytics, TAG, "Confirm order: started");
+            Log.d(TAG, "onCreate: added analytics");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         pd = new ProgressDialog(this);
         toolbarImage = (ImageView) findViewById(R.id.image);
@@ -195,6 +206,7 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
         final String basic = "Basic " + base64String;
         String message = "JustGo. Client %s. From: %s - To: %s";
         message = String.format(Locale.ENGLISH, message, phoneNumber, from, to);
+        Utils.trackEvent(mFirebaseAnalytics, TAG, "Confirm order: " + message);
         Log.d(TAG, "postToTwillio: " + message);
 
         RequestBody body = new MultipartBody.Builder()
@@ -343,6 +355,7 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
         protected void onPostExecute(String result) {
             Log.d(TAG, "onPostExecute: " + result);
             ((Animatable) tickImage.getDrawable()).start();
+            utils.savePrefBoolean(HAS_BOOKED, true);
         }
     }
 }

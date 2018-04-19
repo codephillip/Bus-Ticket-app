@@ -1,0 +1,41 @@
+{
+  "project_info": {
+    "project_number": "128615241866",
+    "firebase_url": "https://titanium-genre-133608.firebaseio.com",
+    "project_id": "titanium-genre-133608"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:128615241866:android:c4231ddcd1a2735f",
+        "android_client_info": {
+          "package_name": "com.codephillip.app.busticket"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "128615241866-3bpu6thf190m0t285f0caud5so2a00fm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWQyKasxMhD_wcFpWLiPrj2SvMrmS7Qkc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

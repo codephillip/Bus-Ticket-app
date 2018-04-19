@@ -8,17 +8,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
-
 import com.codephillip.app.busticket.adapters.BookAdapter;
 import com.codephillip.app.busticket.provider.routes.RoutesCursor;
 import com.codephillip.app.busticket.provider.routes.RoutesSelection;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 public class BookFragment extends Fragment {
 
@@ -26,6 +20,7 @@ public class BookFragment extends Fragment {
     private RecyclerView recyclerView;
     private BookAdapter adapter;
     private LinearLayout errorLayout;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     public BookFragment() {
     }
@@ -38,19 +33,35 @@ public class BookFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_book, container, false);
+
+        try {
+            mFirebaseAnalytics = FirebaseAnalytics.getInstance(getContext());
+            Utils.trackEvent(mFirebaseAnalytics, TAG, "Selecting bus: started");
+            Log.d(TAG, "onCreate: added analytics");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         errorLayout = rootView.findViewById(R.id.error_layout);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        RoutesCursor cursor = queryRoutesTable();
-        int count = cursor.getCount();
-        if(count <= 0) {
-            recyclerView.setVisibility(View.GONE);
-            errorLayout.setVisibility(View.VISIBLE);
-        } else {
-            adapter = new BookAdapter(getContext(), cursor);
-            recyclerView.setAdapter(adapter);
+        try {
+            RoutesCursor cursor = null;
+            cursor = queryRoutesTable();
+            int count = cursor.getCount();
+            if(count <= 0) {
+                recyclerView.setVisibility(View.GONE);
+                errorLayout.setVisibility(View.VISIBLE);
+                Utils.trackEvent(mFirebaseAnalytics, TAG, "Selecting bus:  No routes found");
+            } else {
+                adapter = new BookAdapter(getContext(), cursor);
+                recyclerView.setAdapter(adapter);
+            }
+            Utils.trackEvent(mFirebaseAnalytics, TAG, "Selecting bus: " + Utils.SOURCE + " # " + Utils.DESTINATION);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return rootView;
     }

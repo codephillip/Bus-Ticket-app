@@ -32,4 +32,10 @@
     <string name="receipt">RECEIPT</string>
     <string name="cancel">CANCEL</string>
     <string name="proceed">PROCEED</string>
+    <string name="positive_feedback_text">AWESOME</string>
+    <string name="negative_feedback_text">BAD</string>
+    <string name="ambiguity_feedback_text">HELP</string>
+    <string name="dialog_title">FeedBack</string>
+    <string name="brand_description">Thanks for using JustGo</string>
+    <string name="customer_review_question">How useful was our application?</string>
 </resources>

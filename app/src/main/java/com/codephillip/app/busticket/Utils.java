@@ -3,10 +3,12 @@ package com.codephillip.app.busticket;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -15,10 +17,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.codephillip.app.busticket.retromodels.Customer;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.squareup.picasso.Picasso;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import design.ivisionblog.apps.reviewdialoglibrary.FeedBackActionsListeners;
+import design.ivisionblog.apps.reviewdialoglibrary.FeedBackDialog;
 
 /**
  * Created by codephillip on 12/05/17.
@@ -233,5 +239,51 @@ public class Utils {
 
     public boolean getPrefBoolean(String key) {
         return pref.getBoolean(key, false);
+    }
+
+    public static void trackEvent(FirebaseAnalytics mFirebaseAnalytics, String itemId, String itemName) {
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, itemId);
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Selecting bus: " + Utils.SOURCE + " # " + Utils.DESTINATION);
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+    }
+
+    public void showFeedBackDialog(Context context, final FirebaseAnalytics mFirebaseAnalytics) {
+        FeedBackDialog mDialog = new FeedBackDialog(context)
+                .setBackgroundColor(R.color.colorAccent)
+                .setIcon(R.drawable.ic_feedback_black_24dp)
+                .setIconColor(R.color.colorAccent)
+                .setTitle(R.string.dialog_title)
+                .setDescription(R.string.brand_description)
+                .setReviewQuestion(R.string.customer_review_question)
+                .setPositiveFeedbackText(R.string.positive_feedback_text)
+                .setNegativeFeedbackText(R.string.negative_feedback_text)
+                .setAmbiguityFeedbackText(R.string.ambiguity_feedback_text)
+                .setOnReviewClickListener(new FeedBackActionsListeners() {
+                    @Override
+                    public void onPositiveFeedback(FeedBackDialog dialog) {
+                        trackEvent(mFirebaseAnalytics, "Feedback", "Feedback: Positive");
+                        dialog.dismiss();
+                    }
+
+                    @Override
+                    public void onNegativeFeedback(FeedBackDialog dialog) {
+                        trackEvent(mFirebaseAnalytics, "Feedback", "Feedback: Negative");
+                        dialog.dismiss();
+                    }
+
+                    @Override
+                    public void onAmbiguityFeedback(FeedBackDialog dialog) {
+                        trackEvent(mFirebaseAnalytics, "Feedback", "Feedback: Help");
+                        dialog.dismiss();
+                    }
+
+                    @Override
+                    public void onCancelListener(DialogInterface dialog) {
+                        trackEvent(mFirebaseAnalytics, "Feedback", "Feedback: Cancel");
+                        dialog.dismiss();
+                    }
+                })
+                .show();
     }
 }
