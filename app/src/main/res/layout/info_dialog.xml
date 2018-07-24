@@ -26,6 +26,7 @@
         android:layout_marginBottom="@dimen/forty_dp"
         android:layout_marginTop="@dimen/forty_dp"
         android:gravity="center"
+        android:textSize="18sp"
         android:text="This message get displayed to the user" />
 
     <LinearLayout

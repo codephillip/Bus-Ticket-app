@@ -2,6 +2,7 @@ package com.codephillip.app.busticket;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.CursorIndexOutOfBoundsException;
 import android.graphics.drawable.Animatable;
@@ -354,6 +355,11 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
         @Override
         protected void onPostExecute(String result) {
             Log.d(TAG, "onPostExecute: " + result);
+            displayInfoDialog(ConfirmOrderActivity.this, getString(R.string.receipt), "Receipt number: " + randInt(100000, 999999)
+                    + "\nSource: " + source.getText().toString()
+                    + "\nDestination: " + destination.getText().toString()
+                    + "\nAmount: " + price.getText().toString()
+                    + "\nDate: " + formatDateString(new Date().toString()));
             ((Animatable) tickImage.getDrawable()).start();
             utils.savePrefBoolean(HAS_BOOKED, true);
         }
