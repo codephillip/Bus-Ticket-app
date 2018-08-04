@@ -59,12 +59,11 @@ public class SetUpService extends IntentService {
             e.printStackTrace();
         }
 
-//        try {
-//            //todo query orders by user credentials after login
-//            loadOrders();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        try {
+            loadOrders();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void deleteData() {
@@ -85,7 +84,7 @@ public class SetUpService extends IntentService {
 
             @Override
             public void onFailure(Call<Locations> call, Throwable t) {
-                Log.d("RETROFIT#", "onFailure: " + t.toString());
+                Log.e("RETROFIT#", "onFailure: " + t.toString());
             }
         });
     }
@@ -120,7 +119,7 @@ public class SetUpService extends IntentService {
 
             @Override
             public void onFailure(Call<Routes> call, Throwable t) {
-                Log.d("RETROFIT#", "onFailure: " + t.toString());
+                Log.e("RETROFIT#", "onFailure: " + t.toString());
             }
         });
     }
@@ -150,7 +149,7 @@ public class SetUpService extends IntentService {
     }
 
     private void loadOrders() {
-        Call<Orders> call = apiInterface.allOrders();
+        Call<Orders> call = apiInterface.getCustomerOrders(Utils.customer.getId().toString());
         call.enqueue(new Callback<Orders>() {
             @Override
             public void onResponse(Call<Orders> call, retrofit2.Response<Orders> response) {
@@ -161,7 +160,7 @@ public class SetUpService extends IntentService {
 
             @Override
             public void onFailure(Call<Orders> call, Throwable t) {
-                Log.d("RETROFIT#", "onFailure: " + t.toString());
+                Log.e("RETROFIT#", "onFailure: " + t.toString());
             }
         });
     }

@@ -25,11 +25,10 @@ public class Order {
     @Expose
     private Integer route;
 
-    public Order(Integer customerId, Integer routeId, boolean valid, String date) {
+    public Order(Integer customerId, Integer routeId) {
         this.customer = customerId;
         this.route = routeId;
         this.valid = true;
-        this.date = date;
     }
 
     public Order(Integer customerId, Integer routeId, boolean valid, String date, int order_code) {

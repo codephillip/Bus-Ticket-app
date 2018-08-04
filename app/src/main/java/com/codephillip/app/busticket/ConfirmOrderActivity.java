@@ -2,7 +2,6 @@ package com.codephillip.app.busticket;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.CursorIndexOutOfBoundsException;
 import android.graphics.drawable.Animatable;
@@ -27,6 +26,12 @@ import android.widget.Toast;
 
 import com.codephillip.app.busticket.adapters.SeatGridAdapter;
 import com.codephillip.app.busticket.provider.routes.RoutesCursor;
+import com.codephillip.app.busticket.retrofit.ApiClient;
+import com.codephillip.app.busticket.retrofit.ApiInterface;
+import com.codephillip.app.busticket.retromodels.Customer;
+import com.codephillip.app.busticket.retromodels.Customers;
+import com.codephillip.app.busticket.retromodels.Order;
+import com.codephillip.app.busticket.retromodels.Orders;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.io.IOException;
@@ -34,13 +39,15 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
 
-import design.ivisionblog.apps.reviewdialoglibrary.FeedBackActionsListeners;
-import design.ivisionblog.apps.reviewdialoglibrary.FeedBackDialog;
+import javax.net.ssl.HttpsURLConnection;
+
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 import static com.codephillip.app.busticket.Constants.HAS_BOOKED;
 import static com.codephillip.app.busticket.Utils.MM_CODE_PATTERN;
@@ -164,7 +171,7 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
 
     private void displaySuccessMessage() {
         try {
-            postToServer();
+            createCustomerOrder();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -191,8 +198,25 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
         cancelButton.setText("OK");
     }
 
-    private void postToServer() {
-        //TODO post order to server
+    private void createCustomerOrder() {
+        Log.d(TAG, "createCustomerOrder: started");
+        ApiInterface apiInterface = ApiClient.getClient(Utils.BASE_URL).create(ApiInterface.class);
+        final Order order = new Order(Utils.customer.getId(), cursor.getRouteid());
+        Call<Order> call = apiInterface.createCustomerOrder(Utils.customer.getId().toString(), order);
+        call.enqueue(new Callback<Order>() {
+            @Override
+            public void onResponse(Call<Order> call, retrofit2.Response<Order> response) {
+                int statusCode = response.code();
+                Order orders = response.body();
+                Log.d(TAG, "onResponse: " + statusCode);
+                Log.d(TAG, "onResponse: Order# " + orders.getCustomer() + orders.getRoute());
+            }
+
+            @Override
+            public void onFailure(Call<Order> call, Throwable t) {
+                Log.e(TAG, "onFailure: " + t.toString());
+            }
+        });
     }
 
     private String sendSms(String[] values) throws IOException {
