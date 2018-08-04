@@ -1,5 +1,6 @@
 package com.codephillip.app.busticket;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -92,9 +93,8 @@ public class MainActivity extends AppCompatActivity
             fragment = ProfileFragment.newInstance();
             getSupportActionBar().setTitle(screenNames[2]);
         } else if (id == R.id.nav_settings) {
-            // todo add settings screen
-            fragment = ProfileFragment.newInstance();
-            getSupportActionBar().setTitle(screenNames[2]);
+            startActivity(new Intent(this, SettingsActivity.class));
+            return true;
         }
         else {
             return true;
