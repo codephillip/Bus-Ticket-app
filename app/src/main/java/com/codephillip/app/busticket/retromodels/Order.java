@@ -31,13 +31,6 @@ public class Order {
         this.valid = true;
     }
 
-    public Order(Integer customerId, Integer routeId, boolean valid, String date, int order_code) {
-        this.customer = customerId;
-        this.route = routeId;
-        this.valid = true;
-        this.date = date;
-        this.code = order_code;
-    }
     public Integer getId() {
         return id;
     }

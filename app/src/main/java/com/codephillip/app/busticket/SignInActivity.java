@@ -26,6 +26,8 @@ import javax.net.ssl.HttpsURLConnection;
 import retrofit2.Call;
 import retrofit2.Callback;
 
+import static com.codephillip.app.busticket.Utils.displayErrorDialog;
+
 public class SignInActivity extends AppCompatActivity {
 
     private static final String TAG = SignInActivity.class.getSimpleName();
@@ -125,7 +127,10 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     private boolean isPhoneNumberValid(String phone) {
-        return phone.length() == 10;
+        if (Utils.validateData(phone, Utils.PHONE_PATTERN_CODE)
+                || Utils.validateData(phone, Utils.PHONE_PATTERN))
+            return true;
+        return false;
     }
 
     private boolean isPasswordValid(String password) {

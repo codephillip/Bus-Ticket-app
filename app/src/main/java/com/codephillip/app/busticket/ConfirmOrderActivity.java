@@ -81,7 +81,6 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
     private ImageView tickImage;
     private LinearLayout routeDetailsLayout;
     private TextView successMessageTextView;
-    private EditText phoneNumberEdit;
     private FirebaseAnalytics mFirebaseAnalytics;
 
 
@@ -112,7 +111,6 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
         price = (TextView) findViewById(R.id.price_view);
         scrollView = (NestedScrollView) findViewById(R.id.scroll_view);
         tickImage = (ImageView) findViewById(R.id.tickImage);
-        phoneNumberEdit = findViewById(R.id.phoneNumber);
         routeDetailsLayout = findViewById(R.id.route_details_layout);
         successMessageTextView = findViewById(R.id.success_message);
 
@@ -141,14 +139,8 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
         orderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String phoneNumber = phoneNumberEdit.getText().toString();
-                if (Utils.validateData(phoneNumber, Utils.PHONE_PATTERN_CODE)
-                        || Utils.validateData(phoneNumber, Utils.PHONE_PATTERN)) {
-                    displaySuccessMessage();
-                    sendToBroker(phoneNumber);
-                } else {
-                    displayErrorDialog(ConfirmOrderActivity.this, getString(R.string.error), "Please insert valid phone number");
-                }
+                displaySuccessMessage();
+                sendToBroker(Utils.customer.getPhone());
             }
         });
 
@@ -174,11 +166,11 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
             createCustomerOrder();
         } catch (Exception e) {
             e.printStackTrace();
+            Log.e(TAG, "displaySuccessMessage: Failed to create customer order");
         }
 
         try {
             String values[] = {
-                    phoneNumberEdit.getText().toString(),
                     source.getText().toString(),
                     destination.getText().toString(),
             };
@@ -193,7 +185,6 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
         routeDetailsLayout.setVisibility(View.GONE);
         tickImage.setVisibility(View.VISIBLE);
         successMessageTextView.setVisibility(View.VISIBLE);
-        phoneNumberEdit.setVisibility(View.GONE);
         orderButton.setVisibility(View.GONE);
         cancelButton.setText("OK");
     }
@@ -221,16 +212,16 @@ public class ConfirmOrderActivity extends AppCompatActivity implements SeatGridA
 
     private String sendSms(String[] values) throws IOException {
         String url = "https://api.twilio.com/2010-04-01/Accounts/AC447a79dddb6ff5bfddb3a662e1e8e59a/Messages.json";
-        String result = postToTwillio(url, values[0], values[1], values[2]);
+        String result = postToTwillio(url, values[0], values[1]);
         Log.d(TAG, "sendSms: " + result);
         return result;
     }
 
-    public String postToTwillio( String url, String to, String from, String phoneNumber) throws IOException {
+    public String postToTwillio( String url, String from, String to) throws IOException {
         OkHttpClient client = new OkHttpClient();
         final String basic = "Basic " + base64String;
         String message = "JustGo. Client %s. From: %s - To: %s";
-        message = String.format(Locale.ENGLISH, message, phoneNumber, from, to);
+        message = String.format(Locale.ENGLISH, message, Utils.customer.getPhone(), from, to);
         Utils.trackEvent(mFirebaseAnalytics, TAG, "Confirm order: " + message);
         Log.d(TAG, "postToTwillio: " + message);
 

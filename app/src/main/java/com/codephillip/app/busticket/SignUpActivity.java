@@ -152,7 +152,10 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private boolean isPhoneNumberValid(String phone) {
-        return phone.length() == 10;
+        if (Utils.validateData(phone, Utils.PHONE_PATTERN_CODE)
+                || Utils.validateData(phone, Utils.PHONE_PATTERN))
+            return true;
+        return false;
     }
 
     private boolean isPasswordValid(String password) {
