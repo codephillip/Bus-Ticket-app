@@ -17,7 +17,7 @@ import retrofit2.http.PUT;
 public interface ApiInterface {
 
     @POST("/api/v1/customers")
-    Call<Customer> createCustomer(@Body Customer customer);
+    Call<Customer> signUpCustomer(@Body Customer customer);
 
     @PUT("/api/v1/customers")
     Call<Customers> signInCustomer(@Body Customer customer);

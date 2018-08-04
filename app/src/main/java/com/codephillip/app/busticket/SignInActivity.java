@@ -48,6 +48,7 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getApplicationContext(), SignUpActivity.class));
+                finish();
             }
         });
 
@@ -56,7 +57,7 @@ public class SignInActivity extends AppCompatActivity {
 
         Log.d(TAG, "onCreate: auto start main activity#");
 //        todo remove on release. testing app without data
-        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+//        startActivity(new Intent(getApplicationContext(), MainActivity.class));
 
         Button mSignInButton = (Button) findViewById(R.id.sign_in_button);
         mSignInButton.setOnClickListener(new View.OnClickListener() {
@@ -156,9 +157,12 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     private void processResult(boolean success, Customers customers) {
-//        showProgress(false);
+        showProgress(false);
         if (success) {
-            Utils.customer = new Customer(customers.getCustomers().get(0).getId(), customers.getCustomers().get(0).getName(), customers.getCustomers().get(0).getAddress(), customers.getCustomers().get(0).getPhone());
+            Utils.customer = new Customer(customers.getCustomers().get(0).getId(),
+                    customers.getCustomers().get(0).getName(),
+                    customers.getCustomers().get(0).getAddress(),
+                    customers.getCustomers().get(0).getPhone());
             //get infor from the server
 //            startService(new Intent(this, SetUpService.class));
             startActivity(new Intent(getApplicationContext(), MainActivity.class));

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.codephillip.app.busticket.MainActivity;
+import com.codephillip.app.busticket.SignInActivity;
 
 public class MyReceiver extends BroadcastReceiver {
     private final String TAG = MyReceiver.class.getSimpleName();
@@ -14,7 +15,7 @@ public class MyReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Log.d(TAG, "onReceive: STARTED");
         // broadcast received, indicating that the SetUpService has finished
-        Intent mainIntent = new Intent(context, MainActivity.class);
+        Intent mainIntent = new Intent(context, SignInActivity.class);
         mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(mainIntent);
     }

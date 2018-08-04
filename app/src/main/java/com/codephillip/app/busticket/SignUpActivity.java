@@ -233,7 +233,7 @@ public class SignUpActivity extends AppCompatActivity {
             double longitude = 43.5;
             double latitude = 26.9;
             Customer user = new Customer(name, address, phoneNumber, password, emailAddress, longitude, latitude);
-            Call<Customer> call = apiInterface.createCustomer(user);
+            Call<Customer> call = apiInterface.signUpCustomer(user);
             call.enqueue(new Callback<Customer>() {
                 @Override
                 public void onResponse(Call<Customer> call, retrofit2.Response<Customer> response) {
