@@ -31,7 +31,7 @@ import design.ivisionblog.apps.reviewdialoglibrary.FeedBackDialog;
  */
 
 public class Utils {
-    public static final String[] screenNames = {"Route", "Receipts", "History", "Profile"};
+    public static final String[] screenNames = {"Route", "History", "Profile", "Settings"};
     public static final String ROUTE_CODE = "route_code";
     //local environment
     //use http://10.0.3.2 when using genymotion emulator

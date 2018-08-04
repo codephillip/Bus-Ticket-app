@@ -81,22 +81,21 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
         Log.d("Navigation bar", "onNavigationItemSelected: " + id);
         Fragment fragment;
-
-        //todo change id names
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_home) {
             fragment = SelectRouteFragment.newInstance();
             getSupportActionBar().setTitle(screenNames[0]);
         }
-//        else if (id == R.id.nav_gallery) {
-//            fragment = OrdersFragment.newInstance();
-//            getSupportActionBar().setTitle(screenNames[1]);
-//        } else if (id == R.id.nav_slideshow) {
-//            fragment = HistoryFragment.newInstance();
-//            getSupportActionBar().setTitle(screenNames[2]);
-//        } else if (id == R.id.nav_manage) {
-//            fragment = ProfileFragment.newInstance();
-//            getSupportActionBar().setTitle(screenNames[3]);
-//        }
+        else if (id == R.id.nav_history) {
+            fragment = HistoryFragment.newInstance();
+            getSupportActionBar().setTitle(screenNames[1]);
+        } else if (id == R.id.nav_profile) {
+            fragment = ProfileFragment.newInstance();
+            getSupportActionBar().setTitle(screenNames[2]);
+        } else if (id == R.id.nav_settings) {
+            // todo add settings screen
+            fragment = ProfileFragment.newInstance();
+            getSupportActionBar().setTitle(screenNames[2]);
+        }
         else {
             return true;
         }

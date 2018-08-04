@@ -17,7 +17,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
+            android:background="@android:drawable/list_selector_background"
             android:clickable="true"
             android:padding="@dimen/activity_horizontal_margin">
 
@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                android:src="@drawable/ic_person_name"
+                app:srcCompat="@drawable/ic_person_name"
                 android:layout_marginRight="@dimen/activity_horizontal_margin" />
 
             <TextView
@@ -49,7 +49,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
+            android:background="@android:drawable/list_selector_background"
             android:clickable="true"
             android:padding="@dimen/activity_horizontal_margin">
 
@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                android:src="@drawable/ic_phone_black"
+                app:srcCompat="@drawable/ic_phone_black"
                 android:layout_marginRight="@dimen/activity_horizontal_margin" />
 
             <TextView
@@ -81,7 +81,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
+            android:background="@android:drawable/list_selector_background"
             android:clickable="true"
             android:padding="@dimen/activity_horizontal_margin">
 
@@ -91,7 +91,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                android:src="@drawable/ic_email_black"
+                app:srcCompat="@drawable/ic_email_black"
                 android:layout_marginRight="@dimen/activity_horizontal_margin" />
 
             <TextView
@@ -115,7 +115,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
+            android:background="@android:drawable/list_selector_background"
             android:clickable="true"
             android:padding="@dimen/activity_horizontal_margin">
 
@@ -125,7 +125,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                android:src="@drawable/ic_location_on_black"
+                app:srcCompat="@drawable/ic_location_on_black"
                 android:layout_marginRight="@dimen/activity_horizontal_margin" />
 
             <TextView
@@ -149,7 +149,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
+            android:background="@android:drawable/list_selector_background"
             android:clickable="true"
             android:padding="@dimen/activity_horizontal_margin">
 
@@ -159,7 +159,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                android:src="@drawable/ic_wallet"
+                app:srcCompat="@drawable/ic_wallet"
                 android:layout_marginRight="@dimen/activity_horizontal_margin" />
 
             <TextView
