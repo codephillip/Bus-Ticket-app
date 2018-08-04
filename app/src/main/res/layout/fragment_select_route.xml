@@ -31,6 +31,7 @@
                 <com.github.florent37.materialtextfield.MaterialTextField
                     android:layout_width="300dp"
                     android:layout_height="100dp"
+                    android:id="@+id/from_text_field"
                     app:mtf_hasFocus="true"
                     app:mtf_image="@drawable/location2"
                     app:mtf_labelColor="#666">
@@ -48,6 +49,7 @@
                 <com.github.florent37.materialtextfield.MaterialTextField
                     android:layout_width="300dp"
                     android:layout_height="100dp"
+                    android:id="@+id/to_text_field"
                     app:mtf_hasFocus="true"
                     app:mtf_image="@drawable/location2"
                     app:mtf_labelColor="#666">
@@ -107,6 +109,7 @@
                 <com.github.florent37.materialtextfield.MaterialTextField
                     android:layout_width="300dp"
                     android:layout_height="100dp"
+                    android:id="@+id/date_text_field"
                     app:mtf_image="@drawable/calendar"
                     app:mtf_labelColor="#666">
 

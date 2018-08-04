@@ -22,11 +22,13 @@ import android.widget.Toast;
 
 import com.codephillip.app.busticket.provider.locations.LocationsColumns;
 import com.codephillip.app.busticket.provider.locations.LocationsCursor;
+import com.github.florent37.materialtextfield.MaterialTextField;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -34,7 +36,8 @@ import java.util.Locale;
 
 import static com.codephillip.app.busticket.Constants.HAS_BOOKED;
 
-public class SelectRouteFragment extends Fragment implements MaterialSpinner.OnItemSelectedListener, LoaderManager.LoaderCallbacks<Cursor>, DatePickerDialog.OnDateSetListener {
+public class SelectRouteFragment extends Fragment implements MaterialSpinner.OnItemSelectedListener,
+        LoaderManager.LoaderCallbacks<Cursor>, DatePickerDialog.OnDateSetListener, MaterialTextField.OnClickListener {
 
     private static final String TAG = SelectRouteFragment.class.getSimpleName();
     private MaterialSpinner timeSpinner;
@@ -44,8 +47,12 @@ public class SelectRouteFragment extends Fragment implements MaterialSpinner.OnI
     private AutoCompleteTextView sourceAutoComp, destAutoComp;
     private EditText dateTextView;
     private DatePickerDialog datePickerDialog;
+    private MaterialTextField fromTextField;
+    private MaterialTextField toTextField;
+    private MaterialTextField dateTextField;
     private FirebaseAnalytics mFirebaseAnalytics;
     private Utils utils;
+    private int[] materialTextFields;
 
     public SelectRouteFragment() {
     }
@@ -107,6 +114,16 @@ public class SelectRouteFragment extends Fragment implements MaterialSpinner.OnI
             }
         });
 
+        fromTextField = rootView.findViewById(R.id.from_text_field);
+        toTextField = rootView.findViewById(R.id.to_text_field);
+        dateTextField = rootView.findViewById(R.id.date_text_field);
+
+        materialTextFields = new int[] {
+                fromTextField.getId(), toTextField.getId(), dateTextField.getId()
+        };
+
+        openEditText();
+
         initializeDate();
         return rootView;
     }
@@ -122,6 +139,18 @@ public class SelectRouteFragment extends Fragment implements MaterialSpinner.OnI
         datePickerDialog = new DatePickerDialog(getContext(), this, date.getYear(), date.getMonth(), date.getDay());
         datePickerDialog.updateDate(date.getYear(), date.getMonth(), date.getDay());
         datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        openEditText();
+    }
+
+    private void openEditText() {
+        fromTextField.expand();
+        toTextField.expand();
+        dateTextField.expand();
     }
 
     @Override
@@ -194,5 +223,12 @@ public class SelectRouteFragment extends Fragment implements MaterialSpinner.OnI
         Log.d(TAG, "onDateSet: " + formattedDate);
         dateTextView.setText(formattedDate);
         Utils.trackEvent(mFirebaseAnalytics, TAG,"select date");
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (Arrays.asList(materialTextFields).contains(view.getId())){
+            openEditText();
+        }
     }
 }
