@@ -52,15 +52,9 @@ public class SetUpService extends IntentService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
-        try {
-            loadRoutes();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         try {
-            loadOrders();
+            loadRoutes();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -146,42 +140,6 @@ public class SetUpService extends IntentService {
             Log.d("INSERT: ", "inserting" + uri.toString());
         }
         startBroadcast();
-    }
-
-    private void loadOrders() {
-        Call<Orders> call = apiInterface.getCustomerOrders(Utils.customer.getId().toString());
-        call.enqueue(new Callback<Orders>() {
-            @Override
-            public void onResponse(Call<Orders> call, retrofit2.Response<Orders> response) {
-                Log.d("RETROFIT#", "onResponse: " + response.headers());
-                Orders orders = response.body();
-                saveOrders(orders);
-            }
-
-            @Override
-            public void onFailure(Call<Orders> call, Throwable t) {
-                Log.e("RETROFIT#", "onFailure: " + t.toString());
-            }
-        });
-    }
-
-    private void saveOrders(Orders orders) {
-        Log.d("INSERT: ", "starting");
-        if (orders == null)
-            throw new NullPointerException("Orders not found");
-        List<Order> orderList = orders.getOrders();
-        for (Order order : orderList) {
-            Log.d(TAG, "saveOrder: " + order.getRoute() + order.getValid() + order.getCode());
-            OrdersContentValues values = new OrdersContentValues();
-            values.putCode(String.valueOf(order.getCode()));
-            values.putValid(order.getValid());
-            values.putRoute(String.valueOf(order.getRoute()));
-            values.putCustomer(String.valueOf(order.getCustomer()));
-            //todo get correct date from server
-            values.putDate(new Date());
-            final Uri uri = values.insert(getContentResolver());
-            Log.d("INSERT: ", "inserting" + uri.toString());
-        }
     }
 
     private void startBroadcast() {

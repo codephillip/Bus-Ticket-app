@@ -172,7 +172,8 @@ public class Utils {
     }
 
     public static String formatDateString(String date) {
-        return date.substring(0, 10);
+        String[] parts = date.split("T");
+        return parts[0];
     }
 
     public static void displayInfoDialog(Context context, String titleText, String messageText) {

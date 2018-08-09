@@ -1,6 +1,7 @@
 package com.codephillip.app.busticket;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -10,8 +11,21 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
+
+import com.codephillip.app.busticket.provider.orders.OrdersContentValues;
+import com.codephillip.app.busticket.retrofit.ApiClient;
+import com.codephillip.app.busticket.retrofit.ApiInterface;
+import com.codephillip.app.busticket.retromodels.Order;
+import com.codephillip.app.busticket.retromodels.orders.Orders;
+import com.codephillip.app.busticket.retromodels.orders.Result;
+import com.google.gson.Gson;
+
+import java.util.Date;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
 
 import static com.codephillip.app.busticket.Utils.screenNames;
 
@@ -42,6 +56,12 @@ public class MainActivity extends AppCompatActivity
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frame, fragment);
         fragmentTransaction.commit();
+
+        try {
+            loadOrders();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -99,5 +119,49 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void loadOrders() {
+        Log.d(TAG, "loadOrders: started");
+        ApiInterface apiInterface = ApiClient.getClient(Utils.BASE_URL).create(ApiInterface.class);
+        Log.d(TAG, "loadOrders: Customer ID " + Utils.customer.getId().toString());
+        String url = Utils.BASE_URL + "/api/v1/customers/" + Utils.customer.getId().toString() + "/orders";
+        Log.d(TAG, "loadOrders: " + url);
+        Call<Orders> call = apiInterface.getCustomerOrders(url);
+        call.enqueue(new Callback<Orders>() {
+            @Override
+            public void onResponse(Call<Orders> call, retrofit2.Response<Orders> response) {
+                Log.d("RETROFIT#$", "onResponse: " + response.code());
+                Log.d("RETROFIT#$", "onResponse: " + response.message());
+                Log.d("RETROFIT#$", "onResponse: " + new Gson().toJson(response.body()));
+                com.codephillip.app.busticket.retromodels.orders.Orders orders = response.body();
+                saveOrders(orders);
+            }
+
+            @Override
+            public void onFailure(Call<Orders> call, Throwable t) {
+                Log.e("RETROFIT#", "onFailure: " + t.toString());
+            }
+        });
+    }
+
+    private void saveOrders(com.codephillip.app.busticket.retromodels.orders.Orders orders) {
+        Log.d("INSERT: ", "starting");
+        if (orders == null)
+            throw new NullPointerException("Orders not found");
+        List<Result> orderList = orders.getResults();
+        for (Result order : orderList) {
+            Log.d(TAG, "saveOrder: " + order.getRoute().getId().toString() + 
+                    order.getValid().toString() + order.getCode().toString());
+            OrdersContentValues values = new OrdersContentValues();
+            values.putCode(String.valueOf(order.getCode()));
+            values.putValid(order.getValid());
+            values.putRoute(String.valueOf(order.getRoute().getId()));
+            values.putCustomer(String.valueOf(order.getCustomer()));
+            //todo get correct date from server
+            values.putDate(new Date());
+            final Uri uri = values.insert(getContentResolver());
+            Log.d("INSERT: ", "inserting" + uri.toString());
+        }
     }
 }

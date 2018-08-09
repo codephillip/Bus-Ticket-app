@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -16,10 +17,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.codephillip.app.busticket.provider.orders.OrdersContentValues;
 import com.codephillip.app.busticket.retromodels.Customer;
 import com.codephillip.app.busticket.retromodels.Customers;
 import com.codephillip.app.busticket.retrofit.ApiClient;
 import com.codephillip.app.busticket.retrofit.ApiInterface;
+import com.codephillip.app.busticket.retromodels.Order;
+import com.codephillip.app.busticket.retromodels.Orders;
+
+import java.util.Date;
+import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -213,4 +220,3 @@ public class SignInActivity extends AppCompatActivity {
         }
     }
 }
-

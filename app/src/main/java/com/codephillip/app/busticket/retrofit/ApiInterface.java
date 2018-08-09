@@ -5,6 +5,7 @@ import com.codephillip.app.busticket.retromodels.Customers;
 import com.codephillip.app.busticket.retromodels.Order;
 import com.codephillip.app.busticket.retromodels.Orders;
 import com.codephillip.app.busticket.retromodels.location.Locations;
+import com.codephillip.app.busticket.retromodels.orders.Result;
 import com.codephillip.app.busticket.retromodels.route.Routes;
 
 import java.util.List;
@@ -16,6 +17,7 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.Url;
 
 
 public interface ApiInterface {
@@ -32,8 +34,8 @@ public interface ApiInterface {
     @GET("/api/v1/orders?format=json")
     Call<Orders> allOrders();
 
-    @GET("api/v1/customers/{customer_id}/orders")
-    Call<Orders> getCustomerOrders(@Path(value = "customer_id", encoded = true) String customer_id);
+    @GET
+    Call<com.codephillip.app.busticket.retromodels.orders.Orders> getCustomerOrders(@Url String url);
 
     @POST("api/v1/customers/{customer_id}/orders")
     Call<Order> createCustomerOrder(@Path(value = "customer_id", encoded = true) String customer_id, @Body Order order);
@@ -43,6 +45,6 @@ public interface ApiInterface {
 
     @POST("/api/v1/orders")
     Call<Order> createOrder(@Body Order order);
-    
-    
+
+
 }
