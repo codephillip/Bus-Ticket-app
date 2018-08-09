@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.codephillip.app.busticket.provider.orders.OrdersContentValues;
 import com.codephillip.app.busticket.retrofit.ApiClient;
@@ -24,6 +25,8 @@ import com.google.gson.Gson;
 import java.util.Date;
 import java.util.List;
 
+import mehdi.sakout.aboutpage.AboutPage;
+import mehdi.sakout.aboutpage.Element;
 import retrofit2.Call;
 import retrofit2.Callback;
 
@@ -105,8 +108,13 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_profile) {
             fragment = ProfileFragment.newInstance();
             getSupportActionBar().setTitle(screenNames[2]);
-        } else if (id == R.id.nav_settings) {
-            startActivity(new Intent(this, SettingsActivity.class));
+        }
+// else if (id == R.id.nav_settings) {
+//            startActivity(new Intent(this, SettingsActivity.class));
+//            return true;
+//        }
+        else if (id == R.id.nav_about) {
+            startActivity(new Intent(this, AboutActivity.class));
             return true;
         }
         else {

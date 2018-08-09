@@ -45,5 +45,6 @@ dependencies {
     compile 'com.github.florent37:materialtextfield:1.0.7'
     compile 'com.google.firebase:firebase-core:16.0.1'
     compile 'design.ivisionblog.apps:feedback-dialog:0.0.1-alpha'
+    compile 'com.github.medyo:android-about-page:1.2.4'
     testCompile 'junit:junit:4.12'
 }
